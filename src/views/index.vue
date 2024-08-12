@@ -7,9 +7,32 @@
         />
         <div class="bg-white rounded-lg shadow-lg p-6 mx-4 max-w-md w-full">
             <h1 class="text-2xl font-bold text-center mb-4">Title</h1>
+
             <div class="bg-gray-200 rounded-md p-4">
-            <p class="text-center text-gray-700">This is a small container content.</p>
+                <Breadcrumb :items="breadcrumbItems" currentPage="SubPage" />
+                <p class="text-center text-gray-700">This is a small container content.</p>
             </div>
         </div>
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import Breadcrumb from '../components/Breadcrumb.vue';
+
+export default defineComponent({
+    name: 'IndexView',
+    components: {
+        Breadcrumb,
+    },
+    data() {
+        return {
+            breadcrumbItems: [
+                { label: 'Home', path: '/' },
+                { label: 'SubPage', path: '/subpage' },
+                { label: 'CurrentPage', path: '/current' },
+            ],
+        };
+    },
+});
+</script>
