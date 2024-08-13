@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.1.5",
     "autoprefixer": "latest",
     "axios": "^1.7.2",
     "iconify-icon": "^2.1.0",
