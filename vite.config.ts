@@ -9,4 +9,10 @@ export default defineConfig({
       '@': '/src'
     }
   },
+  server: {
+    port: 5173,
+    open: false, // Automatically open the browser
+    cors: true, // Allow cross-origin resource sharing
+    host: '0.0.0.0', // Allow external access
+  }
 })
