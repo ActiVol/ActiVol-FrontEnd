@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-sky-100 rounded-md px-4 py-2 mb-2">
+    <div class="bg-sky-100 rounded-md px-4 py-1 mb-2">
         <nav class="flex items-center space-x-2">
             <ol class="flex items-center space-x-1">
                 <li v-for="(item, index) in items" :key="index" class="flex items-center">
