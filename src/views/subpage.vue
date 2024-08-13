@@ -1,8 +1,8 @@
 <template>
     <Layout>
-        <Breadcrumb :items="breadcrumbItems" currentPage="Home" />
+        <Breadcrumb :items="breadcrumbItems" currentPage="SubPage" />
         <div class="bg-gray-200 rounded-md p-4">
-            <p class="text-center text-gray-700">This is a small container content.</p>
+            <p class="text-center text-gray-700">This is the content for the subpage.</p>
         </div>
     </Layout>
 </template>
@@ -13,7 +13,7 @@ import Layout from '../components/Layout.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
 
 export default defineComponent({
-    name: 'IndexView',
+    name: 'SubPage',
     components: {
         Layout,
         Breadcrumb,
