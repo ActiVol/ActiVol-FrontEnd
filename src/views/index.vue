@@ -21,6 +21,7 @@
                 <ListBox 
                     v-for="(item, index) in ListBox" 
                     :key="index" 
+                    :icon="item.icon"
                     :title="item.title" 
                     :content="item.content" 
                     :path="item.path"
@@ -51,9 +52,9 @@ export default defineComponent({
                 { label: 'CurrentPage', path: '/current' },
             ],
             ListBox: [
-                { title: 'Box 1', content: 'This is the content for box 1.', path: '/box1' },
-                { title: 'Box 2', content: 'This is the content for box 2.', path: '/box2' },
-                { title: 'Box 3', content: 'This is the content for box 3.', path: '/box3' },
+                { icon: '/icon/PencilSquare.svg', title: 'Box 1', content: 'This is the content for box 1.', path: '/subpage' },
+                { icon: '/icon/PencilSquare.svg', title: 'Box 2', content: 'This is the content for box 2.', path: '/box2' },
+                { icon: '/icon/PencilSquare.svg', title: 'Box 3', content: 'This is the content for box 3.', path: '/box3' },
             ],
         };
     },
