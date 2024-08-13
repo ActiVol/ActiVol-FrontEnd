@@ -5,7 +5,7 @@
             <p class="text-gray-700">This is a small container content.</p>
             <!-- Boxes area -->
             <div class="grid grid-cols-1 gap-4 mt-4">
-                <div class="bg-white rounded-lg shadow-lg p-4">
+                <!-- <div class="bg-white rounded-lg shadow-lg p-4">
                     <h2 class="text-lg font-bold text-gray-800">Box 1</h2>
                     <p class="text-gray-700">This is the content for box 1.</p>
                 </div>
@@ -16,7 +16,15 @@
                 <div class="bg-white rounded-lg shadow-lg p-4">
                     <h2 class="text-lg font-bold text-gray-800">Box 3</h2>
                     <p class="text-gray-700">This is the content for box 3.</p>
-                </div>
+                </div> -->
+
+                <ListBox 
+                    v-for="(item, index) in ListBox" 
+                    :key="index" 
+                    :title="item.title" 
+                    :content="item.content" 
+                    :path="item.path"
+                />
             </div>
         </div>
     </Layout>
@@ -26,12 +34,14 @@
 import { defineComponent } from 'vue';
 import Layout from '../components/Layout.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
+import ListBox from '../components/ListBox.vue';
 
 export default defineComponent({
     name: 'IndexView',
     components: {
         Layout,
         Breadcrumb,
+        ListBox,
     },
     data() {
         return {
@@ -39,6 +49,11 @@ export default defineComponent({
                 { label: 'Home', path: '/' },
                 { label: 'SubPage', path: '/subpage' },
                 { label: 'CurrentPage', path: '/current' },
+            ],
+            ListBox: [
+                { title: 'Box 1', content: 'This is the content for box 1.', path: '/box1' },
+                { title: 'Box 2', content: 'This is the content for box 2.', path: '/box2' },
+                { title: 'Box 3', content: 'This is the content for box 3.', path: '/box3' },
             ],
         };
     },
