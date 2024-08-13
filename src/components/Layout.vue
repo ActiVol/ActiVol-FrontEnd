@@ -6,7 +6,7 @@
             class="w-32 h-auto rounded-lg shadow-lg mb-6"
         />
         <div class="bg-white rounded-lg shadow-lg p-6 mx-4 max-w-md w-fit sm:w-full">
-            <h1 class="text-2xl font-bold text-center mb-4">Title</h1>
+            <h1 v-if="!$route.meta.hideTitle" class="text-2xl font-bold text-center mb-4">Title</h1>
             <!-- Use the slot to insert the content -->
             <slot></slot>
         </div>

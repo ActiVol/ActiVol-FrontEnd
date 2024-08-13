@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Index from '../views/index.vue';
 import SubPage from '../views/subpage.vue';
+import NotFound from '../views/404.vue';
 
 // Define the type of route
 // interface Route {
@@ -18,6 +19,11 @@ const routes = [
     {
         path: '/subpage',
         component: SubPage,
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound,
+        meta: { hideTitle: true },
     },
 ];
 
