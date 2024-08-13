@@ -2,11 +2,11 @@
     <router-link :to="path"
         class="bg-white rounded-lg shadow-lg p-4 flex justify-around items-center hover:bg-gray-100 transition">
         <img 
-            class="h-10 w-10 text-gray-500 mr-2 my-2" 
+            class="h-10 w-10 text-gray-500 mr-1" 
             :src="icon"
             alt="icon"
         />
-        <div>
+        <div class="ml-1">
             <h2 class="text-lg font-bold text-gray-800">{{ title }}</h2>
             <p class="text-gray-700">{{ content }}</p>
         </div>
