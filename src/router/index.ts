@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Index from '../views/index.vue';
 import SubPage from '../views/subpage.vue';
 import NotFound from '../views/404.vue';
+import Test from '@/views/test.vue';
+import details from '@/views/details.vue';
 
 // Define the type of route
 // interface Route {
@@ -15,6 +17,14 @@ const routes = [
     {
         path: '/',
         component: Index,
+    },
+    {
+        path: '/test',
+        component: Test,
+    },
+    {
+        path: '/details',
+        component: details,
     },
     {
         path: '/subpage',
