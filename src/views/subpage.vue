@@ -35,7 +35,7 @@ export default defineComponent({
     },
     data() {
         return {
-            breadcrumbItems: [
+            BreadcrumbItems: [
                 { label: 'Home', path: '/' },
                 { label: 'SubPage', path: '/subpage' },
                 { label: 'CurrentPage', path: '/current' },
