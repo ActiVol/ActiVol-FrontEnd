@@ -27,7 +27,7 @@ const submissionResult = ref<{ studentLink: string; organizerLink: string; } | n
 const form = reactive({
   firstName: '',
   lastName: '',
-  graduationYear: null,
+  graduationYear: null as number | null,
   internalEmail: '',
   personalEmail: '',
   activityLocation: '',

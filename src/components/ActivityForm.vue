@@ -1,6 +1,6 @@
 <template>
     <div class="w-full max-w-2xl mx-auto">
-        <form @submit.prevent="submitForm" class="space-y-6">
+        <form @submit.prevent="onSubmit" class="space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label for="firstName" class="block text-sm font-medium leading-6 text-gray-900">名</label>
@@ -168,8 +168,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, defineProps, defineEmits } from 'vue'
 import { Icon } from '@iconify/vue'
+
+// 定义 props 和 emits
+const props = defineProps({
+    initialForm: {
+        type: Object,
+        required: true,
+    },
+    isDisabled: {
+        type: Boolean,
+        default: false,
+    },
+});
+
+const emit = defineEmits(['submit', 'toggle-login']);
+
+// 表单状态，直接从 props 复制
+const form = reactive({ ...props.initialForm });
 
 // 用户登录状态
 const isLoggedIn = ref(false)
@@ -190,20 +207,6 @@ interface Form {
     organizerName: string;
     organizerEmail: string;
 }
-
-const form: Partial<Form> = reactive({
-    firstName: '',
-    lastName: '',
-    graduationYear: null,
-    internalEmail: '',
-    personalEmail: '',
-    activityLocation: '',
-    activityDate: '',
-    activityDuration: null,
-    activityDescription: '',
-    organizerName: '',
-    organizerEmail: ''
-})
 
 const touched = reactive({
     firstName: false,
