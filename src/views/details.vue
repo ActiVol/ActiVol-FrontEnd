@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4 md:p-8">
-        <div class="max-w-md mx-auto">
+        <div class="max-w-4xl mx-auto">
             <header class="mb-6 text-center">
                 <div class="bg-blue-600 text-white text-2xl font-bold py-3 px-6 rounded-lg inline-block">
                     标题/LOGO
@@ -41,7 +41,7 @@
                         <div class="bg-blue-100 p-3 rounded-md">
                             <p class="text-sm font-medium mb-1">累积活动个数</p>
                             <p class="text-2xl font-bold text-blue-600">
-                                {{ numberOfActivities }}
+                                {{ sortedActivities.length }}
                             </p>
                         </div>
                     </div>
@@ -51,10 +51,48 @@
                     <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
                 </div>
 
-                <div class="bg-gray-100 p-3 rounded-md mb-4 text-xs text-gray-600">
-                    <p>这里可以根据取到的该名用户参与的详细活动进行一个列表展示，</p>
-                    <p>罗列出来，每个活动一行，例如有8个活动，则列出8行。</p>
-                    <p class="mt-2">上面的【累积活动时长】的"50"可以在后台全局设置里修改该标准时长进行更新。</p>
+                <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    活动名称
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    参与时间
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    活动状态
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    活动举办人
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    计入小时数
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                    formatDate(activity.date) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span :class="getStatusClass(activity.status)">
+                                        {{ activity.status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="text-center">
@@ -78,11 +116,48 @@ import { Icon } from '@iconify/vue'
 
 const isLoggedIn = ref(false)
 const searchQuery = ref('')
-const totalHours = ref(isLoggedIn.value ? 41 : 99)
-const numberOfActivities = computed(() => isLoggedIn.value ? 4 : 8)
+
+const activities = ref([
+    { id: 1, name: '社区清洁日', date: '2023-05-15', status: '批准', organizer: '社区服务中心', hours: 4 },
+    { id: 2, name: '老年人关爱活动', date: '2023-06-02', status: '批准', organizer: '青年志愿者协会', hours: 6 },
+    { id: 3, name: '城市植树活动', date: '2023-07-10', status: '驳回', organizer: '环保局', hours: 0 },
+    { id: 4, name: '儿童教育支援', date: '2023-08-20', status: '批准', organizer: '教育局', hours: 5 },
+    { id: 5, name: '紧急救援演练', date: '2023-09-05', status: '取消', organizer: '消防局', hours: 0 },
+    { id: 6, name: '文化遗产保护', date: '2023-10-01', status: '批准', organizer: '文化局', hours: 8 },
+    { id: 7, name: '无偿献血活动', date: '2023-11-15', status: '批准', organizer: '红十字会', hours: 2 },
+    { id: 8, name: '冬季送温暖', date: '2023-12-20', status: '批准', organizer: '慈善协会', hours: 54 },
+])
+
+const sortedActivities = computed(() => {
+    return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date)) // 修正为从旧到新排序
+})
+
+const totalHours = computed(() => {
+    return activities.value.reduce((sum, activity) => sum + activity.hours, 0);
+});
 
 const toggleLoginStatus = () => {
     isLoggedIn.value = !isLoggedIn.value
     totalHours.value = isLoggedIn.value ? 41 : 99
+}
+
+const getStatusClass = (status) => {
+    switch (status) {
+        case '批准':
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'
+        case '驳回':
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'
+        case '取消':
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800'
+        default:
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800'
+    }
+}
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' }
+    const formattedDate = date.toLocaleDateString('en-US', options) // 转为美国格式 (MM/DD/YYYY)
+    return formattedDate
 }
 </script>
