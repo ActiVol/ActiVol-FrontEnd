@@ -13,7 +13,8 @@
                 <form @submit.prevent="searchActivities" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
+                                Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -30,7 +31,8 @@
                         </div>
 
                         <div>
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
+                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
+                                Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -53,14 +55,14 @@
                                     <Icon icon="material-symbols:id-card-outline" class="h-5 w-5 text-gray-400"
                                         aria-hidden="true" />
                                 </div>
-                                <input id="UID" v-model="searchQuery.UID" type="text" required
-                                    @blur="UIDTouched = true"
+                                <input id="UID" v-model="searchQuery.UID" type="text" required @blur="UIDTouched = true"
                                     :class="['block w-full rounded-md py-1.5 pl-10 pr-3 text-gray-900',
                                         'ring-1 ring-inset ' + (searchQuery.UID ? 'ring-blue-300' : (UIDTouched && !searchQuery.UID ? 'ring-red-300' : 'ring-gray-300')),
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="请输入您的 ID 号码" />
                             </div>
-                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is required.</p>
+                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is
+                                required.</p>
                         </div>
                     </div>
 
@@ -85,16 +87,19 @@
             <div class="mb-4">
                 <h2 class="text-lg font-semibold text-blue-800 mb-2">查询到以下结果：</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div :class="['p-3 rounded-md', totalHours >= 50 ? 'bg-green-100' : 'bg-red-100']">
-                        <p class="text-sm font-medium mb-1">累积活动时长</p>
-                        <p :class="['text-2xl font-bold', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
-                            {{ totalHours }}<span class="text-lg font-normal">/50</span>
+                    <div
+                        :class="['p-3 rounded-md', totalHours >= 50 ? 'bg-green-100 border-4 border-green-400' : 'bg-red-100 border-4 border-red-400']">
+                        <p class="text-sm font-medium text-center mb-1">累积活动时长
+                            <span class="text-xs text-gray-700">(小时)</span>
                         </p>
-                        <p class="text-xs">小时</p>
+                        <p
+                            :class="['text-2xl font-bold text-center', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
+                            {{ totalHours }}<span class="text-xl font-normal">/50</span>
+                        </p>
                     </div>
-                    <div class="bg-blue-100 p-3 rounded-md">
-                        <p class="text-sm font-medium mb-1">累积活动个数</p>
-                        <p class="text-2xl font-bold text-blue-600">
+                    <div class="bg-blue-100 p-3 rounded-md border-4 border-blue-400">
+                        <p class="text-sm font-medium text-center mb-1">累积活动个数</p>
+                        <p class="text-2xl font-bold text-center text-blue-600">
                             {{ sortedActivities.length }}
                         </p>
                     </div>
@@ -142,13 +147,15 @@
                         <template v-else>
                             <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(activity.date) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                    formatDate(activity.date) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <span :class="getStatusClass(activity.status)">
                                         {{ activity.status }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
                             </tr>
                         </template>
