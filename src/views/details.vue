@@ -12,7 +12,43 @@
                     查询以往参与的活动({{ isLoggedIn ? '已登录' : '未登录' }})
                 </h1>
 
-                <div v-if="!isLoggedIn" class="mb-4">
+                <div v-if="!isLoggedIn" class="mb-6">
+                    <div class="bg-blue-100 p-4 rounded-lg mb-4">
+                        <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
+                    </div>
+                    <form @submit.prevent="searchActivities" class="space-y-4">
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">姓名 (First & Last
+                                Name)</label>
+                            <input id="fullName" v-model="searchQuery.fullName" type="text" required
+                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="请输入您的姓名" />
+                        </div>
+                        <div>
+                            <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
+                            <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
+                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="请输入您的 ID 号码" />
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                            搜索
+                        </button>
+                    </form>
+                </div>
+
+                <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center space-x-4">
+                        <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
+                        <div>
+                            <h2 class="text-lg font-semibold text-blue-800">{{ userInfo.fullName }}</h2>
+                            <p class="text-sm text-blue-600">ID: {{ userInfo.idNumber }}</p>
+                            <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div v-if="!isLoggedIn" class="mb-4">
                     <div class="relative">
                         <input v-model="searchQuery" type="text" placeholder="搜索框包括：输入：ID+姓名"
                             class="w-full p-3 pr-10 border border-blue-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
@@ -26,7 +62,7 @@
                     <p class="text-blue-700 text-sm">
                         已登录的页面这里可以显示一些用户资料，例如头像，全名，ID号，内部邮箱之类的信息
                     </p>
-                </div>
+                </div>-->
 
                 <div class="mb-4">
                     <h2 class="text-lg font-semibold text-blue-800 mb-2">查询到以下结果：</h2>
@@ -47,11 +83,13 @@
                     </div>
                 </div>
 
+
+
                 <div class="mb-4">
                     <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
                 </div>
 
-                <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto">
+                <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto scrollable-container">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-100">
                             <tr>
@@ -78,19 +116,30 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                    formatDate(activity.date) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                    <span :class="getStatusClass(activity.status)">
-                                        {{ activity.status }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
-                            </tr>
+                            <template v-if="activities.length === 0">
+                                <tr>
+                                    <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        暂无数据。请去添加申报数据或查看可选活动。
+                                    </td>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                        formatDate(activity.date) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <span :class="getStatusClass(activity.status)">
+                                            {{ activity.status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer
+                                        }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}
+                                    </td>
+                                </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -115,7 +164,20 @@ import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 
 const isLoggedIn = ref(false)
-const searchQuery = ref('')
+const searchQuery = ref({ fullName: '', idNumber: '' })
+
+const userInfo = ref({
+    avatar: 'https://i.pravatar.cc/100',
+    fullName: '张三',
+    idNumber: '1234567890',
+    email: 'zhangsan@example.com'
+})
+
+const searchActivities = () => {
+    // Here you would typically make an API call to search for activities
+    // For now, we'll just log the search query
+    console.log('Searching for activities:', searchQuery.value)
+}
 
 const activities = ref([
     { id: 1, name: '社区清洁日', date: '2023-05-15', status: '批准', organizer: '社区服务中心', hours: 4 },
