@@ -1,6 +1,6 @@
 <template>
-    <Layout>
-        <Breadcrumb :items="breadcrumbItems" currentPage="SubPage" />
+    <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
+        <!-- <Breadcrumb :items="BreadcrumbItems" currentPage="SubPage" /> -->
         <div class="bg-rose-100 rounded-md px-4 py-3">
             <p class="text-center text-gray-700">This is the content for the subpage.</p>
             <!-- Boxes area -->
@@ -23,24 +23,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import Layout from '../components/Layout.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
+
+const breadcrumbItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Subpage', path: '/subpage' },
+];
+
+const currentPage = computed(() => {
+    return 'SubPage'; // Set the name of the current page according to actual logic
+});
 
 export default defineComponent({
     name: 'SubPage',
     components: {
         Layout,
         Breadcrumb,
-    },
-    data() {
-        return {
-            BreadcrumbItems: [
-                { label: 'Home', path: '/' },
-                { label: 'SubPage', path: '/subpage' },
-                { label: 'CurrentPage', path: '/current' },
-            ],
-        };
     },
 });
 </script>

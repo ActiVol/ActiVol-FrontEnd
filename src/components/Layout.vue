@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Footer from './Footer.vue';
 import Breadcrumb from './Breadcrumb.vue';
 
@@ -37,7 +37,7 @@ export default defineComponent({
     },
     props: {
         breadcrumbItems: {
-            type: Array as () => BreadcrumbItem[],
+            type: Array as PropType<{ label: string; path: string }[]>,
             required: false,
         },
         currentPage: {
