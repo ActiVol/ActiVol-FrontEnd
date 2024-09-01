@@ -23,18 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 import Layout from '../components/Layout.vue';
 import Breadcrumb from '../components/Breadcrumb.vue';
-
-const breadcrumbItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Subpage', path: '/subpage' },
-];
-
-const currentPage = computed(() => {
-    return 'SubPage'; // Set the name of the current page according to actual logic
-});
 
 export default defineComponent({
     name: 'SubPage',
@@ -42,5 +33,13 @@ export default defineComponent({
         Layout,
         Breadcrumb,
     },
+    setup() {
+        const breadcrumbItems = [
+            { label: 'Home', path: '/' },
+            { label: 'Subpage', path: '/subpage' },
+        ];
+        const currentPage = 'SubPage'; // Set the name of the current page according to actual logic
+        return { breadcrumbItems, currentPage }; // Pass to template
+    }
 });
 </script>

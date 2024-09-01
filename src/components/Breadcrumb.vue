@@ -2,7 +2,7 @@
     <div class="bg-white rounded-md px-4 py-2 mb-2">
         <nav class="flex items-center space-x-2">
             <ol class="flex items-center space-x-1">
-                <li v-for="(item, index) in items" :key="index" class="flex items-center">
+                <li v-if="items && items.length" v-for="(item, index) in items" :key="index" class="flex items-center">
                     <router-link :to="item.path" :class="[
                         index === 0 ? 'text-black font-bold' : (isCurrentPage(item.label) ? 'text-blue-400 underline font-bold' : 'text-gray-400'),
                         'text-sm hover:text-blue-500'
