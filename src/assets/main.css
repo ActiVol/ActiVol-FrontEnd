@@ -5,3 +5,40 @@
 body {
   @apply bg-gray-100;
 }
+
+
+/* 
+---------------------------
+  ScrollBar Style
+---------------------------
+*/
+
+/* Custom scrollbar style (Global) */
+* {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #93c5fd #e5e7eb; /* thumb & track color */
+}
+
+/* Applicable for WebKit/Blink browsers (such as Chrome and Safari) */
+/* width */
+::-webkit-scrollbar {
+	width: 6px;
+  /* If scroll horizontal */
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #93c5fd;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #60a5fd;
+}
