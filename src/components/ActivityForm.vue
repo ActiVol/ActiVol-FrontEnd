@@ -168,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, defineProps, defineEmits } from 'vue'
+import { ref, reactive } from 'vue'
 import { Icon } from '@iconify/vue'
 
 // 定义 props 和 emits

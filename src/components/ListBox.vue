@@ -10,13 +10,12 @@
             <h2 class="text-lg font-bold text-gray-800">{{ title }}</h2>
             <p class="text-gray-700">{{ content }}</p>
         </div>
-        <Icon icon="mdi:chevron-right" class="h-5 w-5 text-gray-500" aria-hidden="true" />
+        <iconify-icon icon="mdi:chevron-right" class="h-5 w-5 text-gray-500" aria-hidden="true" />
     </router-link>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Icon } from '@iconify/vue';
 
 export default defineComponent({
     name: 'ListBox',
