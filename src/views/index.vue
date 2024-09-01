@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <!-- <Breadcrumb :items="breadcrumbItems" currentPage="Home" /> -->
-        <div class="bg-amber-100 rounded-md px-4 py-3">
+        <div class="bg-amber-100 rounded-md px-4 py-3 w-full">
             <p class="text-gray-700">This is a small container content.</p>
             <!-- Boxes area -->
             <div class="grid grid-cols-1 gap-4 mt-4">
@@ -38,8 +38,9 @@ export default defineComponent({
             // ],
             ListBox: [
                 { icon: '/icon/PencilSquare.svg', title: 'Box 1', content: 'This is the content for box 1.', path: '/subpage' },
-                { icon: '/icon/PencilSquare.svg', title: 'Box 2', content: 'This is the content for box 2.', path: '/box2' },
-                { icon: '/icon/PencilSquare.svg', title: 'Box 3', content: 'This is the content for box 3.', path: '/box3' },
+                { icon: '/icon/PencilSquare.svg', title: 'test', content: 'This is the content for box 2.', path: '/test' },
+                { icon: '/icon/PencilSquare.svg', title: 'Details', content: 'This is the content for box 3.', path: '/details' },
+                { icon: '/icon/PencilSquare.svg', title: 'About', content: 'This is the content for box 4.', path: '/about' },
             ],
         };
     },
