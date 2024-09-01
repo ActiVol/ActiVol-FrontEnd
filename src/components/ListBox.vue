@@ -10,7 +10,7 @@
             <h2 class="text-lg font-bold text-gray-800">{{ title }}</h2>
             <p class="text-gray-700">{{ content }}</p>
         </div>
-        <Icon icon="mdi:chevron-right" class="text-gray-500" class="h-5 w-5 text-gray-400" aria-hidden="true" />
+        <Icon icon="mdi:chevron-right" class="h-5 w-5 text-gray-500" aria-hidden="true" />
     </router-link>
 </template>
 
