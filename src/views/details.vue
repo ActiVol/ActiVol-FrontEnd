@@ -1,6 +1,6 @@
 <template>
     <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
-        <main class="min-h-screen mx-auto">
+        <main class="w-full max-w-full px-4 sm:px-6 lg:px-8">
             <h1 class="text-xl font-bold text-blue-800 mb-4">
                 查询以往参与的活动({{ isLoggedIn ? '已登录' : '未登录' }})
             </h1>
@@ -11,59 +11,56 @@
                 </div>
 
                 <form @submit.prevent="searchActivities" class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
-                                Name</label>
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
-                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
                                 <input type="text" id="first-name" v-model="searchQuery.fullName.firstName"
                                     @blur="firstNameTouched = true" required
-                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                    :class="['block w-full rounded-md py-1.5 pl-10 pr-3 text-gray-900',
                                         'ring-1 ring-inset ' + (searchQuery.fullName.firstName ? 'ring-blue-300' : (firstNameTouched && !searchQuery.fullName.firstName ? 'ring-red-300' : 'ring-gray-300')),
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="First Name" />
-                                <p v-if="firstNameTouched && !searchQuery.fullName.firstName"
-                                    class="mt-1 text-sm text-red-500">First name is required.</p>
                             </div>
+                            <p v-if="firstNameTouched && !searchQuery.fullName.firstName"
+                                class="mt-1 text-sm text-red-500">First name is required.</p>
                         </div>
 
                         <div>
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                Name</label>
+                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
-                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
                                 <input type="text" id="last-name" v-model="searchQuery.fullName.lastName"
                                     @blur="lastNameTouched = true" required
-                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                    :class="['block w-full rounded-md py-1.5 pl-10 pr-3 text-gray-900',
                                         'ring-1 ring-inset ' + (searchQuery.fullName.lastName ? 'ring-blue-300' : (lastNameTouched && !searchQuery.fullName.lastName ? 'ring-red-300' : 'ring-gray-300')),
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="Last Name" />
-                                <p v-if="lastNameTouched && !searchQuery.fullName.lastName"
-                                    class="mt-1 text-sm text-red-500">Last name is required.</p>
                             </div>
+                            <p v-if="lastNameTouched && !searchQuery.fullName.lastName"
+                                class="mt-1 text-sm text-red-500">Last name is required.</p>
                         </div>
 
-                        <div>
-                            <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
+                        <div class="sm:col-span-2">
+                            <label for="UID" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
-                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="material-symbols:id-card-outline" class="h-5 w-5 text-gray-400"
                                         aria-hidden="true" />
                                 </div>
-                                <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
-                                    @blur="idNumberTouched = true"
-                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
-                                        'ring-1 ring-inset ' + (searchQuery.idNumber ? 'ring-blue-300' : (idNumberTouched && !searchQuery.idNumber ? 'ring-red-300' : 'ring-gray-300')),
+                                <input id="UID" v-model="searchQuery.UID" type="text" required
+                                    @blur="UIDTouched = true"
+                                    :class="['block w-full rounded-md py-1.5 pl-10 pr-3 text-gray-900',
+                                        'ring-1 ring-inset ' + (searchQuery.UID ? 'ring-blue-300' : (UIDTouched && !searchQuery.UID ? 'ring-red-300' : 'ring-gray-300')),
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="请输入您的 ID 号码" />
-                                <p v-if="idNumberTouched && !searchQuery.idNumber" class="mt-1 text-sm text-red-500">ID
-                                    number is required.</p>
                             </div>
+                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is required.</p>
                         </div>
                     </div>
 
@@ -75,35 +72,19 @@
             </div>
 
             <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
                     <div>
                         <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
-                        <p class="text-sm text-blue-600">ID: {{ userInfo.idNumber }}</p>
+                        <p class="text-sm text-blue-600">ID: {{ userInfo.UID }}</p>
                         <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
                     </div>
                 </div>
             </div>
 
-            <!--<div v-if="!isLoggedIn" class="mb-4">
-                    <div class="relative">
-                        <input v-model="searchQuery" type="text" placeholder="搜索框包括：输入：ID+姓名"
-                            class="w-full p-3 pr-10 border border-blue-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
-                        <button class="absolute right-3 top-3 text-blue-500">
-                            <Icon icon="mdi:magnify" class="w-6 h-6" />
-                        </button>
-                    </div>
-                </div>
-
-                <div v-else class="mb-4 p-3 bg-blue-50 rounded-md">
-                    <p class="text-blue-700 text-sm">
-                        已登录的页面这里可以显示一些用户资料，例如头像，全名，ID号，内部邮箱之类的信息
-                    </p>
-                </div>-->
-
             <div class="mb-4">
                 <h2 class="text-lg font-semibold text-blue-800 mb-2">查询到以下结果：</h2>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div :class="['p-3 rounded-md', totalHours >= 50 ? 'bg-green-100' : 'bg-red-100']">
                         <p class="text-sm font-medium mb-1">累积活动时长</p>
                         <p :class="['text-2xl font-bold', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
@@ -124,7 +105,7 @@
                 <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
             </div>
 
-            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto scrollable-container">
+            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-x-auto overflow-y-auto scrollable-container">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-100">
                         <tr>
@@ -160,19 +141,15 @@
                         </template>
                         <template v-else>
                             <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                    formatDate(activity.date) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(activity.date) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <span :class="getStatusClass(activity.status)">
                                         {{ activity.status }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer
-                                    }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}
-                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
                             </tr>
                         </template>
                     </tbody>
@@ -186,10 +163,6 @@
                 </button>
             </div>
         </main>
-
-        <footer class="mt-6 text-center text-blue-600 text-xs">
-            版权信息 (根据页面美观度确定是否为纯文字或带卡片)
-        </footer>
     </Layout>
 </template>
 
@@ -200,11 +173,11 @@ import Layout from '@/components/Layout.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 
 const isLoggedIn = ref(false)
-const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, idNumber: '' })
+const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, UID: '' })
 
 const firstNameTouched = ref(false);
 const lastNameTouched = ref(false);
-const idNumberTouched = ref(false);
+const UIDTouched = ref(false);
 
 const breadcrumbItems = [
     { label: 'Home', path: '/' },
@@ -219,7 +192,7 @@ const userInfo = ref({
     avatar: 'https://i.pravatar.cc/100',
     firstName: 'First',
     lastName: 'Last',
-    idNumber: '1234567890',
+    UID: '1234567890',
     email: 'zhangsan@example.com'
 })
 
@@ -227,22 +200,48 @@ const fullName = computed(() => {
     return `${userInfo.value.firstName} ${userInfo.value.lastName}`;
 });
 
-const searchActivities = () => {
-    // Here you would typically make an API call to search for activities
-    // For now, we'll just log the search query
-    console.log('Searching for activities:', searchQuery.value)
-}
+// const searchActivities = () => {
+//     // Here you would typically make an API call to search for activities
+//     // For now, we'll just log the search query
+//     console.log('Searching for activities:', searchQuery.value)
+// }
 
-const activities = ref([
-    { id: 1, name: '社区清洁日', date: '2023-05-15', status: '批准', organizer: '社区服务中心', hours: 4 },
-    { id: 2, name: '老年人关爱活动', date: '2023-06-02', status: '批准', organizer: '青年志愿者协会', hours: 6 },
-    { id: 3, name: '城市植树活动', date: '2023-07-10', status: '驳回', organizer: '环保局', hours: 0 },
-    { id: 4, name: '儿童教育支援', date: '2023-08-20', status: '批准', organizer: '教育局', hours: 5 },
-    { id: 5, name: '紧急救援演练', date: '2023-09-05', status: '取消', organizer: '消防局', hours: 0 },
-    { id: 6, name: '文化遗产保护', date: '2023-10-01', status: '批准', organizer: '文化局', hours: 8 },
-    { id: 7, name: '无偿献血活动', date: '2023-11-15', status: '批准', organizer: '红十字会', hours: 2 },
-    { id: 8, name: '冬季送温暖', date: '2023-12-20', status: '批准', organizer: '慈善协会', hours: 54 },
-])
+// const activities = ref([
+//     { id: 1, name: '社区清洁日', date: '2023-05-15', status: '批准', organizer: '社区服务中心', hours: 4 },
+//     { id: 2, name: '老年人关爱活动', date: '2023-06-02', status: '批准', organizer: '青年志愿者协会', hours: 6 },
+//     { id: 3, name: '城市植树活动', date: '2023-07-10', status: '驳回', organizer: '环保局', hours: 0 },
+//     { id: 4, name: '儿童教育支援', date: '2023-08-20', status: '批准', organizer: '教育局', hours: 5 },
+//     { id: 5, name: '紧急救援演练', date: '2023-09-05', status: '取消', organizer: '消防局', hours: 0 },
+//     { id: 6, name: '文化遗产保护', date: '2023-10-01', status: '批准', organizer: '文化局', hours: 8 },
+//     { id: 7, name: '无偿献血活动', date: '2023-11-15', status: '批准', organizer: '红十字会', hours: 2 },
+//     { id: 8, name: '冬季送温暖', date: '2023-12-20', status: '批准', organizer: '慈善协会', hours: 54 },
+// ])
+
+const activities = ref([])
+
+const searchActivities = async () => {
+    const { firstName, lastName } = searchQuery.value.fullName;
+    const { UID } = searchQuery.value;
+
+    try {
+        const response = await fetch('https://apifoxmock.com/m1/5071700-4733256-default/api/searchActivities', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ firstName, lastName, UID })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        activities.value = data; // 更新活动数据到前端
+    } catch (error) {
+        console.error('Error fetching activities:', error);
+    }
+}
 
 const sortedActivities = computed(() => {
     return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date)) // 修正为从旧到新排序
