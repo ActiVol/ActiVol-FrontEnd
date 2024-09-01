@@ -17,12 +17,34 @@
                         <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
                     </div>
                     <form @submit.prevent="searchActivities" class="space-y-4">
-                        <div>
-                            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">姓名 (First & Last
-                                Name)</label>
-                            <input id="fullName" v-model="searchQuery.fullName" type="text" required
-                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="请输入您的姓名" />
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
+                                    Name</label>
+                                <div class="relative mt-2 rounded-md shadow-sm">
+                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
+                                            aria-hidden="true" />
+                                    </div>
+                                    <input type="text" id="first-name" v-model="searchQuery.fullName.firstName" required
+                                        class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="First Name" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
+                                    Name</label>
+                                <div class="relative mt-2 rounded-md shadow-sm">
+                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
+                                            aria-hidden="true" />
+                                    </div>
+                                    <input type="text" id="last-name" v-model="searchQuery.fullName.lastName" required
+                                        class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        placeholder="Last Name" />
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
@@ -41,7 +63,7 @@
                     <div class="flex items-center space-x-4">
                         <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
                         <div>
-                            <h2 class="text-lg font-semibold text-blue-800">{{ userInfo.fullName }}</h2>
+                            <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
                             <p class="text-sm text-blue-600">ID: {{ userInfo.idNumber }}</p>
                             <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
                         </div>
@@ -83,9 +105,7 @@
                     </div>
                 </div>
 
-
-
-                <div class="mb-4">
+                <div class="mb-4 flex justify-center">
                     <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
                 </div>
 
@@ -164,14 +184,19 @@ import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 
 const isLoggedIn = ref(false)
-const searchQuery = ref({ fullName: '', idNumber: '' })
+const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, idNumber: '' })
 
 const userInfo = ref({
     avatar: 'https://i.pravatar.cc/100',
-    fullName: '张三',
+    firstName: 'First',
+    lastName: 'Last',
     idNumber: '1234567890',
     email: 'zhangsan@example.com'
 })
+
+const fullName = computed(() => {
+    return `${userInfo.value.firstName} ${userInfo.value.lastName}`;
+});
 
 const searchActivities = () => {
     // Here you would typically make an API call to search for activities
