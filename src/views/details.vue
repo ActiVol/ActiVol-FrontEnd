@@ -1,98 +1,91 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 p-4 md:p-8">
-        <div class="max-w-4xl mx-auto">
-            <header class="mb-6 text-center">
-                <div class="bg-blue-600 text-white text-2xl font-bold py-3 px-6 rounded-lg inline-block">
-                    标题/LOGO
-                </div>
-            </header>
+    <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
+        <main class="min-h-screen mx-auto">
+            <h1 class="text-xl font-bold text-blue-800 mb-4">
+                查询以往参与的活动({{ isLoggedIn ? '已登录' : '未登录' }})
+            </h1>
 
-            <main class="bg-white rounded-xl shadow-lg p-6">
-                <h1 class="text-xl font-bold text-blue-800 mb-4">
-                    查询以往参与的活动({{ isLoggedIn ? '已登录' : '未登录' }})
-                </h1>
-
-                <div v-if="!isLoggedIn" class="mb-6">
-                    <div class="bg-blue-100 p-4 rounded-lg mb-4">
-                        <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
-                    </div>
-
-                    <form @submit.prevent="searchActivities" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
-                                    Name</label>
-                                <div class="relative mt-2 rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
-                                        <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
-                                            aria-hidden="true" />
-                                    </div>
-                                    <input type="text" id="first-name" v-model="searchQuery.fullName.firstName"
-                                        @blur="firstNameTouched = true" required
-                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
-                                            'ring-1 ring-inset ' + (searchQuery.fullName.firstName ? 'ring-blue-300' : (firstNameTouched && !searchQuery.fullName.firstName ? 'ring-red-300' : 'ring-gray-300')),
-                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']" placeholder="First Name" />
-                                    <p v-if="firstNameTouched && !searchQuery.fullName.firstName"
-                                        class="mt-1 text-sm text-red-500">First name is required.</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                    Name</label>
-                                <div class="relative mt-2 rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
-                                        <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
-                                            aria-hidden="true" />
-                                    </div>
-                                    <input type="text" id="last-name" v-model="searchQuery.fullName.lastName"
-                                        @blur="lastNameTouched = true" required
-                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
-                                            'ring-1 ring-inset ' + (searchQuery.fullName.lastName ? 'ring-blue-300' : (lastNameTouched && !searchQuery.fullName.lastName ? 'ring-red-300' : 'ring-gray-300')),
-                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']" placeholder="Last Name" />
-                                    <p v-if="lastNameTouched && !searchQuery.fullName.lastName"
-                                        class="mt-1 text-sm text-red-500">Last name is required.</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
-                                <div class="relative mt-2 rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
-                                        <Icon icon="material-symbols:id-card-outline" class="h-5 w-5 text-gray-400"
-                                            aria-hidden="true" />
-                                    </div>
-                                    <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
-                                        @blur="idNumberTouched = true"
-                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
-                                            'ring-1 ring-inset ' + (searchQuery.idNumber ? 'ring-blue-300' : (idNumberTouched && !searchQuery.idNumber ? 'ring-red-300' : 'ring-gray-300')),
-                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
-                                        placeholder="请输入您的 ID 号码" />
-                                    <p v-if="idNumberTouched && !searchQuery.idNumber"
-                                        class="mt-1 text-sm text-red-500">ID number is required.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
-                            搜索
-                        </button>
-                    </form>
+            <div v-if="!isLoggedIn" class="mb-6">
+                <div class="bg-blue-100 p-4 rounded-lg mb-4">
+                    <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
                 </div>
 
-                <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
-                    <div class="flex items-center space-x-4">
-                        <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
+                <form @submit.prevent="searchActivities" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
-                            <p class="text-sm text-blue-600">ID: {{ userInfo.idNumber }}</p>
-                            <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
+                                Name</label>
+                            <div class="relative mt-2 rounded-md shadow-sm">
+                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                    <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                </div>
+                                <input type="text" id="first-name" v-model="searchQuery.fullName.firstName"
+                                    @blur="firstNameTouched = true" required
+                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                        'ring-1 ring-inset ' + (searchQuery.fullName.firstName ? 'ring-blue-300' : (firstNameTouched && !searchQuery.fullName.firstName ? 'ring-red-300' : 'ring-gray-300')),
+                                        'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
+                                    placeholder="First Name" />
+                                <p v-if="firstNameTouched && !searchQuery.fullName.firstName"
+                                    class="mt-1 text-sm text-red-500">First name is required.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
+                                Name</label>
+                            <div class="relative mt-2 rounded-md shadow-sm">
+                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                    <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                </div>
+                                <input type="text" id="last-name" v-model="searchQuery.fullName.lastName"
+                                    @blur="lastNameTouched = true" required
+                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                        'ring-1 ring-inset ' + (searchQuery.fullName.lastName ? 'ring-blue-300' : (lastNameTouched && !searchQuery.fullName.lastName ? 'ring-red-300' : 'ring-gray-300')),
+                                        'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
+                                    placeholder="Last Name" />
+                                <p v-if="lastNameTouched && !searchQuery.fullName.lastName"
+                                    class="mt-1 text-sm text-red-500">Last name is required.</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
+                            <div class="relative mt-2 rounded-md shadow-sm">
+                                <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                    <Icon icon="material-symbols:id-card-outline" class="h-5 w-5 text-gray-400"
+                                        aria-hidden="true" />
+                                </div>
+                                <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
+                                    @blur="idNumberTouched = true"
+                                    :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                        'ring-1 ring-inset ' + (searchQuery.idNumber ? 'ring-blue-300' : (idNumberTouched && !searchQuery.idNumber ? 'ring-red-300' : 'ring-gray-300')),
+                                        'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
+                                    placeholder="请输入您的 ID 号码" />
+                                <p v-if="idNumberTouched && !searchQuery.idNumber" class="mt-1 text-sm text-red-500">ID
+                                    number is required.</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!--<div v-if="!isLoggedIn" class="mb-4">
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                        搜索
+                    </button>
+                </form>
+            </div>
+
+            <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
+                    <div>
+                        <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
+                        <p class="text-sm text-blue-600">ID: {{ userInfo.idNumber }}</p>
+                        <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div v-if="!isLoggedIn" class="mb-4">
                     <div class="relative">
                         <input v-model="searchQuery" type="text" placeholder="搜索框包括：输入：ID+姓名"
                             class="w-full p-3 pr-10 border border-blue-300 rounded-md focus:ring-blue-500 focus:border-blue-500" />
@@ -108,102 +101,103 @@
                     </p>
                 </div>-->
 
-                <div class="mb-4">
-                    <h2 class="text-lg font-semibold text-blue-800 mb-2">查询到以下结果：</h2>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div :class="['p-3 rounded-md', totalHours >= 50 ? 'bg-green-100' : 'bg-red-100']">
-                            <p class="text-sm font-medium mb-1">累积活动时长</p>
-                            <p :class="['text-2xl font-bold', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
-                                {{ totalHours }}<span class="text-lg font-normal">/50</span>
-                            </p>
-                            <p class="text-xs">小时</p>
-                        </div>
-                        <div class="bg-blue-100 p-3 rounded-md">
-                            <p class="text-sm font-medium mb-1">累积活动个数</p>
-                            <p class="text-2xl font-bold text-blue-600">
-                                {{ sortedActivities.length }}
-                            </p>
-                        </div>
+            <div class="mb-4">
+                <h2 class="text-lg font-semibold text-blue-800 mb-2">查询到以下结果：</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div :class="['p-3 rounded-md', totalHours >= 50 ? 'bg-green-100' : 'bg-red-100']">
+                        <p class="text-sm font-medium mb-1">累积活动时长</p>
+                        <p :class="['text-2xl font-bold', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
+                            {{ totalHours }}<span class="text-lg font-normal">/50</span>
+                        </p>
+                        <p class="text-xs">小时</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-md">
+                        <p class="text-sm font-medium mb-1">累积活动个数</p>
+                        <p class="text-2xl font-bold text-blue-600">
+                            {{ sortedActivities.length }}
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-4 flex justify-center">
-                    <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
-                </div>
+            <div class="mb-4 flex justify-center">
+                <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
+            </div>
 
-                <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto scrollable-container">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-100">
+            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-y-auto scrollable-container">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                活动名称
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                参与时间
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                活动状态
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                活动举办人
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                计入小时数
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <template v-if="activities.length === 0">
                             <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    活动名称
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    参与时间
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    活动状态
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    活动举办人
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    计入小时数
-                                </th>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    暂无数据。请去添加申报数据或查看可选活动。
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <template v-if="activities.length === 0">
-                                <tr>
-                                    <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                        暂无数据。请去添加申报数据或查看可选活动。
-                                    </td>
-                                </tr>
-                            </template>
-                            <template v-else>
-                                <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                        formatDate(activity.date) }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span :class="getStatusClass(activity.status)">
-                                            {{ activity.status }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer
-                                        }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}
-                                    </td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
+                        </template>
+                        <template v-else>
+                            <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                    formatDate(activity.date) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span :class="getStatusClass(activity.status)">
+                                        {{ activity.status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer
+                                    }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="text-center">
-                    <button @click="toggleLoginStatus"
-                        :class="['px-4 py-2 rounded-md transition duration-300', isLoggedIn ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white']">
-                        {{ isLoggedIn ? '点击查看未登录界面' : '点击查看已登录界面' }}
-                    </button>
-                </div>
-            </main>
+            <div class="text-center">
+                <button @click="toggleLoginStatus"
+                    :class="['px-4 py-2 rounded-md transition duration-300', isLoggedIn ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white']">
+                    {{ isLoggedIn ? '点击查看未登录界面' : '点击查看已登录界面' }}
+                </button>
+            </div>
+        </main>
 
-            <footer class="mt-6 text-center text-blue-600 text-xs">
-                版权信息 (根据页面美观度确定是否为纯文字或带卡片)
-            </footer>
-        </div>
-    </div>
+        <footer class="mt-6 text-center text-blue-600 text-xs">
+            版权信息 (根据页面美观度确定是否为纯文字或带卡片)
+        </footer>
+    </Layout>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, defineComponent } from 'vue'
 import { Icon } from '@iconify/vue'
+import Layout from '@/components/Layout.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue';
 
 const isLoggedIn = ref(false)
 const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, idNumber: '' })
@@ -211,6 +205,15 @@ const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, idNumber: '
 const firstNameTouched = ref(false);
 const lastNameTouched = ref(false);
 const idNumberTouched = ref(false);
+
+const breadcrumbItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Inquiry', path: '/details' },
+];
+
+const currentPage = computed(() => {
+    return 'Inquiry'; // Set the name of the current page according to actual logic
+});
 
 const userInfo = ref({
     avatar: 'https://i.pravatar.cc/100',
