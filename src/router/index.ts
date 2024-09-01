@@ -5,6 +5,7 @@ import SubPage from '../views/subpage.vue';
 import NotFound from '../views/404.vue';
 import Test from '@/views/test.vue';
 import details from '@/views/details.vue';
+import selfSubmission from '@/views/Activity/self-submission.vue';
 
 // Define the type of route
 // interface Route {
@@ -25,6 +26,10 @@ const routes = [
     {
         path: '/details',
         component: details,
+    },
+    {
+        path: '/self-submission',
+        component: selfSubmission,
     },
     {
         path: '/subpage',
