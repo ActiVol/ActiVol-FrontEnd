@@ -13,11 +13,16 @@ body {
 ---------------------------
 */
 
-/* Custom scrollbar style (Global) */
-* {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #93c5fd #e5e7eb; /* thumb & track color */
-}
+/* 
+Custom scrollbar style (Global) 
+
+Firefox
+thumb & track color
+*/
+/* * {
+    scrollbar-width: thin;
+    scrollbar-color: #93c5fd #e5e7eb;
+} */
 
 /* Applicable for WebKit/Blink browsers (such as Chrome and Safari) */
 /* width */
