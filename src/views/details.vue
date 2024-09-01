@@ -16,19 +16,24 @@
                     <div class="bg-blue-100 p-4 rounded-lg mb-4">
                         <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
                     </div>
+
                     <form @submit.prevent="searchActivities" class="space-y-4">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
                                     Name</label>
                                 <div class="relative mt-2 rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
                                         <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
                                             aria-hidden="true" />
                                     </div>
-                                    <input type="text" id="first-name" v-model="searchQuery.fullName.firstName" required
-                                        class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        placeholder="First Name" />
+                                    <input type="text" id="first-name" v-model="searchQuery.fullName.firstName"
+                                        @blur="firstNameTouched = true" required
+                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                            'ring-1 ring-inset ' + (searchQuery.fullName.firstName ? 'ring-blue-300' : (firstNameTouched && !searchQuery.fullName.firstName ? 'ring-red-300' : 'ring-gray-300')),
+                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']" placeholder="First Name" />
+                                    <p v-if="firstNameTouched && !searchQuery.fullName.firstName"
+                                        class="mt-1 text-sm text-red-500">First name is required.</p>
                                 </div>
                             </div>
 
@@ -36,22 +41,39 @@
                                 <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
                                     Name</label>
                                 <div class="relative mt-2 rounded-md shadow-sm">
-                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
                                         <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400"
                                             aria-hidden="true" />
                                     </div>
-                                    <input type="text" id="last-name" v-model="searchQuery.fullName.lastName" required
-                                        class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        placeholder="Last Name" />
+                                    <input type="text" id="last-name" v-model="searchQuery.fullName.lastName"
+                                        @blur="lastNameTouched = true" required
+                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                            'ring-1 ring-inset ' + (searchQuery.fullName.lastName ? 'ring-blue-300' : (lastNameTouched && !searchQuery.fullName.lastName ? 'ring-red-300' : 'ring-gray-300')),
+                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']" placeholder="Last Name" />
+                                    <p v-if="lastNameTouched && !searchQuery.fullName.lastName"
+                                        class="mt-1 text-sm text-red-500">Last name is required.</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
+                                <div class="relative mt-2 rounded-md shadow-sm">
+                                    <div class="pointer-events-none absolute top-2 flex items-center pl-3">
+                                        <Icon icon="material-symbols:id-card-outline" class="h-5 w-5 text-gray-400"
+                                            aria-hidden="true" />
+                                    </div>
+                                    <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
+                                        @blur="idNumberTouched = true"
+                                        :class="['block w-full rounded-md py-1.5 pl-10 text-gray-900',
+                                            'ring-1 ring-inset ' + (searchQuery.idNumber ? 'ring-blue-300' : (idNumberTouched && !searchQuery.idNumber ? 'ring-red-300' : 'ring-gray-300')),
+                                            'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
+                                        placeholder="请输入您的 ID 号码" />
+                                    <p v-if="idNumberTouched && !searchQuery.idNumber"
+                                        class="mt-1 text-sm text-red-500">ID number is required.</p>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <label for="idNumber" class="block text-sm font-medium text-gray-700 mb-1">ID 号码</label>
-                            <input id="idNumber" v-model="searchQuery.idNumber" type="text" required
-                                class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="请输入您的 ID 号码" />
-                        </div>
+
                         <button type="submit"
                             class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
                             搜索
@@ -185,6 +207,10 @@ import { Icon } from '@iconify/vue'
 
 const isLoggedIn = ref(false)
 const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, idNumber: '' })
+
+const firstNameTouched = ref(false);
+const lastNameTouched = ref(false);
+const idNumberTouched = ref(false);
 
 const userInfo = ref({
     avatar: 'https://i.pravatar.cc/100',
