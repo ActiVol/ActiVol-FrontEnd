@@ -40,7 +40,8 @@ export default defineComponent({
                 { icon: '/icon/PencilSquare.svg', title: 'Box 1', content: 'This is the content for box 1.', path: '/subpage' },
                 { icon: '/icon/PencilSquare.svg', title: 'test', content: 'This is the content for box 2.', path: '/test' },
                 { icon: '/icon/PencilSquare.svg', title: 'Details', content: 'This is the content for box 3.', path: '/details' },
-                { icon: '/icon/PencilSquare.svg', title: 'About', content: 'This is the content for box 4.', path: '/about' },
+                { icon: '/icon/PencilSquare.svg', title: 'Activities Self-submission', content: 'This is the content for box 4.', path: '/self-submission' },
+                { icon: '/icon/PencilSquare.svg', title: 'About', content: 'This is the content for box 5.', path: '/about' },
             ],
         };
     },
