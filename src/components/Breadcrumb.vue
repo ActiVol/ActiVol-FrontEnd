@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-sky-100 rounded-md px-4 py-1 mb-2">
+    <div class="bg-white rounded-md px-4 py-2 mb-2">
         <nav class="flex items-center space-x-2">
             <ol class="flex items-center space-x-1">
                 <li v-for="(item, index) in items" :key="index" class="flex items-center">
@@ -9,8 +9,8 @@
                     ]">
                         {{ item.label }}
                     </router-link>
-                    <span v-if="index < items.length - 1" class="ml-1 mt-1 text-gray-400">
-                        <iconify-icon icon="icon-park:right"></iconify-icon>
+                    <span v-if="index < items.length - 1" class="ml-1 text-gray-400">
+                        <Icon icon="icon-park:right" class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
                 </li>
             </ol>
@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { Icon } from '@iconify/vue';
 
 interface BreadcrumbItem {
     label: string;
@@ -28,14 +29,17 @@ interface BreadcrumbItem {
 
 export default defineComponent({
     name: 'Breadcrumb',
+    components: {
+        Icon,
+    },
     props: {
         items: {
             type: Array as () => BreadcrumbItem[],
-            required: true,
+            required: false,
         },
         currentPage: {
             type: String,
-            required: true,
+            required: false,
         },
     },
     methods: {
