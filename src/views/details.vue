@@ -6,14 +6,19 @@
             </h1>
 
             <div v-if="!isLoggedIn" class="mb-6">
-                <div class="bg-blue-100 p-4 rounded-lg mb-4">
+                <!-- <div class="bg-blue-100 p-4 rounded-lg mb-4">
                     <p class="text-blue-800 font-medium">登录/注册后能获得更好的服务体验！</p>
+                </div> -->
+                <div class="w-full max-w-md mb-4 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+                    <p class="font-bold">欢迎使用志愿者时长记录系统！</p>
+                    <p><button @click="$router.push('/forget')" class="underline">登录/注册</button>开始更便捷的体验记录您的志愿时间。</p>
                 </div>
 
                 <form @submit.prevent="searchActivities" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
+                                Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -30,7 +35,8 @@
                         </div>
 
                         <div>
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
+                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
+                                Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -59,7 +65,8 @@
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="请输入您的 ID 号码" />
                             </div>
-                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is required.</p>
+                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is
+                                required.</p>
                         </div>
                     </div>
 
@@ -70,19 +77,27 @@
                 </form>
             </div>
 
-            <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
-                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <!-- <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" /> -->
-                    <img src="https://i.pravatar.cc/100" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
-                    <div>
-                        <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
-                        <p class="text-sm text-blue-600">ID: {{ userInfo.uid }}</p>
-                        <p class="text-sm text-blue-600">Email: {{ userInfo.interiorEmail }}</p>
+            <div v-else class="mb-6">
+                <div class="w-full max-w-md mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4"
+                    role="alert">
+                    <p class="font-bold">您已经登录！</p>
+                    <p>如需更改，请注销后进行操作。</p>
+                    <button @click="logout" class="mt-2 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
+                        退出登录
+                    </button>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <!-- <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" /> -->
+                        <img src="https://i.pravatar.cc/100" alt="User Avatar"
+                            class="w-16 h-16 rounded-full object-cover" />
+                        <div>
+                            <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
+                            <p class="text-sm text-blue-600">ID: {{ userInfo.uid }}</p>
+                            <p class="text-sm text-blue-600">Email: {{ userInfo.interiorEmail }}</p>
+                        </div>
                     </div>
                 </div>
-                <button @click="logout" class="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
-                    退出登录
-                </button>
             </div>
 
             <div class="mb-4">
@@ -150,13 +165,17 @@
                                 <template v-else>
                                     <tr v-for="activity in sortedActivities" :key="activity.id"
                                         class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(activity.date) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name
+                                            }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                            formatDate(activity.date) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                                             <span :class="getStatusClass(activity.status)">{{ activity.status }}</span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                            activity.organizer }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours
+                                            }}</td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -183,11 +202,11 @@ import Layout from '@/components/Layout.vue'
 import axios from 'axios'
 
 const isLoggedIn = ref(false)
-const searchQuery = ref({ 
-    fullName: { 
-        firstName: '', 
+const searchQuery = ref({
+    fullName: {
+        firstName: '',
         lastName: '',
-    }, 
+    },
     UID: '',
 })
 const firstNameTouched = ref(false);
