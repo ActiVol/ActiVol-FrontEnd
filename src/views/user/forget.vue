@@ -1,13 +1,20 @@
 <template>
     <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
         <!-- Banner for unregistered users -->
+        <!-- Already Login -->
+        <div v-if="isLoggedIn"
+            class="w-full max-w-md mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
+            <p class="font-bold">您已经登录！</p>
+            <p>如需更改，请注销后进行操作。</p>
+        </div>
+        <!-- Not Login -->
         <div v-if="!isLoggedIn" class="w-full max-w-md mb-4 bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4"
             role="alert">
             <p class="font-bold">欢迎使用志愿者时长记录系统！</p>
             <p>还没有账号？<button @click="activeTab = 'register'" class="underline">立即注册</button>开始记录您的志愿时间。</p>
         </div>
 
-        <!-- Login/Register/Forgot Password Card -->
+        <!-- Login/Register Card -->
         <div class="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6">
                 <h2 class="text-2xl font-bold text-center text-blue-600 mb-4">志愿者时长记录系统</h2>
@@ -27,8 +34,9 @@
                 <!-- Login Form -->
                 <form v-if="activeTab === 'login'" @submit.prevent="handleLogin" class="space-y-4">
                     <div>
-                        <label for="login-username" class="block text-sm font-medium text-gray-700">用户名</label>
-                        <input v-model="loginForm.username" id="login-username" type="text" required
+                        <label for="login-identifier" class="block text-sm font-medium text-gray-700">用户名 / 邮箱 /
+                            UID</label>
+                        <input v-model="loginForm.identifier" id="login-identifier" type="text" required
                             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
@@ -40,10 +48,6 @@
                         <button type="submit"
                             class="flex-1 mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             登录
-                        </button>
-                        <button @click.prevent="activeTab = 'forgotPassword'"
-                            class="flex-1 ml-2 py-2 px-4 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            忘记密码
                         </button>
                     </div>
                 </form>
@@ -68,13 +72,13 @@
                             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
-                        <label for="school-email" class="block text-sm font-medium text-gray-700">学校邮箱</label>
-                        <input v-model="registerForm.schoolEmail" id="school-email" type="email" required
+                        <label for="interior-email" class="block text-sm font-medium text-gray-700">学校邮箱</label>
+                        <input v-model="registerForm.interiorEmail" id="interior-email" type="email" required
                             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
-                        <label for="personal-email" class="block text-sm font-medium text-gray-700">个人邮箱</label>
-                        <input v-model="registerForm.personalEmail" id="personal-email" type="email" required
+                        <label for="exterior-email" class="block text-sm font-medium text-gray-700">个人邮箱</label>
+                        <input v-model="registerForm.exteriorEmail" id="exterior-email" type="email" required
                             class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
@@ -97,71 +101,98 @@
                         注册
                     </button>
                 </form>
-
-                <!-- Forgot Password Form -->
-                <form v-if="activeTab === 'forgotPassword'" @submit.prevent="handleForgotPassword" class="space-y-4">
-                    <div>
-                        <label for="forgot-email" class="block text-sm font-medium text-gray-700">电子邮箱</label>
-                        <input v-model="forgotPasswordForm.email" id="forgot-email" type="email" required
-                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <button type="submit"
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        重置密码
-                    </button>
-                    <button @click.prevent="activeTab = 'login'"
-                        class="w-full flex justify-center py-2 px-4 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        返回登录
-                    </button>
-                </form>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: 'LoginRegisterForgotPassword',
     setup() {
-        const isLoggedIn = ref(false)
-        const activeTab = ref('login')
+        const isLoggedIn = ref(false);
+        const activeTab = ref('login');
+        const router = useRouter(); // 使用 Vue Router 进行跳转
 
         const loginForm = reactive({
-            username: '',
+            identifier: '', // 使用 identifier 统一标识
             password: ''
-        })
+        });
 
         const registerForm = reactive({
             username: '',
+            uid: '',
             firstName: '',
             lastName: '',
-            schoolEmail: '',
-            personalEmail: '',
-            uid: '',
+            graduationYear: null as number | null,
+            interiorEmail: '',
+            exteriorEmail: '',
             password: '',
-            graduationYear: null as number | null
-        })
+        });
 
-        const forgotPasswordForm = reactive({
-            email: ''
-        })
+        const forgotPasswordForm = reactive({ 
+            email: '' 
+        });
 
-        const handleLogin = () => {
-            // 处理登录逻辑
-            console.log('Login:', loginForm)
-        }
+        // 检查用户状态是否已登录
+        const checkUserAuth = () => {
+            const token = localStorage.getItem('token'); // 从 localStorage 获取 token
+            if (token) {
+                isLoggedIn.value = true; // 如果 token 存在，设置为已登录
+                router.push('/dashboard'); // 跳转到仪表盘或主页面
+            }
+        };
 
-        const handleRegister = () => {
-            // 处理注册逻辑
-            console.log('Register:', registerForm)
-        }
+        const handleLogin = async () => {
+            try {
+                const response = await axios.post('http://localhost:3000/api/auth/login', loginForm);
+                console.log('Login Success', response.data);
 
-        const handleForgotPassword = () => {
-            // 处理忘记密码逻辑
-            console.log('Forgot Password:', forgotPasswordForm)
-        }
+                // 在成功登录或注册后
+                const accessToken = response.data.accessToken;
+                localStorage.setItem('token', accessToken); // 将 token 存储在 localStorage 中
+
+                isLoggedIn.value = true; // 更新登录状态
+                alert('登录成功！');
+                router.push('/dashboard'); // 登录成功后重定向
+            } catch (error) {
+                console.error('Login Error:', error);
+                alert('登录失败！请检查你的用户名和密码。'); // 增加用户提示
+            }
+        };
+
+        const handleRegister = async () => {
+            try {
+                const response = await axios.post('http://localhost:3000/api/auth/register', registerForm);
+                console.log('Registration Success', response.data);
+                alert('注册成功！正在登录…'); // 提示用户注册成功
+
+                // 在成功登录或注册后
+                const accessToken = response.data.accessToken;
+                localStorage.setItem('token', accessToken); // 将 token 存储在 localStorage 中
+
+                await handleLogin(); // 注册成功后自动登录
+                router.push('/dashboard'); // 登录后跳转
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert('注册失败！请重新检查你的信息。');
+            }
+        };
+
+        // 离开页面时清除 token
+        const logout = () => {
+            localStorage.removeItem('token');
+            isLoggedIn.value = false;
+            // Redirect to login page if necessary
+            router.push('/login');
+        };
+
+        // 组件挂载时检查用户状态
+        onMounted(checkUserAuth);
 
         return {
             isLoggedIn,
@@ -171,8 +202,8 @@ export default defineComponent({
             forgotPasswordForm,
             handleLogin,
             handleRegister,
-            handleForgotPassword
-        }
+            logout
+        };
     }
-})
+});
 </script>
