@@ -254,7 +254,7 @@ const toggleLoginStatus = () => {
     }
 };
 
-const submitForm = async () => {
+const onSubmit = async () => {
     try {
         // Simulate API call to backend
         await new Promise(resolve => setTimeout(resolve, 1000))
