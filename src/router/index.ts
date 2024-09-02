@@ -6,6 +6,8 @@ import NotFound from '../views/404.vue';
 import Test from '@/views/test.vue';
 import details from '@/views/details.vue';
 import selfSubmission from '@/views/Activity/self-submission.vue';
+import login from '@/views/user/login.vue';
+import forget from '@/views/user/forget.vue';
 import about from '@/views/about.vue';
 
 // Define the type of route
@@ -35,6 +37,14 @@ const routes = [
     {
         path: '/subpage',
         component: SubPage,
+    },
+    {
+        path: '/login',
+        component: login,
+    },
+    {
+        path: '/forget',
+        component: forget,
     },
     {
         path: '/about',
