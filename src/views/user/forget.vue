@@ -14,7 +14,7 @@
             <p>还没有账号？<button @click="activeTab = 'register'" class="underline">立即注册</button>开始记录您的志愿时间。</p>
         </div>
 
-        <!-- Login/Register Card -->
+        <!-- Login/Register/Forgot Password Card -->
         <div class="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6">
                 <h2 class="text-2xl font-bold text-center text-blue-600 mb-4">志愿者时长记录系统</h2>
@@ -48,6 +48,10 @@
                         <button type="submit"
                             class="flex-1 mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             登录
+                        </button>
+                        <button @click.prevent="activeTab = 'forgotPassword'"
+                            class="flex-1 ml-2 py-2 px-4 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            忘记密码
                         </button>
                     </div>
                 </form>
@@ -99,6 +103,23 @@
                     <button type="submit"
                         class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         注册
+                    </button>
+                </form>
+
+                <!-- Forgot Password Form -->
+                <form v-if="activeTab === 'forgotPassword'" @submit.prevent="handleForgotPassword" class="space-y-4">
+                    <div>
+                        <label for="forgot-email" class="block text-sm font-medium text-gray-700">电子邮箱</label>
+                        <input v-model="forgotPasswordForm.email" id="forgot-email" type="email" required
+                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        重置密码
+                    </button>
+                    <button @click.prevent="activeTab = 'login'"
+                        class="w-full flex justify-center py-2 px-4 border border-blue-300 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        返回登录
                     </button>
                 </form>
             </div>
@@ -183,6 +204,11 @@ export default defineComponent({
             }
         };
 
+        const handleForgotPassword = () => {
+            // 处理忘记密码逻辑
+            console.log('Forgot Password:', forgotPasswordForm)
+        }
+
         // 离开页面时清除 token
         const logout = () => {
             localStorage.removeItem('token');
@@ -202,7 +228,8 @@ export default defineComponent({
             forgotPasswordForm,
             handleLogin,
             handleRegister,
-            logout
+            handleForgotPassword,
+            logout,
         };
     }
 });
