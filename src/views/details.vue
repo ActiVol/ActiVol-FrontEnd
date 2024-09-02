@@ -13,8 +13,7 @@
                 <form @submit.prevent="searchActivities" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First
-                                Name</label>
+                            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -31,8 +30,7 @@
                         </div>
 
                         <div>
-                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                Name</label>
+                            <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
                             <div class="relative mt-2 rounded-md shadow-sm">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                     <Icon icon="mdi:account-outline" class="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -61,8 +59,7 @@
                                         'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6']"
                                     placeholder="请输入您的 ID 号码" />
                             </div>
-                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is
-                                required.</p>
+                            <p v-if="UIDTouched && !searchQuery.UID" class="mt-1 text-sm text-red-500">ID number is required.</p>
                         </div>
                     </div>
 
@@ -75,13 +72,17 @@
 
             <div v-else class="mb-6 bg-blue-50 p-4 rounded-lg">
                 <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
+                    <!-- <img :src="userInfo.avatar" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" /> -->
+                    <img src="https://i.pravatar.cc/100" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
                     <div>
                         <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
-                        <p class="text-sm text-blue-600">ID: {{ userInfo.UID }}</p>
-                        <p class="text-sm text-blue-600">{{ userInfo.email }}</p>
+                        <p class="text-sm text-blue-600">ID: {{ userInfo.uid }}</p>
+                        <p class="text-sm text-blue-600">Email: {{ userInfo.interiorEmail }}</p>
                     </div>
                 </div>
+                <button @click="logout" class="mt-4 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
+                    退出登录
+                </button>
             </div>
 
             <div class="mb-4">
@@ -149,19 +150,13 @@
                                 <template v-else>
                                     <tr v-for="activity in sortedActivities" :key="activity.id"
                                         class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name
-                                            }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                            formatDate(activity.date) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(activity.date) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <span :class="getStatusClass(activity.status)">
-                                                {{ activity.status }}
-                                            </span>
+                                            <span :class="getStatusClass(activity.status)">{{ activity.status }}</span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                            activity.organizer }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours
-                                            }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -170,49 +165,84 @@
                 </div>
             </div>
 
-            <div class="text-center">
+            <!-- Dev Testing Button -->
+            <!-- <div class="text-center">
                 <button @click="toggleLoginStatus"
                     :class="['px-4 py-2 rounded-md transition duration-300', isLoggedIn ? 'bg-red-500 hover:bg-red-600 text-white' : 'bg-blue-500 hover:bg-blue-600 text-white']">
                     {{ isLoggedIn ? '点击查看未登录界面' : '点击查看已登录界面' }}
                 </button>
-            </div>
+            </div> -->
         </main>
     </Layout>
 </template>
 
 <script setup>
-import { ref, computed, defineComponent } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
 import Layout from '@/components/Layout.vue'
-import Breadcrumb from '@/components/Breadcrumb.vue';
+import axios from 'axios'
 
 const isLoggedIn = ref(false)
-const searchQuery = ref({ fullName: { firstName: '', lastName: '' }, UID: '' })
-
+const searchQuery = ref({ 
+    fullName: { 
+        firstName: '', 
+        lastName: '',
+    }, 
+    UID: '',
+})
 const firstNameTouched = ref(false);
 const lastNameTouched = ref(false);
 const UIDTouched = ref(false);
-
 const breadcrumbItems = [
     { label: 'Home', path: '/' },
     { label: 'Inquiry', path: '/details' },
 ];
+const currentPage = 'Inquiry'; // Set the name of the current page according to actual logic
+const userInfo = ref(null)
+const activities = ref([])
+const totalHours = computed(() => activities.value.reduce((sum, activity) => sum + activity.hours, 0));
 
-const currentPage = computed(() => {
-    return 'Inquiry'; // Set the name of the current page according to actual logic
+const fullName = computed(() => `${userInfo.value?.firstName || ''} ${userInfo.value?.lastName || ''}`);
+
+const sortedActivities = computed(() => {
+    return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date)); // 最近的在前
 });
 
-const userInfo = ref({
-    avatar: 'https://i.pravatar.cc/100',
-    firstName: 'First',
-    lastName: 'Last',
-    UID: '1234567890',
-    email: 'zhangsan@example.com'
-})
+// 调用用户信息 API
+const fetchUserInfo = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        isLoggedIn.value = false;
+        return;
+    }
 
-const fullName = computed(() => {
-    return `${userInfo.value.firstName} ${userInfo.value.lastName}`;
+    try {
+        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/userinfo', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        userInfo.value = response.data;
+        isLoggedIn.value = true;
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        isLoggedIn.value = false;
+    }
+}
+
+// 组件挂载时获取用户信息
+onMounted(() => {
+    fetchUserInfo();
 });
+
+// 退出登录
+const logout = () => {
+    localStorage.removeItem('token');
+    isLoggedIn.value = false;
+    userInfo.value = null;
+}
+
 
 // const searchActivities = () => {
 //     // Here you would typically make an API call to search for activities
@@ -231,62 +261,42 @@ const fullName = computed(() => {
 //     { id: 8, name: '冬季送温暖', date: '2023-12-20', status: '批准', organizer: '慈善协会', hours: 54 },
 // ])
 
-const activities = ref([])
 
+
+// 进行活动搜索
 const searchActivities = async () => {
     const { firstName, lastName } = searchQuery.value.fullName;
     const { UID } = searchQuery.value;
 
     try {
-        const response = await fetch('https://apifoxmock.com/m1/5071700-4733256-default/api/searchActivities', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ firstName, lastName, UID })
+        const response = await axios.post('https://apifoxmock.com/m1/5071700-4733256-default/api/searchActivities', {
+            firstName,
+            lastName,
+            UID
         });
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        activities.value = data; // 更新活动数据到前端
+        activities.value = response.data; // 更新活动数据到前端
     } catch (error) {
         console.error('Error fetching activities:', error);
     }
 }
 
-const sortedActivities = computed(() => {
-    return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date)) // 修正为从旧到新排序
-})
-
-const totalHours = computed(() => {
-    return activities.value.reduce((sum, activity) => sum + activity.hours, 0);
-});
-
-const toggleLoginStatus = () => {
-    isLoggedIn.value = !isLoggedIn.value
-    totalHours.value = isLoggedIn.value ? 41 : 99
-}
-
 const getStatusClass = (status) => {
     switch (status) {
         case '批准':
-            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800'
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800';
         case '驳回':
-            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800'
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800';
         case '取消':
-            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800'
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800';
         default:
-            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800'
+            return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800';
     }
 }
 
 const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' }
-    const formattedDate = date.toLocaleDateString('en-US', options) // 转为美国格式 (MM/DD/YYYY)
-    return formattedDate
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return date.toLocaleDateString('en-US', options); // 格式为 MM/DD/YYYY
 }
 </script>
