@@ -110,57 +110,64 @@
                 <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
             </div>
 
-            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-x-auto overflow-y-auto scrollable-container">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                活动名称
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                参与时间
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                活动状态
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                活动举办人
-                            </th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                计入小时数
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <template v-if="activities.length === 0">
-                            <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    暂无数据。请去添加申报数据或查看可选活动。
-                                </td>
-                            </tr>
-                        </template>
-                        <template v-else>
-                            <tr v-for="activity in sortedActivities" :key="activity.id" class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
-                                    formatDate(activity.date) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                    <span :class="getStatusClass(activity.status)">
-                                        {{ activity.status }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ activity.organizer }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours }}</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <div class="overflow-hidden border-b border-gray-200 shadow-sm sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        活动名称
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        参与时间
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        活动状态
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        活动举办人
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        计入小时数
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <template v-if="activities.length === 0">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                            暂无数据。请去添加申报数据或查看可选活动。
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template v-else>
+                                    <tr v-for="activity in sortedActivities" :key="activity.id"
+                                        class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.name
+                                            }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                            formatDate(activity.date) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <span :class="getStatusClass(activity.status)">
+                                                {{ activity.status }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{
+                                            activity.organizer }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ activity.hours
+                                            }}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div class="text-center">
@@ -238,7 +245,7 @@ const searchActivities = async () => {
             },
             body: JSON.stringify({ firstName, lastName, UID })
         });
-        
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

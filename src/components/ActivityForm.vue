@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full max-w-2xl mx-auto">
+    <div class="w-full max-w-3xl mx-auto">
         <form @submit.prevent="onSubmit" class="space-y-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -253,4 +253,27 @@ const toggleLoginStatus = () => {
         });
     }
 };
+
+const submitForm = async () => {
+    try {
+        // Simulate API call to backend
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
+        // Generate unique IDs for links
+        const studentId = Math.random().toString(36).substr(2, 9)
+        const organizerId = Math.random().toString(36).substr(2, 9)
+        // Get the current URL
+        const currentUrl = window.location.href;
+
+        submissionResult.value = {
+            studentLink: `${currentUrl}/ActivityForm/${studentId}`,
+            organizerLink: `${currentUrl}/ActivityForm/${studentId}/${organizerId}`
+        }
+
+        // Here you would typically send the form data to your backend
+        console.log('Form submitted:', form)
+    } catch (error) {
+        console.error('Error submitting form:', error)
+    }
+}
 </script>

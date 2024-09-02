@@ -1,6 +1,6 @@
 <template>
   <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
-    <div class="w-full max-w-2xl mx-auto">
+    <div class="w-full max-w-3xl mx-auto">
       <h1 class="text-2xl font-bold text-blue-800 mb-6">志愿者活动申报</h1>
 
       <ActivityForm :initialForm="form" :isDisabled="isLoggedIn" @submit="submitForm"
