@@ -149,7 +149,7 @@ export default defineComponent({
 
         const handleLogin = async () => {
             try {
-                const response = await axios.post('http://localhost:3000/api/auth/login', loginForm);
+                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/login', loginForm);
                 console.log('Login Success', response.data);
 
                 // 在成功登录或注册后
@@ -167,7 +167,7 @@ export default defineComponent({
 
         const handleRegister = async () => {
             try {
-                const response = await axios.post('http://localhost:3000/api/auth/register', registerForm);
+                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/register', registerForm);
                 console.log('Registration Success', response.data);
                 alert('注册成功！正在登录…'); // 提示用户注册成功
 
