@@ -77,9 +77,9 @@
                     <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <img src="https://i.pravatar.cc/100" alt="User Avatar" class="w-16 h-16 rounded-full object-cover" />
                         <div>
-                            <h2 class="text-lg font-semibold text-blue-800">{{ fullName }}</h2>
-                            <p class="text-sm text-blue-600">ID: {{ userInfo.uid }}</p>
-                            <p class="text-sm text-blue-600">Email: {{ userInfo.interiorEmail }}</p>
+                            <h2 class="text-lg max-[425px]:text-center font-semibold text-blue-800">{{ fullName }}</h2>
+                            <p class="text-sm max-[425px]:text-center text-blue-600">ID: {{ userInfo.uid }}</p>
+                            <p class="text-sm max-[425px]:text-center text-blue-600">Email: {{ userInfo.interiorEmail }}</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                 <p class="text-xs text-red-500">数据有误？<a href="#" class="underline">点我反馈</a></p>
             </div>
 
-            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-auto">
+            <div class="bg-gray-50 rounded-md mb-4 max-h-72 overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">
                     <div class="overflow-hidden border-b border-gray-200 shadow-sm sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
