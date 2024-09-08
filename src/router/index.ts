@@ -9,6 +9,7 @@ import selfSubmission from '@/views/Activity/self-submission.vue';
 import login from '@/views/user/login.vue';
 import forget from '@/views/user/forget.vue';
 import about from '@/views/about.vue';
+import AdminPanel from '@/views/Admin/AdminPanel.vue';
 
 // Define the type of route
 // interface Route {
@@ -54,6 +55,18 @@ const routes = [
         path: '/:pathMatch(.*)*',
         component: NotFound,
         meta: { hideTitle: true },
+    },
+
+    {
+        path: '/admin',
+        component: AdminPanel,
+        children: [
+            { path: '', name: 'Dashboard', component: () => import('@/views/Admin/Dashboard.vue') },
+            { path: 'activity', name: 'ActivityManagement', component: () => import('@/views/Admin/ActivityManagement.vue') },
+            // { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
+            // { path: 'site-settings', name: 'SiteSettings', component: () => import('@/views/Admin/SiteSettings.vue') },
+            // { path: 'personal-settings', name: 'PersonalSettings', component: () => import('@/views/Admin/PersonalSettings.vue') },
+        ]
     },
 ];
 
