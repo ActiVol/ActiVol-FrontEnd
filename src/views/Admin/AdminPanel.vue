@@ -108,8 +108,8 @@ const route = useRoute()
 const currentRoute = computed(() => route.path)
 
 const navItems = [
-    { name: 'Dashboard', icon: 'mdi:view-dashboard', to: '/admin/dashboard' },
-    { name: 'Orders', icon: 'mdi:clipboard-text', to: '/admin/orders' },
+    { name: 'Dashboard', icon: 'mdi:view-dashboard', to: '/admin' },
+    { name: 'Activity', icon: 'mdi:clipboard-text', to: '/admin/activity' },
     // { name: 'Menus', icon: 'mdi:food', to: '/admin/menus' },
     // { name: 'Customers', icon: 'mdi:account-group', to: '/admin/customers' },
     // { name: 'Analytics', icon: 'mdi:chart-bar', to: '/admin/analytics' },
