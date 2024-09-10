@@ -3,7 +3,7 @@
         <!-- 搜索和过滤 -->
         <div class="mb-6 bg-white rounded-lg shadow-md p-6">
             <div class="flex flex-wrap gap-4 items-center">
-                <input @input="handleSearchInput($event.target.value)" type="text" placeholder="搜索活动或用户"
+                <input @input="handleSearchInput" type="text" placeholder="搜索活动或用户"
                     class="flex-grow p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
                 <select v-model="statusFilter"
                     class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
@@ -231,7 +231,7 @@ const totalPages = computed(() => {
 
 const fetchActivities = async () => {
     try {
-        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/admin/activities')
+        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities')
         activities.value = response.data
     } catch (error) {
         console.error('Error fetching activities:', error)
@@ -356,8 +356,9 @@ const deleteActivity = async () => {
 }
 
 // 防抖搜索输入,延迟0.8秒
-const handleSearchInput = debounce((value: string) => {
-    searchQuery.value = value
+const handleSearchInput = debounce((event: Event) => {
+    const target = event.target as HTMLInputElement
+    searchQuery.value = target.value
     updatePagination()
 }, 800)
 
