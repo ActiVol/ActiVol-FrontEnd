@@ -15,6 +15,7 @@
     "autoprefixer": "latest",
     "axios": "^1.7.2",
     "iconify-icon": "^2.1.0",
+    "lodash": "^4.17.21",
     "postcss": "latest",
     "sweetalert2": "^11.12.4",
     "tailwindcss": "latest",
