@@ -23,7 +23,7 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top navbar -->
             <header class="bg-white shadow-sm fixed w-full top-0 z-30">
-                <div class="max-w-full px-4 sm:px-6 lg:px-8">
+                <div class="max-w-full px-2 sm:px-4">
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
                             <!-- Mobile menu button -->
