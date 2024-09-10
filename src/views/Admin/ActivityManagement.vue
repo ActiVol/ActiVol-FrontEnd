@@ -75,21 +75,31 @@
             <div>
                 <select v-model="itemsPerPage" @change="updatePagination"
                     class="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <option :value="1">1条/页</option>
                     <option :value="10">10条/页</option>
                     <option :value="20">20条/页</option>
                     <option :value="50">50条/页</option>
                 </select>
             </div>
-            <div class="space-x-2">
-                <button v-for="page in totalPages" :key="page" @click="currentPage = page" :class="[
-                    'px-3 py-1 rounded-md',
-                    currentPage === page
-                        ? 'bg-indigo-500 text-white'
-                        : 'bg-white text-indigo-500 hover:bg-indigo-100'
-                ]">
+            <div class="flex flex-col items-center mt-6">
+            <div class="flex justify-center space-x-2">
+                <button @click="prevPage" :disabled="currentPage === 1"
+                    class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
+                    &laquo;
+                </button>
+                <button v-for="page in visiblePages" :key="page" @click="goToPage(page)"
+                    :class="['px-3 py-1 mx-1 border rounded-md', { 'bg-indigo-500 text-white': currentPage === page, 'bg-gray-200 hover:bg-gray-300': currentPage !== page }]">
                     {{ page }}
                 </button>
+                <button @click="nextPage" :disabled="currentPage === totalPages"
+                    class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
+                    &raquo;
+                </button>
             </div>
+            <div class="mt-2 w-full flex justify-end pr-2">
+                <span class="text-gray-500 text-sm">(共 {{ totalPages }} 页)</span>
+            </div>
+        </div>
         </div>
 
         <!-- 添加/编辑活动模态框 -->
@@ -229,6 +239,35 @@ const totalPages = computed(() => {
     return Math.ceil(activities.value.length / itemsPerPage.value)
 })
 
+const visiblePages = computed(() => {
+    const pages = []
+    const maxVisiblePages = 5
+    const startPage = Math.max(1, currentPage.value - Math.floor(maxVisiblePages / 2))
+    const endPage = Math.min(totalPages.value, startPage + maxVisiblePages - 1)
+
+    for (let i = startPage; i <= endPage; i++) {
+        pages.push(i)
+    }
+
+    return pages
+})
+
+const prevPage = () => {
+    if (currentPage.value > 1) {
+        currentPage.value--
+    }
+}
+
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++
+    }
+}
+
+const goToPage = (page: number) => {
+    currentPage.value = page
+}
+
 const fetchActivities = async () => {
     try {
         const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities')
@@ -237,6 +276,12 @@ const fetchActivities = async () => {
         console.error('Error fetching activities:', error)
         // 如果API调用失败，使用模拟数据
         activities.value = [
+            { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
+            { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
+            { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
+            { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
+            { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
+            { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
             { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
             { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
             { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
