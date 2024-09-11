@@ -41,8 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="activity in activities" :key="activity.id"
-                        :class="['activity-item', { 'opacity-50': activity.is_deleted === 1 }]">
+                    <tr v-for="activity in paginatedActivities" :key="activity.id" :class="['activity-item', { 'opacity-50': activity.is_deleted === 1 }]">
                         <td class="p-3">{{ activity.activity_name }}</td>
                         <td class="p-3">{{ formatDate(activity.activity_date) }}</td>
                         <td class="p-3">{{ activity.hours }} 小时</td>
@@ -488,7 +487,7 @@ const restoreActivity = async (activity: Activity) => {
     }
 
     try {
-        await axios.put(`https://test-api-v.us.kjchmc.cn/api/auth/activities/delete`, {}, {
+        await axios.put(`https://test-api-v.us.kjchmc.cn/api/auth/activities/${activity.id}/restore`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
