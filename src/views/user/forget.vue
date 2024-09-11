@@ -155,8 +155,8 @@ export default defineComponent({
             password: '',
         });
 
-        const forgotPasswordForm = reactive({ 
-            email: '' 
+        const forgotPasswordForm = reactive({
+            email: ''
         });
 
         // 检查用户状态是否已登录
@@ -164,45 +164,62 @@ export default defineComponent({
             const token = localStorage.getItem('token'); // 从 localStorage 获取 token
             if (token) {
                 isLoggedIn.value = true; // 如果 token 存在，设置为已登录
-                router.push('/dashboard'); // 跳转到仪表盘或主页面
+                router.push('/admin'); // 跳转到仪表盘或主页面
             }
         };
+
+        const getDeviceInfo = async () => {
+            const ipResponse = await axios.get('https://api.ipify.org/?format=json');
+            const ip = ipResponse.data.ip;
+            const ua = navigator.userAgent;
+            const lang = navigator.language;
+            const screenSize = `${window.screen.width}x${window.screen.height}`;
+
+            return { ip, ua, lang, screenSize };
+        }
+
 
         const handleLogin = async () => {
             try {
-                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/login', loginForm);
+                const deviceInfo = await getDeviceInfo();
+                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/login', {
+                    ...loginForm,
+                    ...deviceInfo
+                });
                 console.log('Login Success', response.data);
 
-                // 在成功登录或注册后
                 const accessToken = response.data.accessToken;
-                localStorage.setItem('token', accessToken); // 将 token 存储在 localStorage 中
+                localStorage.setItem('token', accessToken);
 
-                isLoggedIn.value = true; // 更新登录状态
+                isLoggedIn.value = true;
                 alert('登录成功！');
-                router.push('/dashboard'); // 登录成功后重定向
+                router.push('/admin');
             } catch (error) {
                 console.error('Login Error:', error);
-                alert('登录失败！请检查你的用户名和密码。'); // 增加用户提示
+                alert('登录失败！请检查你的用户名和密码。');
             }
-        };
+        }
 
         const handleRegister = async () => {
             try {
-                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/register', registerForm);
+                const deviceInfo = await getDeviceInfo();
+                const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/register', {
+                    ...registerForm,
+                    ...deviceInfo
+                });
                 console.log('Registration Success', response.data);
-                alert('注册成功！正在登录…'); // 提示用户注册成功
+                alert('注册成功！正在登录…');
 
-                // 在成功登录或注册后
                 const accessToken = response.data.accessToken;
-                localStorage.setItem('token', accessToken); // 将 token 存储在 localStorage 中
+                localStorage.setItem('token', accessToken);
 
-                await handleLogin(); // 注册成功后自动登录
-                router.push('/dashboard'); // 登录后跳转
+                await handleLogin();
+                router.push('/admin');
             } catch (error) {
                 console.error('Registration Error:', error);
                 alert('注册失败！请重新检查你的信息。');
             }
-        };
+        }
 
         const handleForgotPassword = () => {
             // 处理忘记密码逻辑

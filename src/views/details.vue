@@ -261,10 +261,10 @@ const sortedActivities = computed(() => {
 
 // 调用用户信息 API
 const fetchUserInfo = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token')
     if (!token) {
-        isLoggedIn.value = false;
-        return;
+        isLoggedIn.value = false
+        return
     }
 
     try {
@@ -272,14 +272,19 @@ const fetchUserInfo = async () => {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        });
+        })
 
-        userInfo.value = response.data;
-        isLoggedIn.value = true;
-        await searchActivities(); // 用户信息获取成功后，调用 searchActivities 方法
+        userInfo.value = {
+            firstName: response.data.first_name,
+            lastName: response.data.last_name,
+            interiorEmail: response.data.interior_email,
+            uid: response.data.uid,
+            avatarUrl: response.data.avatarUrl || 'https://i.pravatar.cc/100'
+        }
+        isLoggedIn.value = true
     } catch (error) {
-        console.error('Error fetching user info:', error);
-        isLoggedIn.value = false;
+        console.error('Error fetching user info:', error)
+        isLoggedIn.value = false
     }
 }
 

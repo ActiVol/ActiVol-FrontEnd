@@ -211,8 +211,25 @@ interface Activity {
     approvalNote?: string
 }
 
+// 定义 searchQuery 的类型
+interface SearchQuery {
+    fullName: {
+        firstName: string,
+        lastName: string
+    },
+    uid: string
+}
+
+const searchQuery = ref<SearchQuery>({
+    fullName: {
+        firstName: '',
+        lastName: ''
+    },
+    uid: ''
+})
+
 const activities = ref<Activity[]>([])
-const searchQuery = ref('')
+// const searchQuery = ref('')
 const statusFilter = ref('')
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
@@ -251,10 +268,12 @@ const fetchUserInfo = async () => {
     }
 }
 
+// 分页活动的计算属性
 const paginatedActivities = computed(() => {
     const filteredActivities = activities.value.filter(activity => {
-        const matchesSearch = activity.activity_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            activity.uid.toLowerCase().includes(searchQuery.value.toLowerCase())
+        const matchesSearch = activity.activity_name.toLowerCase().includes(searchQuery.value.fullName.firstName.toLowerCase()) ||
+            activity.activity_name.toLowerCase().includes(searchQuery.value.fullName.lastName.toLowerCase()) ||
+            activity.uid.toLowerCase().includes(searchQuery.value.uid.toLowerCase())
         const matchesStatus = !statusFilter.value || activity.status === statusFilter.value
         return matchesSearch && matchesStatus
     })
@@ -264,6 +283,7 @@ const paginatedActivities = computed(() => {
     return filteredActivities.slice(start, end)
 })
 
+// 总页数的计算属性
 const totalPages = computed(() => {
     return Math.ceil(activities.value.length / itemsPerPage.value)
 })
@@ -302,7 +322,6 @@ const fetchActivities = async () => {
     try {
         const token = localStorage.getItem('token')
         if (isLoggedIn.value && token) {
-            // 用户已登录，使用 JWT 进行查询
             const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -310,38 +329,16 @@ const fetchActivities = async () => {
             })
             activities.value = response.data
         } else {
-            // 未登录则禁止
-            console.log('未登录')
-            // 如果API调用失败，使用模拟数据
-            activities.value = [
-                {
-                    id: 4,
-                    uid: "123456",
-                    activity_name: "Test Activity",
-                    activity_date: "2023-05-15T04:00:00.000Z",
-                    status: "approved",
-                    organizer: "John Doe",
-                    hours: 1
-                },
-                {
-                    id: 5,
-                    uid: "123456",
-                    activity_name: "Test Activity",
-                    activity_date: "2023-02-12T04:00:00.000Z",
-                    status: "approved",
-                    organizer: "John Doe",
-                    hours: 5
-                },
-                {
-                    id: 6,
-                    uid: "123456",
-                    activity_name: "Test Activity",
-                    activity_date: "2022-11-08T04:00:00.000Z",
-                    status: "pending",
-                    organizer: "John Doe",
-                    hours: 5
+            const { firstName, lastName } = searchQuery.value.fullName as { firstName: string, lastName: string };
+            const uid = searchQuery.value.uid as string;
+            const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
+                params: {
+                    firstName,
+                    lastName,
+                    uid
                 }
-            ]
+            })
+            activities.value = response.data
         }
     } catch (error) {
         console.error('Error fetching activities:', error)
@@ -419,11 +416,17 @@ const closeActivityModal = () => {
 const submitActivity = async () => {
     try {
         if (editingActivity.value) {
-            // 更新现有活动
-            await axios.put(`https://test-api-v.us.kjchmc.cn/api/admin/activities/${editingActivity.value.id}`, currentActivity.value)
+            await axios.put(`https://test-api-v.us.kjchmc.cn/api/auth/activities/update`, currentActivity.value, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
         } else {
-            // 添加新活动
-            await axios.post('https://test-api-v.us.kjchmc.cn/api/admin/activities', currentActivity.value)
+            await axios.post(`https://test-api-v.us.kjchmc.cn/api/auth/activities/add`, currentActivity.value, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
         }
         await fetchActivities()
         closeActivityModal()
@@ -471,7 +474,12 @@ const deleteActivity = async () => {
     if (!activityToDelete.value) return
 
     try {
-        await axios.delete(`https://test-api-v.us.kjchmc.cn/api/admin/activities/${activityToDelete.value.id}`)
+        await axios.delete(`https://test-api-v.us.kjchmc.cn/api/auth/activities/delete`, {
+            data: { id: activityToDelete.value.id },
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
         await fetchActivities()
         closeDeleteConfirmModal()
     } catch (error) {
@@ -483,7 +491,9 @@ const deleteActivity = async () => {
 // 防抖搜索输入,延迟0.8秒
 const handleSearchInput = debounce((event: Event) => {
     const target = event.target as HTMLInputElement
-    searchQuery.value = target.value
+    const [firstName, lastName] = target.value.split(' ')
+    searchQuery.value.fullName.firstName = firstName || ''
+    searchQuery.value.fullName.lastName = lastName || ''
     updatePagination()
 }, 800)
 
