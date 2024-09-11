@@ -42,10 +42,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="activity in paginatedActivities" :key="activity.id" class="border-b hover:bg-gray-50">
-                        <td class="p-3">{{ activity.name }}</td>
-                        <td class="p-3">{{ formatDate(activity.date) }}</td>
+                        <td class="p-3">{{ activity.activity_name }}</td>
+                        <td class="p-3">{{ formatDate(activity.activity_date) }}</td>
                         <td class="p-3">{{ activity.hours }} 小时</td>
-                        <td class="p-3">{{ activity.userId }}</td>
+                        <td class="p-3">{{ activity.uid }}</td>
                         <td class="p-3">
                             <span :class="getStatusClass(activity.status)">
                                 {{ getStatusText(activity.status) }}
@@ -82,24 +82,24 @@
                 </select>
             </div>
             <div class="flex flex-col items-center mt-6">
-            <div class="flex justify-center space-x-2">
-                <button @click="prevPage" :disabled="currentPage === 1"
-                    class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
-                    &laquo;
-                </button>
-                <button v-for="page in visiblePages" :key="page" @click="goToPage(page)"
-                    :class="['px-3 py-1 mx-1 border rounded-md', { 'bg-indigo-500 text-white': currentPage === page, 'bg-gray-200 hover:bg-gray-300': currentPage !== page }]">
-                    {{ page }}
-                </button>
-                <button @click="nextPage" :disabled="currentPage === totalPages"
-                    class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
-                    &raquo;
-                </button>
+                <div class="flex justify-center space-x-2">
+                    <button @click="prevPage" :disabled="currentPage === 1"
+                        class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
+                        &laquo;
+                    </button>
+                    <button v-for="page in visiblePages" :key="page" @click="goToPage(page)"
+                        :class="['px-3 py-1 mx-1 border rounded-md', { 'bg-indigo-500 text-white': currentPage === page, 'bg-gray-200 hover:bg-gray-300': currentPage !== page }]">
+                        {{ page }}
+                    </button>
+                    <button @click="nextPage" :disabled="currentPage === totalPages"
+                        class="px-3 py-1 mx-1 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50">
+                        &raquo;
+                    </button>
+                </div>
+                <div class="mt-2 w-full flex justify-end pr-2">
+                    <span class="text-gray-500 text-sm">(共 {{ totalPages }} 页)</span>
+                </div>
             </div>
-            <div class="mt-2 w-full flex justify-end pr-2">
-                <span class="text-gray-500 text-sm">(共 {{ totalPages }} 页)</span>
-            </div>
-        </div>
         </div>
 
         <!-- 添加/编辑活动模态框 -->
@@ -108,12 +108,12 @@
             <form @submit.prevent="submitActivity" class="space-y-4">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">活动名称</label>
-                    <input id="name" v-model="currentActivity.name" type="text" required
+                    <input id="name" v-model="currentActivity.activity_name" type="text" required
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
                 </div>
                 <div>
                     <label for="date" class="block text-sm font-medium text-gray-700">日期</label>
-                    <input id="date" v-model="currentActivity.date" type="date" required
+                    <input id="date" v-model="currentActivity.activity_date" type="date" required
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
                 </div>
                 <div>
@@ -123,7 +123,7 @@
                 </div>
                 <div>
                     <label for="userId" class="block text-sm font-medium text-gray-700">用户ID</label>
-                    <input id="userId" v-model="currentActivity.userId" type="text" required
+                    <input id="userId" v-model="currentActivity.uid" type="text" required
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
                 </div>
                 <div>
@@ -146,7 +146,7 @@
         <!-- 审核活动模态框 -->
         <Modal v-if="showApproveModalFlag" @close="closeApproveModal">
             <h2 class="text-2xl font-bold mb-4">审核活动</h2>
-            <p class="mb-4">您正在审核活动：{{ currentActivity.name }}</p>
+            <p class="mb-4">您正在审核活动：{{ currentActivity.activity_name }}</p>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">更新状态</label>
@@ -178,7 +178,7 @@
         <!-- 确认删除模态框 -->
         <Modal v-if="showDeleteConfirmModal" @close="closeDeleteConfirmModal">
             <h2 class="text-2xl font-bold mb-4">确认删除</h2>
-            <p class="mb-4">您确定要删除活动 "{{ activityToDelete?.name }}" 吗？此操作不可撤销。</p>
+            <p class="mb-4">您确定要删除活动 "{{ activityToDelete?.activity_name }}" 吗？此操作不可撤销。</p>
             <div class="flex justify-end space-x-3">
                 <button @click="closeDeleteConfirmModal"
                     class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
@@ -201,11 +201,12 @@ import debounce from 'lodash/debounce'
 
 interface Activity {
     id: number
-    name: string
-    date: string
+    uid: string
+    activity_name: string
+    activity_date: string
     hours: number
-    userId: string
     status: string
+    organizer: string
     description?: string
     approvalNote?: string
 }
@@ -222,10 +223,38 @@ const editingActivity = ref<Activity | null>(null)
 const currentActivity = ref<Partial<Activity>>({})
 const activityToDelete = ref<Activity | null>(null)
 
+const isLoggedIn = ref(false)
+const userInfo = ref(null)
+// const sortedActivities = computed(() => {
+//     return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date))
+// })
+
+const fetchUserInfo = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+        isLoggedIn.value = false
+        return
+    }
+
+    try {
+        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/userinfo', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        userInfo.value = response.data
+        isLoggedIn.value = true
+    } catch (error) {
+        console.error('Error fetching user info:', error)
+        isLoggedIn.value = false
+    }
+}
+
 const paginatedActivities = computed(() => {
     const filteredActivities = activities.value.filter(activity => {
-        const matchesSearch = activity.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            activity.userId.toLowerCase().includes(searchQuery.value.toLowerCase())
+        const matchesSearch = activity.activity_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+            activity.uid.toLowerCase().includes(searchQuery.value.toLowerCase())
         const matchesStatus = !statusFilter.value || activity.status === statusFilter.value
         return matchesSearch && matchesStatus
     })
@@ -268,23 +297,74 @@ const goToPage = (page: number) => {
     currentPage.value = page
 }
 
+
 const fetchActivities = async () => {
     try {
-        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities')
-        activities.value = response.data
+        const token = localStorage.getItem('token')
+        if (isLoggedIn.value && token) {
+            // 用户已登录，使用 JWT 进行查询
+            const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            activities.value = response.data
+        } else {
+            // 未登录则禁止
+            console.log('未登录')
+            // 如果API调用失败，使用模拟数据
+            activities.value = [
+                {
+                    id: 4,
+                    uid: "123456",
+                    activity_name: "Test Activity",
+                    activity_date: "2023-05-15T04:00:00.000Z",
+                    status: "approved",
+                    organizer: "John Doe",
+                    hours: 1
+                },
+                {
+                    id: 5,
+                    uid: "123456",
+                    activity_name: "Test Activity",
+                    activity_date: "2023-02-12T04:00:00.000Z",
+                    status: "approved",
+                    organizer: "John Doe",
+                    hours: 5
+                },
+                {
+                    id: 6,
+                    uid: "123456",
+                    activity_name: "Test Activity",
+                    activity_date: "2022-11-08T04:00:00.000Z",
+                    status: "pending",
+                    organizer: "John Doe",
+                    hours: 5
+                }
+            ]
+        }
     } catch (error) {
         console.error('Error fetching activities:', error)
         // 如果API调用失败，使用模拟数据
         activities.value = [
-            { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
-            { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
-            { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
-            { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
-            { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
-            { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
-            { id: 1, name: '海滩清洁', date: '2023-06-15', hours: 4, userId: 'user1', status: 'approved' },
-            { id: 2, name: '食品募捐', date: '2023-06-20', hours: 3, userId: 'user2', status: 'pending' },
-            { id: 3, name: '植树活动', date: '2023-06-25', hours: 5, userId: 'user3', status: 'approved' },
+            {
+                id: 4,
+                uid: "123456",
+                activity_name: "Test Activity",
+                activity_date: "2023-05-15T04:00:00.000Z",
+                status: "approved",
+                organizer: "John Doe",
+                hours: 1
+            },
+            {
+                id: 5,
+                uid: "123456",
+                activity_name: "Test Activity",
+                activity_date: "2023-02-12T04:00:00.000Z",
+                status: "approved",
+                organizer: "John Doe",
+                hours: 5
+            }
         ]
     }
 }
@@ -407,5 +487,9 @@ const handleSearchInput = debounce((event: Event) => {
     updatePagination()
 }, 800)
 
-onMounted(fetchActivities)
+// onMounted(fetchActivities)
+onMounted(async () => {
+    await fetchUserInfo()
+    await fetchActivities()
+})
 </script>
