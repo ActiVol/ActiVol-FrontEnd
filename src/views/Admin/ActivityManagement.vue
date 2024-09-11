@@ -41,7 +41,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="activity in paginatedActivities" :key="activity.id" class="border-b hover:bg-gray-50">
+                    <tr v-for="activity in activities" :key="activity.id"
+                        :class="['activity-item', { 'opacity-50': activity.is_deleted === 1 }]">
                         <td class="p-3">{{ activity.activity_name }}</td>
                         <td class="p-3">{{ formatDate(activity.activity_date) }}</td>
                         <td class="p-3">{{ activity.hours }} 小时</td>
@@ -56,12 +57,16 @@
                                 title="编辑">
                                 <Icon icon="mdi:pencil" />
                             </button>
-                            <button @click="confirmDeleteActivity(activity)"
+                            <button v-if="activity.is_deleted === 1" @click="restoreActivity(activity)"
+                                class="text-yellow-500 hover:text-yellow-700 mr-2" title="恢复">
+                                <Icon icon="mdi:restore" />
+                            </button>
+                            <button v-else @click="confirmDeleteActivity(activity)"
                                 class="text-red-500 hover:text-red-700 mr-2" title="删除">
                                 <Icon icon="mdi:delete" />
                             </button>
-                            <button v-if="activity.status === 'pending'" @click="showApproveModal(activity)"
-                                class="text-green-500 hover:text-green-700" title="审核">
+                            <button @click="showReviewModal(activity)" class="text-green-500 hover:text-green-700"
+                                title="审核">
                                 <Icon icon="mdi:check-circle" />
                             </button>
                         </td>
@@ -128,25 +133,24 @@
                 </div>
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700">描述</label>
-                    <textarea id="description" v-model="currentActivity.description" rows="3"
+                    <textarea id="description" v-model="currentActivity.description" required
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
                 </div>
-                <div class="flex justify-end space-x-3">
-                    <button type="button" @click="closeActivityModal"
-                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-                        取消
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">
-                        {{ editingActivity ? '保存修改' : '添加活动' }}
-                    </button>
-                </div>
+                <button type="submit" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">{{ editingActivity ? '保存' :
+                    '添加' }}</button>
             </form>
         </Modal>
 
         <!-- 审核活动模态框 -->
-        <Modal v-if="showApproveModalFlag" @close="closeApproveModal">
+        <Modal v-if="showReviewModalFlag" @close="closeReviewModal">
             <h2 class="text-2xl font-bold mb-4">审核活动</h2>
             <p class="mb-4">您正在审核活动：{{ currentActivity.activity_name }}</p>
+            <div class="mb-2">
+                <p>活动名称: {{ currentActivity.activity_name }}</p>
+                <p>组织者: {{ currentActivity.organizer }}</p>
+                <p>描述: {{ currentActivity.description }}</p>
+                <p>状态: {{ getStatusText(currentActivity.status ?? '') }}</p>
+            </div>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">更新状态</label>
@@ -163,11 +167,11 @@
                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
                 </div>
                 <div class="flex justify-end space-x-3">
-                    <button @click="closeApproveModal"
+                    <button @click="closeReviewModal"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
                         取消
                     </button>
-                    <button @click="submitApproval"
+                    <button @click="submitReview"
                         class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
                         提交审核
                     </button>
@@ -209,6 +213,7 @@ interface Activity {
     organizer: string
     description?: string
     approvalNote?: string
+    is_deleted: number
 }
 
 // 定义 searchQuery 的类型
@@ -234,7 +239,7 @@ const statusFilter = ref('')
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
 const showAddActivityModal = ref(false)
-const showApproveModalFlag = ref(false)
+const showReviewModalFlag = ref(false)
 const showDeleteConfirmModal = ref(false)
 const editingActivity = ref<Activity | null>(null)
 const currentActivity = ref<Partial<Activity>>({})
@@ -351,7 +356,8 @@ const fetchActivities = async () => {
                 activity_date: "2023-05-15T04:00:00.000Z",
                 status: "approved",
                 organizer: "John Doe",
-                hours: 1
+                hours: 1,
+                is_deleted: 0
             },
             {
                 id: 5,
@@ -360,7 +366,8 @@ const fetchActivities = async () => {
                 activity_date: "2023-02-12T04:00:00.000Z",
                 status: "approved",
                 organizer: "John Doe",
-                hours: 5
+                hours: 5,
+                is_deleted: 0
             }
         ]
     }
@@ -436,26 +443,59 @@ const submitActivity = async () => {
     }
 }
 
-const showApproveModal = (activity: Activity) => {
+const showReviewModal = (activity: Activity) => {
     currentActivity.value = { ...activity }
-    showApproveModalFlag.value = true
+    showReviewModalFlag.value = true
 }
 
-const closeApproveModal = () => {
-    showApproveModalFlag.value = false
+const closeReviewModal = () => {
+    showReviewModalFlag.value = false
     currentActivity.value = {}
 }
 
-const submitApproval = async () => {
+// 管理员审核活动
+const submitReview = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+        console.error('No token found')
+        return
+    }
+
     try {
-        await axios.put(`https://test-api-v.us.kjchmc.cn/api/admin/activities/${currentActivity.value.id}/approve`, {
+        await axios.put('https://test-api-v.us.kjchmc.cn/api/auth/activities/review', {
+            id: currentActivity.value.id,
             status: currentActivity.value.status,
-            approvalNote: currentActivity.value.approvalNote
+            admin_comment: currentActivity.value.approvalNote // 将 approvalNote 映射为 admin_comment
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         })
         await fetchActivities()
-        closeApproveModal()
+        closeReviewModal()
     } catch (error) {
-        console.error('Error submitting approval:', error)
+        console.error('Error submitting review:', error)
+        // 处理错误，例如显示错误消息给用户
+    }
+}
+
+// 恢复活动
+const restoreActivity = async (activity: Activity) => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+        console.error('No token found')
+        return
+    }
+
+    try {
+        await axios.put(`https://test-api-v.us.kjchmc.cn/api/auth/activities/delete`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        await fetchActivities()
+    } catch (error) {
+        console.error('Error restoring activity:', error)
         // 处理错误，例如显示错误消息给用户
     }
 }
