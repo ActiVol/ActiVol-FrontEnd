@@ -244,25 +244,26 @@
                           ? 'mdi:chevron-up'
                           : 'mdi:chevron-down'
                       "
+                      class="mt-1 w-5 h-5"
                     />
                   </button>
                   <button
                     @click.stop="editActivity(activity)"
                     class="text-green-600 hover:text-green-900 mr-2"
                   >
-                    <Icon icon="mdi:pencil" />
+                    <Icon icon="mdi:pencil" class="mt-1 w-5 h-5" />
                   </button>
                   <button
                     @click.stop="deleteActivity(activity.id)"
                     class="text-red-600 hover:text-red-900 mr-2"
                   >
-                    <Icon icon="mdi:delete" />
+                    <Icon icon="mdi:delete" class="mt-1 w-5 h-5" />
                   </button>
                   <button
                     @click.stop="openReviewModal(activity)"
                     class="text-blue-600 hover:text-blue-900"
                   >
-                    <Icon icon="mdi:clipboard-check" />
+                    <Icon icon="mdi:clipboard-check" class="mt-1 w-5 h-5" />
                   </button>
                 </td>
               </tr>
@@ -270,7 +271,7 @@
                 <td colspan="100%" class="p-3">
                   <div :class="getDetailBackgroundClass(activity.status)">
                     <div
-                      class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                      class="p-4 grid grid-cols-2 lg:grid-cols-3 gap-4"
                     >
                       <div>
                         <h4 class="font-semibold text-gray-700">描述</h4>
@@ -595,15 +596,18 @@ const expandedRows = ref<number[]>([]);
 const columns = [
   { key: "activity_name", label: "活动名称" },
   { key: "activity_date", label: "日期" },
+  { key: "uid", label: "UID" },
   { key: "hours", label: "时长" },
-  { key: "status", label: "状态" },
   { key: "organizer_name", label: "组织者" },
+  { key: "status", label: "状态" },
 ];
 const visibleColumns = ref([
   "activity_name",
   "activity_date",
+  "hours",
+  "uid",
   "status",
-  "organizer_name",
+  // "organizer_name",
 ]);
 const searchExpanded = ref(false);
 const showColumnSettings = ref(false);
@@ -689,10 +693,10 @@ const toggleColumnSettings = () => {
       const rect = columnSettingsRef.value?.getBoundingClientRect();
       if (rect) {
         const viewportWidth = window.innerWidth;
-        if (rect.right > viewportWidth) {
-          columnSettingsPosition.value = "right-0";
-        } else {
+        if (viewportWidth < 768) {
           columnSettingsPosition.value = "left-0";
+        } else {
+          columnSettingsPosition.value = "right-0";
         }
       }
     }
