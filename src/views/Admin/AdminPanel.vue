@@ -1,17 +1,10 @@
 <template>
     <div class="flex h-screen bg-gray-50">
         <!-- Sidebar -->
-        <aside :class="`bg-blue-100 fixed left-0 top-16 h-[calc(100%-4rem)] z-20 transition-all duration-300 ease-in-out ${isMobile
-                ? isSidebarOpen ? 'w-64' : '-ml-5 w-0'
-                : isSidebarOpen ? 'w-64' : 'w-20'
-            }`" class="flex flex-col border-r border-blue-200 overflow-hidden">
+        <aside :class="`bg-white fixed left-0 top-16 h-[calc(100%-4rem)] z-20 transition-all duration-300 ease-in-out ${isMobile ? (isSidebarOpen ? 'w-64' : '-ml-64') : isSidebarOpen ? 'w-64' : 'w-20'
+            }`" class="flex flex-col border-r border-blue-100 overflow-hidden">
             <nav class="flex-1 overflow-y-auto pt-4">
-                <router-link v-for="item in navItems" :key="item.name" :to="item.to" @click="handleItemClick"
-                    class="flex items-center px-6 py-2 text-blue-600 hover:bg-blue-200 hover:text-blue-800"
-                    :class="{ 'bg-blue-200 text-blue-800': currentRoute === item.to, 'justify-center': !isSidebarOpen }">
-                    <Icon :icon="item.icon" class="w-5 h-5" :class="{ 'mr-3': isSidebarOpen }" />
-                    <span v-if="isSidebarOpen">{{ item.name }}</span>
-                </router-link>
+                <Sidebar :items="navItems" :collapsed="!isSidebarOpen" />
             </nav>
         </aside>
 
@@ -39,27 +32,6 @@
                             </div>
                         </div>
                         <div class="flex items-center">
-                            <!-- Search bar -->
-                            <!-- <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
-                                <div class="max-w-lg w-full lg:max-w-xs">
-                                    <label for="search" class="sr-only">Search</label>
-                                    <div class="relative">
-                                        <div
-                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <Icon icon="mdi:magnify" class="h-5 w-5 text-gray-400" />
-                                        </div>
-                                        <input id="search" name="search"
-                                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                            placeholder="Search" type="search">
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- Notification bell -->
-                            <button
-                                class="ml-4 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                <span class="sr-only">View notifications</span>
-                                <Icon icon="mdi:bell" class="h-6 w-6" />
-                            </button>
                             <!-- Profile dropdown -->
                             <div class="ml-3 relative">
                                 <div>
@@ -100,20 +72,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { Icon } from '@iconify/vue'
+import Sidebar from '@/components/Admin/Sidebar.vue'
 
-const route = useRoute()
-const currentRoute = computed(() => route.path)
+interface MenuItem {
+    name: string
+    icon?: string
+    to?: string
+    children?: MenuItem[]
+    isOpen?: boolean
+}
 
-const navItems = [
-    { name: 'Dashboard', icon: 'mdi:view-dashboard', to: '/admin' },
-    { name: 'Activity', icon: 'mdi:clipboard-text', to: '/admin/activity' },
-    // { name: 'Menus', icon: 'mdi:food', to: '/admin/menus' },
-    // { name: 'Customers', icon: 'mdi:account-group', to: '/admin/customers' },
-    // { name: 'Analytics', icon: 'mdi:chart-bar', to: '/admin/analytics' },
-]
+const navItems = reactive<MenuItem[]>([
+    { name: '首页', icon: 'mdi:home', to: '/admin' },
+    { name: '活动管理', icon: 'mdi:calendar', to: '/admin/activity' },
+    { name: '用户管理', icon: 'mdi:account-group', to: '/admin/user' },
+    {
+        name: '文档',
+        icon: 'mdi:file-document-outline',
+        children: [
+            { name: '文档1', to: '/admin/doc1' },
+            { name: '文档2', to: '/admin/doc2' },
+        ]
+    },
+    {
+        name: '系统功能',
+        icon: 'mdi:cog-outline',
+        children: [
+            { name: '功能1', to: '/admin/feature1' },
+            { name: '功能2', to: '/admin/feature2' },
+        ]
+    },
+    {
+        name: '插件示例',
+        icon: 'mdi:puzzle-outline',
+        children: [
+            { name: '示例1', to: '/admin/plugin1' },
+            { name: '示例2', to: '/admin/plugin2' },
+        ]
+    },
+    {
+        name: '多级菜单',
+        icon: 'mdi:menu',
+        children: [
+            {
+                name: '菜单一',
+                children: [
+                    { name: '菜单一子菜单', to: '/admin/menu1-1' }
+                ]
+            },
+            {
+                name: '菜单二',
+                children: [
+                    {
+                        name: '菜单二子菜单',
+                        children: [
+                            { name: '菜单二子子菜单', to: '/admin/menu2-1-1' }
+                        ]
+                    }
+                ]
+            },
+        ]
+    },
+    {
+        name: '系统管理',
+        icon: 'mdi:cog',
+        children: [
+            { name: '用户管理', icon: 'mdi:account-cog', to: '/admin/users' },
+            { name: '角色管理', icon: 'mdi:account-group', to: '/admin/roles' },
+            { name: '菜单管理', icon: 'mdi:menu-open', to: '/admin/menus' },
+        ]
+    },
+    { name: '关于', icon: 'mdi:information-outline', to: '/admin/about' },
+])
 
 const isProfileMenuOpen = ref(false)
 const isSidebarOpen = ref(true)
@@ -125,12 +157,6 @@ const toggleProfileMenu = () => {
 
 const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value
-}
-
-const handleItemClick = () => {
-    if (isMobile.value) {
-        toggleSidebar();
-    }
 }
 
 const checkMobile = () => {

@@ -1,51 +1,86 @@
 <template>
-    <aside
-        class="bg-white text-gray-800 w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out shadow-lg">
-        <div class="flex items-center space-x-2 px-4">
-            <Icon icon="mdi:school" class="w-8 h-8 text-primary" />
-            <span class="text-2xl font-extrabold text-primary">VolunteerAdmin</span>
-        </div>
-        <nav>
-            <template v-for="item in menuItems" :key="item.name">
-                <a @click="setActiveItem(item.name)"
-                    class="block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-primary hover:text-white"
-                    :class="{ 'bg-primary text-white': activeItem === item.name }">
-                    <Icon :icon="item.icon" class="inline-block mr-2" />
-                    {{ item.name }}
-                </a>
-            </template>
-        </nav>
-    </aside>
+    <ul class="space-y-2">
+        <li v-for="item in items" :key="item.name">
+            <router-link v-if="item.to" :to="item.to"
+                class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-150 ease-in-out"
+                :class="{ 'bg-blue-100 text-blue-600': isActive(item) }">
+                <div :class="{ 'w-full flex justify-center': collapsed }">
+                    <Icon v-if="item.icon" :icon="item.icon" class="w-6 h-6 text-gray-500"
+                        :class="{ 'mr-3': !collapsed }" />
+                </div>
+                <span v-if="!collapsed" class="flex-1">{{ item.name }}</span>
+            </router-link>
+            <div v-else @click="toggleSubmenu(item)"
+                class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-150 ease-in-out"
+                :class="{ 'bg-blue-100 text-blue-600': isActive(item) }">
+                <div :class="{ 'w-full flex justify-center': collapsed }">
+                    <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5 text-gray-500"
+                        :class="{ 'mr-3': !collapsed }" />
+                </div>
+                <span v-if="!collapsed" class="flex-1">{{ item.name }}</span>
+                <Icon v-if="!collapsed && item.children" :icon="item.isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'"
+                    class="w-5 h-5 text-gray-500" />
+            </div>
+            <div v-if="!collapsed && item.children && item.isOpen" :class="{ 'ml-8': item.icon, 'ml-9': !item.icon }">
+                <Sidebar :items="item.children" :collapsed="collapsed" />
+            </div>
+        </li>
+    </ul>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useRoute } from 'vue-router'
+import { reactive, watch } from 'vue'
 
-const emit = defineEmits(['change-view'])
+const route = useRoute()
 
-const menuItems = [
-    { name: 'Dashboard', icon: 'mdi:view-dashboard' },
-    { name: 'ActivityManagement', icon: 'mdi:calendar' },
-    { name: 'UserManagement', icon: 'mdi:account-group' },
-    { name: 'SiteSettings', icon: 'mdi:cog' },
-    { name: 'PersonalSettings', icon: 'mdi:account-cog' },
-]
-
-const activeItem = ref('Dashboard')
-
-const setActiveItem = (item: string) => {
-    activeItem.value = item
-    emit('change-view', item)
+interface MenuItem {
+    name: string
+    icon?: string
+    to?: string
+    children?: MenuItem[]
+    isOpen?: boolean
 }
+
+const props = defineProps<{
+    items: MenuItem[]
+    collapsed: boolean
+}>()
+
+const toggleSubmenu = (item: MenuItem) => {
+    if (item.children) {
+        item.isOpen = !item.isOpen
+    }
+}
+
+const isActive = (item: MenuItem): boolean => {
+    if (item.to) {
+        return route.path === item.to
+    }
+    return item.children ? item.children.some(isActive) : false
+}
+
+// Make items reactive to ensure changes are reflected in the template
+const reactiveItems = reactive(props.items)
+
+// Watch for route changes to update active states
+watch(
+    () => route.path,
+    () => {
+        updateActiveStates(reactiveItems)
+    }
+)
+
+const updateActiveStates = (items: MenuItem[]) => {
+    items.forEach(item => {
+        if (item.children) {
+            item.isOpen = isActive(item)
+            updateActiveStates(item.children)
+        }
+    })
+}
+
+// Initial update of active states
+updateActiveStates(reactiveItems)
 </script>
-
-<style scoped>
-.text-primary {
-    color: var(--primary-color);
-}
-
-.bg-primary {
-    background-color: var(--primary-color);
-}
-</style>
