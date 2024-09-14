@@ -668,21 +668,41 @@ const fetchActivities = async () => {
   }
 }
 
+// Sort activities by status and date
+// pending > approved > rejected
+// Sort by date in descending order, then by created_at in ascending order if the activity_date are the same
 const sortActivities = (activities: Activity[]) => {
   return activities.sort((a, b) => {
-    if (a.status === 'pending' && b.status === 'pending') {
-      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime();
+    const dateA = new Date(a.activity_date).getTime();
+    const dateB = new Date(b.activity_date).getTime();
+
+    const createdAtA = a.created_at ? new Date(a.created_at).getTime() : 0;
+    const createdAtB = b.created_at ? new Date(b.created_at).getTime() : 0;
+
+    const statusPriority = (status: string) => {
+      switch (status) {
+        case 'pending':
+          return 1;
+        case 'unknown':
+          return 2;
+        case 'rejected':
+          return 3;
+        case 'approved':
+          return 4;
+        default:
+          return 5;
+      }
+    };
+
+    if (dateA !== dateB) {
+      return dateB - dateA; // 最新日期在上
     }
-    if (a.status === 'approved' && b.status === 'approved') {
-      return new Date(b.activity_date).getTime() - new Date(a.activity_date).getTime();
+
+    if (createdAtA !== createdAtB) {
+      return createdAtA - createdAtB; // 创建时间较早的在上
     }
-    if (a.status === 'pending' && b.status === 'approved') {
-      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime() < 0 ? -1 : 1;
-    }
-    if (a.status === 'approved' && b.status === 'pending') {
-      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime() > 0 ? -1 : 1;
-    }
-    return 0;
+
+    return statusPriority(a.status) - statusPriority(b.status); // 状态优先级排序
   });
 };
 
