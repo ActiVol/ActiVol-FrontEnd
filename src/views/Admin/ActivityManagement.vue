@@ -121,7 +121,7 @@
           </button>
           <button
             @click="fetchActivities"
-            class="px-4 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 transition-colors duration-200 flex items-center mb-2 sm:mb-0"
+            class="px-4 py-2 bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors duration-200 flex items-center mb-2 sm:mb-0"
           >
             <Icon
               :icon="isLoading ? 'mdi:loading' : 'mdi:refresh'"
@@ -659,13 +659,32 @@ const fetchActivities = async () => {
       await delay(800 - elapsedTime)
     }
 
-    activities.value = newActivities
+    // Sort activities by status and date
+    activities.value = sortActivities(newActivities);
   } catch (error) {
     console.error('Error fetching activities:', error)
   } finally {
     isLoading.value = false
   }
 }
+
+const sortActivities = (activities: Activity[]) => {
+  return activities.sort((a, b) => {
+    if (a.status === 'pending' && b.status === 'pending') {
+      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime();
+    }
+    if (a.status === 'approved' && b.status === 'approved') {
+      return new Date(b.activity_date).getTime() - new Date(a.activity_date).getTime();
+    }
+    if (a.status === 'pending' && b.status === 'approved') {
+      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime() < 0 ? -1 : 1;
+    }
+    if (a.status === 'approved' && b.status === 'pending') {
+      return new Date(a.activity_date).getTime() - new Date(b.activity_date).getTime() > 0 ? -1 : 1;
+    }
+    return 0;
+  });
+};
 
 const toggleSearch = () => {
   searchExpanded.value = !searchExpanded.value;
