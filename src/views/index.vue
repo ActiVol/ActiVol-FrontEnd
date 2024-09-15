@@ -1,6 +1,6 @@
 <template>
-    <LanguageSelector />
     <Layout :breadcrumbItems="breadcrumbItems" currentPage="Home">
+    <LanguageSelector />
         <div class="bg-gray-50 rounded-lg shadow-inner px-4 sm:px-6 py-6 sm:py-8 w-full">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">{{ $t('welcomeMessage') }}</h1>
             <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">{{ $t('welcomeDescription') }}</p>

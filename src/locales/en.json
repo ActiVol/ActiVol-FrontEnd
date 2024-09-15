@@ -1,7 +1,13 @@
 {
     "languageBanner": {
         "shortMessage": "Translation in progress",
-        "longMessage": "This language is currently being translated and reviewed. Some content may not be accurate."
+        "longMessage": "This language version is being translated and reviewed. Some content may not be accurate."
+    },
+    "languagePrompt": {
+        "title": "Language Detected",
+        "message": "We've detected your browser language. Would you like to continue using this language?",
+        "confirm": "Continue",
+        "switchToEnglish": "Switch to English"
     },
     "title": "Hello, World!",
     "welcomeMessage": "Welcome to Volunteer Hours Tracker",
