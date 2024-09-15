@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200">
         <div class="flex flex-col items-center justify-between w-full max-w-5xl p-4 sm:p-6 lg:p-8">
             <Header />
             <Breadcrumb :items="breadcrumbItems" :currentPage="currentPage" />
@@ -12,15 +12,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Header from './Header.vue';
 import Footer from './Footer.vue';
 import Breadcrumb from './Breadcrumb.vue';
-
-interface BreadcrumbItem {
-    label: string;
-    path: string;
-}
+import { BreadcrumbItem } from '../types'; // 确保导入接口
 
 export default defineComponent({
     name: 'Layout',
@@ -31,12 +27,12 @@ export default defineComponent({
     },
     props: {
         breadcrumbItems: {
-            type: Array as () => BreadcrumbItem[],
-            required: false,
+            type: Array as PropType<BreadcrumbItem[]>,
+            required: true,
         },
         currentPage: {
             type: String,
-            required: false,
+            required: true,
         },
     },
 });

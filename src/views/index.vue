@@ -1,18 +1,13 @@
 <template>
-    <Layout>
-        <!-- <Breadcrumb :items="breadcrumbItems" currentPage="Home" /> -->
-        <div class="bg-amber-100 rounded-md px-4 py-3 w-full">
-            <p class="text-gray-700">This is a small container content.</p>
-            <!-- Boxes area -->
-            <div class="grid grid-cols-1 gap-4 mt-4">
-                <ListBox 
-                    v-for="(item, index) in ListBox" 
-                    :key="index" 
-                    :icon="item.icon"
-                    :title="item.title" 
-                    :content="item.content" 
-                    :path="item.path"
-                />
+    <Layout :breadcrumbItems="breadcrumbItems" currentPage="Home">
+        <div class="bg-gray-50 rounded-lg shadow-inner px-4 sm:px-6 py-6 sm:py-8 w-full">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">Welcome to Volunteer Hours Tracker
+            </h1>
+            <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">Track and manage your volunteer hours efficiently
+                with our easy-to-use platform.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <ListBox v-for="(item, index) in listBoxItems" :key="index" :icon="item.icon" :title="item.title"
+                    :content="item.content" :path="item.path" :color="item.color" />
             </div>
         </div>
     </Layout>
@@ -21,28 +16,27 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Layout from '../components/Layout.vue';
-// import Breadcrumb from '../components/Breadcrumb.vue';
 import ListBox from '../components/ListBox.vue';
+import { BreadcrumbItem, ListBoxItem } from '../types'; // 导入接口
 
 export default defineComponent({
     name: 'IndexView',
     components: {
         Layout,
-        // Breadcrumb,
         ListBox,
     },
     data() {
         return {
-            // breadcrumbItems: [
-            //     { label: 'Home', path: '/' },
-            // ],
-            ListBox: [
-                { icon: '/icon/PencilSquare.svg', title: 'Box 1', content: 'This is the content for box 1.', path: '/subpage' },
-                { icon: '/icon/PencilSquare.svg', title: 'test', content: 'This is the content for box 2.', path: '/test' },
-                { icon: '/icon/PencilSquare.svg', title: 'Details', content: 'This is the content for box 3.', path: '/details' },
-                { icon: '/icon/PencilSquare.svg', title: 'Activities Self-submission', content: 'This is the content for box 4.', path: '/self-submission' },
-                { icon: '/icon/PencilSquare.svg', title: 'About', content: 'This is the content for box 5.', path: '/about' },
-            ],
+            breadcrumbItems: [
+                { label: 'Home', path: '/' },
+            ] as BreadcrumbItem[],
+            listBoxItems: [
+                { icon: 'mdi:clipboard-text', title: 'Log Hours', content: 'Record your volunteer activities and hours', path: '/log-hours', color: 'blue' },
+                { icon: 'mdi:chart-bar', title: 'View Statistics', content: 'Analyze your volunteering data and impact', path: '/statistics', color: 'green' },
+                { icon: 'mdi:account-group', title: 'Manage Organizations', content: 'Add and edit volunteer organizations', path: '/organizations', color: 'yellow' },
+                { icon: 'mdi:certificate', title: 'Certificates', content: 'Generate and download certificates', path: '/certificates', color: 'indigo' },
+                { icon: 'mdi:cog', title: 'Settings', content: 'Customize your account preferences', path: '/settings', color: 'purple' },
+            ] as ListBoxItem[],
         };
     },
 });
