@@ -1,5 +1,5 @@
 <template>
-    <Layout>
+    <Layout :currentPage="currentPage" :breadcrumbItems="breadcrumbItems">
         <div class="flex flex-col items-center justify-center rounded-md bg-gray-100 p-6">
             <h1 class="text-3xl md:text-4xl font-extrabold mb-4 text-rose-500 text-center drop-shadow-lg">404</h1>
             <h1 class="text-3xl md:text-4xl font-extrabold mb-4 text-blue-600 text-center drop-shadow-xl">Page Not Found</h1>
@@ -21,5 +21,13 @@ export default defineComponent({
         Layout 
     },
     name: 'NotFound',
+    data() {
+        return {
+            currentPage: '404',
+            breadcrumbItems: [
+                { text: 'Home', href: '/', label: 'Home', path: '/' },
+            ]
+        };
+    }
 });
 </script>
