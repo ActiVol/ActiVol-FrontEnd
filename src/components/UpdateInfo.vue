@@ -162,13 +162,19 @@ export default defineComponent({
 
         const formatDate = (dateString: string): string => {
             const date = new Date(dateString)
-            return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
+            return date.toLocaleDateString('zh-CN', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            })
         }
 
         onMounted(async () => {
             try {
                 // Fetch version from package.json
-                const packageResponse = await fetch('/package.json')
+                const packageResponse = await fetch('https://raw.githubusercontent.com/1834423612/test-v/master/package.json')
                 const packageData = await packageResponse.json()
                 version.value = packageData.version
 
