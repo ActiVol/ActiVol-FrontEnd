@@ -1,6 +1,6 @@
 <template>
     <router-link :to="path"
-        class="block rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden bg-white h-full flex flex-col">
+        class="rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden bg-white h-full flex flex-col">
         <div class="p-4 sm:p-6 flex items-start space-x-3 sm:space-x-4 flex-grow">
             <div :class="[`rounded-full p-2 sm:p-3 flex-shrink-0`, iconBgColor]">
                 <Icon :icon="icon" class="h-5 w-5 sm:h-6 sm:w-6 text-gray-700" />
