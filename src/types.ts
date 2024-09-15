@@ -11,3 +11,10 @@ export interface ListBoxItem {
     path: string;
     color: string;
 }
+
+export namespace LanguageTypes {
+    export interface Option {
+        code: string;
+        name: string;
+    }
+}

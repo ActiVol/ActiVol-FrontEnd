@@ -1,0 +1,18 @@
+{
+    "languageBanner": {
+        "shortMessage": "翻译进行中",
+        "longMessage": "该语言版本正在翻译和审核中。部分内容可能不准确。"
+    },
+    "welcomeMessage": "欢迎来到志愿者小时跟踪器",
+    "welcomeDescription": "使用我们易于使用的平台高效地跟踪和管理您的志愿时间。",
+    "logHours": "记录时间",
+    "logHoursContent": "记录您的志愿活动和时间",
+    "viewStatistics": "查看统计",
+    "viewStatisticsContent": "分析您的志愿数据和影响",
+    "manageOrganizations": "管理组织",
+    "manageOrganizationsContent": "添加和编辑志愿组织",
+    "certificates": "证书",
+    "certificatesContent": "生成和下载证书",
+    "settings": "设置",
+    "settingsContent": "自定义您的帐户偏好"
+}
