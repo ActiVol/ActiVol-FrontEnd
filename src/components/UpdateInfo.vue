@@ -127,17 +127,17 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import axios from 'axios'
 
-interface Dependency {
+export interface Dependency { // 确保接口是公开的
     name: string
     version: string
 }
 
-interface DependencyGroup {
+export interface DependencyGroup { // 确保接口是公开的
     production: Dependency[]
     development: Dependency[]
 }
 
-interface Commit {
+export interface Commit { // 确保接口是公开的
     sha: string
     message: string
     date: string
