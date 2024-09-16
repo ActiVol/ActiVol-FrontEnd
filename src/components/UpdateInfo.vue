@@ -22,6 +22,9 @@
                 <p class="text-gray-600 mb-4">
                     构建号：{{ commitHash }}
                 </p>
+                <p class="text-gray-600 mb-4">
+                    Master 分支的总 commit 数量：{{ commitCount }}
+                </p>
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">最近更新</h3>
                 <div class="relative ml-4">
                     <div class="absolute left-4 top-0 h-full w-0.5 bg-gray-200"></div>
@@ -154,6 +157,7 @@ export default defineComponent({
         const commitHash = ref<string>('')
         const recentUpdates = ref<Commit[]>([])
         const dependencies = ref<DependencyGroup>({ production: [], development: [] })
+        const commitCount = ref<number>(0)
 
         const tabs: { id: 'updates' | 'dependencies', name: string }[] = [
             { id: 'updates', name: '最近更新' },
@@ -192,6 +196,16 @@ export default defineComponent({
                     verified: commit.commit.verification.verified
                 }))
 
+                // Fetch total commit count from GitHub API (master branch only)
+                const commitCountResponse = await axios.get('https://api.github.com/repos/1834423612/test-v/commits?sha=master&per_page=1&page=1')
+                const linkHeader = commitCountResponse.headers.link
+                if (linkHeader) {
+                    const lastPageMatch = linkHeader.match(/&page=(\d+)>; rel="last"/)
+                    if (lastPageMatch) {
+                        commitCount.value = parseInt(lastPageMatch[1], 10)
+                    }
+                }
+
                 // Set dependencies
                 dependencies.value = {
                     production: Object.entries(packageData.dependencies).map(([name, version]) => ({ name, version: version as string })),
@@ -208,6 +222,7 @@ export default defineComponent({
             commitHash,
             recentUpdates,
             dependencies,
+            commitCount,
             tabs,
             formatDate
         }
