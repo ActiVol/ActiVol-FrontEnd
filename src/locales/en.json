@@ -10,17 +10,22 @@
         "confirm": "Use {detectedLanguage}",
         "switchToEnglish": "Switch to English"
     },
-    "title": "Hello, World!",
-    "welcomeMessage": "Welcome to Volunteer Hours Tracker",
-    "welcomeDescription": "Track and manage your volunteer hours efficiently with our easy-to-use platform.",
-    "logHours": "Log Hours",
-    "logHoursContent": "Record your volunteer activities and hours",
-    "viewStatistics": "View Statistics",
-    "viewStatisticsContent": "Analyze your volunteering data and impact",
-    "manageOrganizations": "Manage Organizations",
-    "manageOrganizationsContent": "Add and edit volunteer organizations",
-    "certificates": "Certificates",
-    "certificatesContent": "Generate and download certificates",
-    "settings": "Settings",
-    "settingsContent": "Customize your account preferences"
+    "breadcrumbs": {
+        "home": "Home"
+    },
+    "index": {
+        "title": "Hello, World!",
+        "welcomeMessage": "Welcome to Volunteer Hours Tracker",
+        "welcomeDescription": "Track and manage your volunteer hours efficiently with our easy-to-use platform.",
+        "logHours": "Log Hours",
+        "logHoursContent": "Record your volunteer activities and hours",
+        "viewStatistics": "View Statistics",
+        "viewStatisticsContent": "Analyze your volunteering data and impact",
+        "manageOrganizations": "Manage Organizations",
+        "manageOrganizationsContent": "Add and edit volunteer organizations",
+        "certificates": "Certificates",
+        "certificatesContent": "Generate and download certificates",
+        "settings": "Settings",
+        "settingsContent": "Customize your account preferences"
+    }
 }

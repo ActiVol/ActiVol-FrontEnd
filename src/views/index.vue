@@ -2,8 +2,8 @@
     <Layout :breadcrumbItems="breadcrumbItems" currentPage="Home">
     <LanguageSelector />
         <div class="bg-gray-50 rounded-lg shadow-inner px-4 sm:px-6 py-6 sm:py-8 w-full">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">{{ $t('welcomeMessage') }}</h1>
-            <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">{{ $t('welcomeDescription') }}</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">{{ $t('index.welcomeMessage') }}</h1>
+            <p class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">{{ $t('index.welcomeDescription') }}</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <ListBox v-for="(item, index) in listBoxItems" :key="index" :icon="item.icon" :title="$t(item.title)"
                     :content="$t(item.content)" :path="item.path" :color="item.color" />
@@ -30,15 +30,15 @@ export default defineComponent({
         const { t } = useI18n();
         
         const breadcrumbItems = ref([
-            { label: t('home'), path: '/' },
+            { label: t('breadcrumbs.home'), path: '/' },
         ]);
 
         const listBoxItems = ref([
-            { icon: 'mdi:clipboard-text', title: 'logHours', content: 'logHoursContent', path: '/log-hours', color: 'blue' },
-            { icon: 'mdi:chart-bar', title: 'viewStatistics', content: 'viewStatisticsContent', path: '/statistics', color: 'green' },
-            { icon: 'mdi:account-group', title: 'manageOrganizations', content: 'manageOrganizationsContent', path: '/organizations', color: 'yellow' },
-            { icon: 'mdi:certificate', title: 'certificates', content: 'certificatesContent', path: '/certificates', color: 'indigo' },
-            { icon: 'mdi:cog', title: 'settings', content: 'settingsContent', path: '/settings', color: 'purple' },
+            { icon: 'mdi:clipboard-text', title: 'index.logHours', content: 'index.logHoursContent', path: '/log-hours', color: 'blue' },
+            { icon: 'mdi:chart-bar', title: 'index.viewStatistics', content: 'index.viewStatisticsContent', path: '/statistics', color: 'green' },
+            { icon: 'mdi:account-group', title: 'index.manageOrganizations', content: 'index.manageOrganizationsContent', path: '/organizations', color: 'yellow' },
+            { icon: 'mdi:certificate', title: 'index.certificates', content: 'index.certificatesContent', path: '/certificates', color: 'indigo' },
+            { icon: 'mdi:cog', title: 'index.settings', content: 'index.settingsContent', path: '/settings', color: 'purple' },
         ]);
 
         return {

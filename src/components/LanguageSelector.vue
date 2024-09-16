@@ -106,7 +106,9 @@
 import { defineComponent, ref, onMounted, watch, computed, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface LanguageOption {
+export interface LanguageOption {
+    // label: string;
+    // value: string;
     code: string;
     name: string;
 }
