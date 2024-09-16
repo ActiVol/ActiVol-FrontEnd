@@ -291,6 +291,7 @@ const fetchUserInfo = async () => {
 // 组件挂载时获取用户信息并查询活动
 onMounted(async () => {
     await fetchUserInfo();
+    await searchActivities(); // 在组件挂载时自动进行查询
 });
 
 // 退出登录
