@@ -1,6 +1,6 @@
 <template>
     <div class="relative inline-block text-left">
-        <button @click="toggleDropdown" type="button"
+        <button @click="toggleDropdown($event)" type="button"
             class="inline-flex items-center justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             id="language-menu" aria-expanded="true" aria-haspopup="true">
             <svg class="h-5 w-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
                             <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
                                 <button @click="closeBanner" type="button"
                                     class="-mr-1 flex p-2 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white">
-                                    <span class="sr-only">Dismiss</span>
+                                    <span class="sr-only">{{ $t('languageBanner.dismiss') }}</span>
                                     <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -83,15 +83,17 @@
                 class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                 <div class="bg-white rounded-lg p-6 max-w-sm mx-auto">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">{{ $t('languagePrompt.title') }}</h3>
-                    <p class="text-sm text-gray-500 mb-4">{{ $t('languagePrompt.message') }}</p>
+                    <p class="text-sm text-gray-500 mb-4">
+                        {{ $t('languagePrompt.message', { detectedLanguage: detectedLanguage.name }) }}
+                    </p>
                     <div class="flex justify-end space-x-4">
                         <button @click="confirmLanguage"
                             class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
-                            {{ $t('languagePrompt.confirm') }}
+                            {{ $t('languagePrompt.confirm', { detectedLanguage: detectedLanguage.name }) }}
                         </button>
                         <button @click="switchToEnglish"
                             class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
-                            {{ $t('languagePrompt.switchToEnglish') }}
+                            Switch to English
                         </button>
                     </div>
                 </div>
@@ -124,6 +126,7 @@ export default defineComponent({
         ];
 
         const currentLanguage = ref<LanguageOption>(languages.find(lang => lang.code === locale.value) || languages[0]);
+        const detectedLanguage = ref<LanguageOption>(languages[0]);
 
         const dropdownPosition = computed(() => {
             if (!dropdown.value) return 'right-0';
@@ -132,24 +135,25 @@ export default defineComponent({
         });
 
         const toggleDropdown = (event: Event) => {
-            event.stopPropagation(); // 阻止事件冒泡
+            event.stopPropagation();
             isOpen.value = !isOpen.value;
-            // console.log('Dropdown toggled. isOpen:', isOpen.value);
         };
 
         const selectLanguage = (langCode: string) => {
             locale.value = langCode;
             currentLanguage.value = languages.find(lang => lang.code === langCode) || languages[0];
             isOpen.value = false;
-            showBanner.value = true;
-            // console.log('Language selected:', langCode);
+            localStorage.setItem('selectedLanguage', langCode);
+            checkBannerVisibility();
         };
 
         const closeBanner = () => {
             showBanner.value = false;
+            localStorage.setItem('lastBannerClose', Date.now().toString());
         };
 
         const confirmLanguage = () => {
+            selectLanguage(detectedLanguage.value.code);
             showLanguagePrompt.value = false;
         };
 
@@ -159,36 +163,47 @@ export default defineComponent({
         };
 
         const detectBrowserLanguage = () => {
-            const browserLang = navigator.language.toLowerCase();
-            const matchedLang = languages.find(lang => lang.code === browserLang);
-            if (matchedLang && matchedLang.code !== 'en') {
-                selectLanguage(matchedLang.code);
-                showLanguagePrompt.value = true;
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                selectLanguage(savedLanguage);
             } else {
-                selectLanguage('en');
+                const browserLang = navigator.language.toLowerCase();
+                const matchedLang = languages.find(lang => lang.code === browserLang || browserLang.startsWith(lang.code));
+                if (matchedLang && matchedLang.code !== 'en') {
+                    detectedLanguage.value = matchedLang;
+                    locale.value = matchedLang.code;
+                    showLanguagePrompt.value = true;
+                } else {
+                    selectLanguage('en');
+                }
+            }
+        };
+
+        const checkBannerVisibility = () => {
+            const lastClose = localStorage.getItem('lastBannerClose');
+            if (!lastClose || Date.now() - parseInt(lastClose) > 24 * 60 * 60 * 1000) {
+                showBanner.value = true;
             }
         };
 
         const handleClickOutside = (event: MouseEvent) => {
             if (isOpen.value && dropdown.value && !dropdown.value.contains(event.target as Node)) {
                 isOpen.value = false;
-                // console.log('Dropdown closed by outside click');
             }
         };
 
         onMounted(() => {
             detectBrowserLanguage();
+            checkBannerVisibility();
             document.addEventListener('click', handleClickOutside);
-            // console.log('Component mounted');
         });
 
         onUnmounted(() => {
             document.removeEventListener('click', handleClickOutside);
-            // console.log('Component unmounted');
         });
 
         watch(locale, () => {
-            showBanner.value = true;
+            checkBannerVisibility();
         });
 
         return {
@@ -197,6 +212,7 @@ export default defineComponent({
             showLanguagePrompt,
             languages,
             currentLanguage,
+            detectedLanguage,
             dropdownPosition,
             dropdown,
             toggleDropdown,

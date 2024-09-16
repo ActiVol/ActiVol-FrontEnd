@@ -1,13 +1,14 @@
 {
     "languageBanner": {
         "shortMessage": "翻译进行中",
-        "longMessage": "该语言版本正在翻译和审核中。部分内容可能不准确。"
+        "longMessage": "该语言版本正在翻译和审核中。部分内容可能不准确。",
+        "dismiss": "忽略"
     },
     "languagePrompt": {
         "title": "检测到语言",
-        "message": "我们检测到您的浏览器语言。您想继续使用这种语言吗？",
-        "confirm": "继续",
-        "switchToEnglish": "切换到英语"
+        "message": "已检测到您的浏览器语言为：{detectedLanguage}。本站现已支持！是否立即使用此语言？",
+        "confirm": "使用 {detectedLanguage}",
+        "switchToEnglish": "Switch to English"
     },
     "welcomeMessage": "欢迎来到志愿者小时跟踪器",
     "welcomeDescription": "使用我们易于使用的平台高效地跟踪和管理您的志愿时间。",
