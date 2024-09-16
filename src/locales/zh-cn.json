@@ -10,8 +10,9 @@
         "confirm": "使用 {detectedLanguage}",
         "switchToEnglish": "Switch to English"
     },
-    "breadcrumbs": {
-        "home": "主页"
+    "breadcrumb": {
+        "home": "主页",
+        "activitySelfSubmission": "参与活动信息录入"
     },
     "index": {
         "welcomeMessage": "欢迎来到志愿者小时跟踪器",
@@ -20,11 +21,46 @@
         "logHoursContent": "记录您的志愿活动和时间",
         "viewStatistics": "查看统计",
         "viewStatisticsContent": "分析您的志愿数据和影响",
-        "manageOrganizations": "管理组织",
-        "manageOrganizationsContent": "添加和编辑志愿组织",
+        "management": "管理站点",
+        "managementContent": "供管理员对活动进行管理审批",
         "certificates": "证书",
         "certificatesContent": "生成和下载证书",
         "settings": "设置",
-        "settingsContent": "自定义您的帐户偏好"
+        "settingsContent": "自定义您的帐户偏好",
+        "about": "关于本站点",
+        "aboutContent": "更好的了解本项目"
+    },
+    "selfSubmission": {
+        "title": "自主录入活动信息"
+    },
+    "submitForm": {
+        "firstName": "名",
+        "firstNameRequired": "名字是必填的。",
+        "lastName": "姓",
+        "lastNameRequired": "姓氏是必填的。",
+        "graduationYear": "毕业年份",
+        "graduationYearRequired": "毕业年份是必填的。",
+        "internalEmail": "内部邮箱",
+        "internalEmailRequired": "内部邮箱是必填的。",
+        "personalEmail": "个人邮箱",
+        "personalEmailRequired": "个人邮箱是必填的。",
+        "activityLocation": "参加活动的地点",
+        "activityLocationRequired": "活动地点是必填的。",
+        "activityDate": "参加活动的日期",
+        "activityDateRequired": "活动日期是必填的。",
+        "activityDuration": "参加活动的总时长（小时）",
+        "activityDurationRequired": "活动时长是必填的。",
+        "activityDescription": "参加活动的简介",
+        "activityDescriptionRequired": "活动简介是必填的。",
+        "organizerName": "活动举办者的名字",
+        "organizerNameRequired": "举办者名字是必填的。",
+        "organizerEmail": "活动举办者的邮箱",
+        "organizerEmailRequired": "举办者邮箱是必填的。",
+        "toggleUnLoginStatus": "切换未登录状态",
+        "toggleLoginStatus": "切换已登录状态",
+        "submit": "提交",
+        "submissionSuccess": "提交成功",
+        "studentLink": "学生表单链接",
+        "organizerLink": "举办方表单链接"
     }
 }

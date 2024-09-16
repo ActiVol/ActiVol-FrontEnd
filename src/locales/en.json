@@ -10,22 +10,58 @@
         "confirm": "Use {detectedLanguage}",
         "switchToEnglish": "Switch to English"
     },
-    "breadcrumbs": {
-        "home": "Home"
+    "breadcrumb": {
+        "home": "Home",
+        "activitySelfSubmission": "Activity Self Submission"
     },
     "index": {
         "title": "Hello, World!",
         "welcomeMessage": "Welcome to Volunteer Hours Tracker",
-        "welcomeDescription": "Track and manage your volunteer hours efficiently with our easy-to-use platform.",
+        "welcomeDescription": "Track and manage your volunteer time efficiently with our easy-to-use platform.",
         "logHours": "Log Hours",
         "logHoursContent": "Record your volunteer activities and hours",
         "viewStatistics": "View Statistics",
         "viewStatisticsContent": "Analyze your volunteering data and impact",
-        "manageOrganizations": "Manage Organizations",
-        "manageOrganizationsContent": "Add and edit volunteer organizations",
+        "management": "Site Management",
+        "managementContent": "For administrators to manage and approve activities",
         "certificates": "Certificates",
         "certificatesContent": "Generate and download certificates",
         "settings": "Settings",
-        "settingsContent": "Customize your account preferences"
+        "settingsContent": "Customize your account preferences",
+        "about": "About",
+        "aboutContent": "Learn more about this project"
+    },
+    "selfSubmission": {
+        "title": "Student Self Submission"
+    },
+    "submitForm": {
+        "firstName": "First Name",
+        "firstNameRequired": "First name is required.",
+        "lastName": "Last Name",
+        "lastNameRequired": "Last name is required.",
+        "graduationYear": "Graduation Year",
+        "graduationYearRequired": "Graduation year is required.",
+        "internalEmail": "Internal Email",
+        "internalEmailRequired": "Internal email is required.",
+        "personalEmail": "Personal Email",
+        "personalEmailRequired": "Personal email is required.",
+        "activityLocation": "Activity Location",
+        "activityLocationRequired": "Activity location is required.",
+        "activityDate": "Activity Date",
+        "activityDateRequired": "Activity date is required.",
+        "activityDuration": "Activity Duration (hours)",
+        "activityDurationRequired": "Activity duration is required.",
+        "activityDescription": "Activity Description",
+        "activityDescriptionRequired": "Activity description is required.",
+        "organizerName": "Organizer Name",
+        "organizerNameRequired": "Organizer name is required.",
+        "organizerEmail": "Organizer Email",
+        "organizerEmailRequired": "Organizer email is required.",
+        "toggleUnLoginStatus": "Toggle Unlogin Status",
+        "toggleLoginStatus": "Toggle Login Status",
+        "submit": "Submit",
+        "submissionSuccess": "Submission Successful",
+        "studentLink": "Student Form Link",
+        "organizerLink": "Organizer Form Link"
     }
 }

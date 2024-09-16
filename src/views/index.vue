@@ -30,15 +30,15 @@ export default defineComponent({
         const { t } = useI18n();
         
         const breadcrumbItems = ref([
-            { label: t('breadcrumbs.home'), path: '/' },
+            { label: t('breadcrumb.home'), path: '/' },
         ]);
 
         const listBoxItems = ref([
-            { icon: 'mdi:clipboard-text', title: 'index.logHours', content: 'index.logHoursContent', path: '/log-hours', color: 'blue' },
-            { icon: 'mdi:chart-bar', title: 'index.viewStatistics', content: 'index.viewStatisticsContent', path: '/statistics', color: 'green' },
-            { icon: 'mdi:account-group', title: 'index.manageOrganizations', content: 'index.manageOrganizationsContent', path: '/organizations', color: 'yellow' },
-            { icon: 'mdi:certificate', title: 'index.certificates', content: 'index.certificatesContent', path: '/certificates', color: 'indigo' },
-            { icon: 'mdi:cog', title: 'index.settings', content: 'index.settingsContent', path: '/settings', color: 'purple' },
+            { icon: 'mdi:clipboard-text', title: 'index.logHours', content: 'index.logHoursContent', path: '/self-submission', color: 'blue' },
+            { icon: 'mdi:chart-bar', title: 'index.viewStatistics', content: 'index.viewStatisticsContent', path: '/details', color: 'green' },
+            // { icon: 'mdi:certificate', title: 'index.certificates', content: 'index.certificatesContent', path: '/certificates', color: 'indigo' },
+            { icon: 'mdi:information', title: 'index.about', content: 'index.aboutContent', path: '/about', color: 'purple' },
+            { icon: 'mdi:account-group', title: 'index.management', content: 'index.managementContent', path: '/admin', color: 'yellow' },
         ]);
 
         return {

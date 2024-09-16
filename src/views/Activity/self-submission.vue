@@ -1,7 +1,7 @@
 <template>
   <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
     <div class="w-full max-w-3xl mx-auto">
-      <h1 class="text-2xl font-bold text-blue-800 mb-6">志愿者活动申报</h1>
+      <h1 class="text-2xl font-bold text-blue-800 mb-6">{{ $t('selfSubmission.title') }}</h1>
 
       <ActivityForm :initialForm="form" :isDisabled="isLoggedIn" @submit="submitForm"
         @toggle-login="toggleLoginStatus" />
@@ -20,6 +20,7 @@
 import { ref, reactive, computed } from 'vue'
 import ActivityForm from '@/components/ActivityForm.vue';
 import Layout from '@/components/Layout.vue';
+import { useI18n } from 'vue-i18n';
 
 const isLoggedIn = ref(false)
 const submissionResult = ref<{ studentLink: string; organizerLink: string; } | null>(null)
@@ -80,14 +81,17 @@ const submitForm = async () => {
     }
 }
 
+// Initialize i18n
+const { t } = useI18n()
+
 // Define breadcrumb items for this page
 const breadcrumbItems = [
-  { label: 'Home', path: '/' },
-  { label: 'Activity Self-Submission', path: '/self-submission' }
+  { label: t('breadcrumb.home'), path: '/' },
+  { label: t('breadcrumb.activitySelfSubmission'), path: '/self-submission' }
 ]
 
 // Define current page for breadcrumb
 const currentPage = computed(() => {
-  return 'Activity Self-Submission'
+  return t('breadcrumb.activitySelfSubmission')
 })
 </script>

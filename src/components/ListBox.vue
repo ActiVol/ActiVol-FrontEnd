@@ -57,6 +57,8 @@ export default defineComponent({
                 case 'yellow': return 'bg-yellow-100';
                 case 'indigo': return 'bg-indigo-100';
                 case 'purple': return 'bg-purple-100';
+                case 'red': return 'bg-red-100';
+                case 'lime': return 'bg-lime-100';
                 default: return 'bg-gray-100';
             }
         });
@@ -68,6 +70,8 @@ export default defineComponent({
                 case 'yellow': return 'bg-yellow-500';
                 case 'indigo': return 'bg-indigo-500';
                 case 'purple': return 'bg-purple-500';
+                case 'red': return 'bg-red-500';
+                case 'lime': return 'bg-lime-500';
                 default: return 'bg-gray-500';
             }
         });
