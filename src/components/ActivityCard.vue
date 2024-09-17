@@ -5,7 +5,7 @@
             <div v-if="activity.posterUrl" class="h-48 overflow-hidden">
                 <img :src="activity.posterUrl" :alt="activity.title" class="w-full h-full object-cover" />
             </div>
-            <div v-else class="h-48 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
+            <div v-else :class="['h-48 flex items-center justify-center', gradientClass]">
                 <span class="text-4xl text-white">{{ activity.title.charAt(0) }}</span>
             </div>
             <div class="absolute top-0 right-0 m-2 px-2 py-1 rounded-full text-xs font-bold"
@@ -41,10 +41,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Icon } from '@iconify/vue';
 import { ActivityType } from '@/types';
+
+const gradients = {
+    blue: 'bg-gradient-to-br from-blue-400 to-indigo-600',
+    green: 'bg-gradient-to-br from-green-400 to-emerald-600',
+    purple: 'bg-gradient-to-br from-purple-400 to-fuchsia-600',
+    orange: 'bg-gradient-to-br from-orange-400 to-red-600',
+    teal: 'bg-gradient-to-br from-teal-400 to-cyan-600',
+};
 
 export default defineComponent({
     name: 'ActivityCard',
@@ -57,8 +65,16 @@ export default defineComponent({
             required: true,
         },
     },
-    setup() {
+    setup(props) {
         const { t } = useI18n();
+
+        const gradientClass = computed(() => {
+            if (props.activity.gradientColor && gradients[props.activity.gradientColor as keyof typeof gradients]) {
+                return gradients[props.activity.gradientColor as keyof typeof gradients];
+            }
+            const colors = Object.values(gradients);
+            return colors[Math.floor(Math.random() * colors.length)];
+        });
 
         const formatDate = (dateString: string) => {
             const date = new Date(dateString);
@@ -84,7 +100,7 @@ export default defineComponent({
                 : description;
         };
 
-        return { formatDate, getStatusClass, truncateDescription, t };
+        return { formatDate, getStatusClass, truncateDescription, t, gradientClass };
     },
 });
 </script>

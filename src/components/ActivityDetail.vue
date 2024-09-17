@@ -3,9 +3,12 @@
         <div class="relative">
             <div v-if="activity.posterUrl" class="h-64 md:h-96 overflow-hidden">
                 <img :src="activity.posterUrl" :alt="activity.title" class="w-full h-full object-cover" />
+                <button @click="showFullImage = true"
+                    class="absolute bottom-4 right-4 bg-white bg-opacity-75 text-gray-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-opacity-100 transition-colors">
+                    {{ $t('activityDetail.viewFullImage') }}
+                </button>
             </div>
-            <div v-else
-                class="h-64 md:h-96 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
+            <div v-else :class="['h-64 md:h-96 flex items-center justify-center', gradientClass]">
                 <span class="text-6xl text-white">{{ activity.title.charAt(0) }}</span>
             </div>
             <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
@@ -69,11 +72,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- Full Image Modal -->
+        <div v-if="showFullImage" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+            @click="showFullImage = false">
+            <div class="max-w-4xl max-h-full p-4">
+                <img :src="activity.posterUrl" :alt="activity.title" class="max-w-full max-h-full object-contain" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, PropType } from 'vue';
+import { defineComponent, reactive, computed, ref, PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { Icon } from '@iconify/vue';
@@ -84,6 +95,14 @@ interface ApplicationType {
     email: string;
     message: string;
 }
+
+const gradients = {
+    blue: 'bg-gradient-to-br from-blue-400 to-indigo-600',
+    green: 'bg-gradient-to-br from-green-400 to-emerald-600',
+    purple: 'bg-gradient-to-br from-purple-400 to-fuchsia-600',
+    orange: 'bg-gradient-to-br from-orange-400 to-red-600',
+    teal: 'bg-gradient-to-br from-teal-400 to-cyan-600',
+};
 
 export default defineComponent({
     name: 'ActivityDetail',
@@ -99,10 +118,19 @@ export default defineComponent({
     setup(props) {
         const { t } = useI18n();
         const route = useRoute();
+        const showFullImage = ref(false);
 
         const activity = computed(() => {
             const id = Number(route.params.id);
             return props.activities.find(a => a.id === id);
+        });
+
+        const gradientClass = computed(() => {
+            if (activity.value?.gradientColor && gradients[activity.value.gradientColor as keyof typeof gradients]) {
+                return gradients[activity.value.gradientColor as keyof typeof gradients];
+            }
+            const colors = Object.values(gradients);
+            return colors[Math.floor(Math.random() * colors.length)];
         });
 
         const application = reactive<ApplicationType>({
@@ -139,7 +167,16 @@ export default defineComponent({
             alert(t('activityDetail.applicationSubmitted'));
         };
 
-        return { activity, formatDate, getStatusClass, submitApplication, application, t };
+        return {
+            activity,
+            formatDate,
+            getStatusClass,
+            submitApplication,
+            application,
+            t,
+            showFullImage,
+            gradientClass
+        };
     },
 });
 </script>

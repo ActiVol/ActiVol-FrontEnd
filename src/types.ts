@@ -29,4 +29,5 @@ export interface ActivityType {
     duration: number;
     status: 'open' | 'full' | 'closed';
     posterUrl?: string;
+    gradientColor?: string;
 }
