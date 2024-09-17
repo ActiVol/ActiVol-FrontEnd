@@ -4,16 +4,17 @@
             <div v-if="activity.posterUrl" class="h-64 md:h-96 overflow-hidden">
                 <img :src="activity.posterUrl" :alt="activity.title" class="w-full h-full object-cover" />
                 <button @click="showFullImage = true"
-                    class="absolute bottom-4 right-4 bg-white bg-opacity-75 text-gray-800 px-3 py-1 rounded-full text-sm font-medium hover:bg-opacity-100 transition-colors">
+                    class="absolute top-4 right-4 bg-white text-gray-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors shadow-md z-10">
+                    <Icon icon="mdi:fullscreen" class="w-5 h-5 mr-1 inline-block" />
                     {{ $t('activityDetail.viewFullImage') }}
                 </button>
             </div>
             <div v-else :class="['h-64 md:h-96 flex items-center justify-center', gradientClass]">
                 <span class="text-6xl text-white">{{ activity.title.charAt(0) }}</span>
             </div>
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
-                <h2 class="text-3xl font-bold text-white mb-2">{{ activity.title }}</h2>
-                <div class="inline-block px-3 py-1 rounded-full text-sm font-bold text-white"
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
+                <h2 class="text-3xl font-bold text-white mb-2 drop-shadow-md">{{ activity.title }}</h2>
+                <div class="inline-block px-3 py-1 rounded-full text-sm font-bold text-white shadow-md"
                     :class="getStatusClass(activity.status)">
                     {{ $t(`activityDetail.status.${activity.status}`) }}
                 </div>
@@ -79,6 +80,11 @@
             <div class="max-w-4xl max-h-full p-4">
                 <img :src="activity.posterUrl" :alt="activity.title" class="max-w-full max-h-full object-contain" />
             </div>
+            <button @click="showFullImage = false"
+                class="absolute top-4 right-4 bg-white text-gray-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors shadow-md z-60">
+                <Icon icon="mdi:close" class="w-5 h-5 mr-1 inline-block" />
+                {{ $t('activityDetail.closeFullImage') }}
+            </button>
         </div>
     </div>
 </template>

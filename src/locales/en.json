@@ -91,6 +91,7 @@
             "closed": "Closed"
         },
         "viewFullImage": "View Full Image",
+        "closeFullImage": "Close Image",
         "signUp": "Sign Up",
         "name": "Name",
         "email": "Email",
