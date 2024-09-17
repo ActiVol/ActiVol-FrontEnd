@@ -11,6 +11,9 @@ import forget from '@/views/user/forget.vue';
 import about from '@/views/about.vue';
 import AdminPanel from '@/views/Admin/AdminPanel.vue';
 
+import VolunteerActivities from '@/views/activityPage.vue'
+import ActivityDetail from '@/components/ActivityDetail.vue'
+
 // Define the type of route
 // interface Route {
 //     path: string;
@@ -55,6 +58,19 @@ const routes = [
         path: '/:pathMatch(.*)*',
         component: NotFound,
         meta: { hideTitle: true },
+    },
+
+    {
+        path: '/activity',
+        name: 'VolunteerActivities',
+        component: VolunteerActivities,
+        children: [
+            {
+                path: ':id',
+                name: 'ActivityDetail',
+                component: ActivityDetail,
+            },
+        ],
     },
 
     {

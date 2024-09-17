@@ -1,38 +1,36 @@
 {
     "languageBanner": {
         "shortMessage": "Translation in progress",
-        "longMessage": "This language version is being translated and reviewed. Some content may not be accurate.",
+        "longMessage": "This language version is being translated and reviewed. Some content may be inaccurate.",
         "dismiss": "Dismiss"
     },
     "languagePrompt": {
         "title": "Language Detected",
-        "message": "We have detected that your browser language is: {detectedLanguage}. Our site currently supports this language! Would you like to use it?",
+        "message": "Your browser language has been detected as: {detectedLanguage}. This site now supports it! Would you like to switch to this language?",
         "confirm": "Use {detectedLanguage}",
         "switchToEnglish": "Switch to English"
     },
     "breadcrumb": {
         "home": "Home",
-        "activitySelfSubmission": "Activity Self Submission"
+        "activitySelfSubmission": "Activity Self Submission",
+        "volunteerActivities": "Volunteer Activities"
     },
     "index": {
-        "title": "Hello, World!",
-        "welcomeMessage": "Welcome to Volunteer Hours Tracker",
-        "welcomeDescription": "Track and manage your volunteer time efficiently with our easy-to-use platform.",
+        "welcomeMessage": "Welcome to the Volunteer Hours Tracker",
+        "welcomeDescription": "Efficiently track and manage your volunteer hours using our easy-to-use platform.",
         "logHours": "Log Hours",
         "logHoursContent": "Record your volunteer activities and hours",
         "viewStatistics": "View Statistics",
-        "viewStatisticsContent": "Analyze your volunteering data and impact",
+        "viewStatisticsContent": "Analyze your volunteer data and impact",
+        "activity": "Activities",
+        "activityContent": "View volunteer activities",
         "management": "Site Management",
         "managementContent": "For administrators to manage and approve activities",
-        "certificates": "Certificates",
-        "certificatesContent": "Generate and download certificates",
-        "settings": "Settings",
-        "settingsContent": "Customize your account preferences",
-        "about": "About",
+        "about": "About Us",
         "aboutContent": "Learn more about this project"
     },
     "selfSubmission": {
-        "title": "Student Self Submission"
+        "title": "Self Submission of Activity Information"
     },
     "submitForm": {
         "firstName": "First Name",
@@ -63,5 +61,40 @@
         "submissionSuccess": "Submission Successful",
         "studentLink": "Student Form Link",
         "organizerLink": "Organizer Form Link"
+    },
+    "volunteerActivities": {
+        "title": "Volunteer Activities",
+        "backToList": "Back to Activity List"
+    },
+    "activityCard": {
+        "date": "Date",
+        "location": "Location",
+        "duration": "Duration",
+        "hours": "Hours",
+        "volunteersNeeded": "{count} Volunteers Needed",
+        "status": {
+            "open": "Open",
+            "full": "Full",
+            "closed": "Closed"
+        }
+    },
+    "activityDetail": {
+        "date": "Date",
+        "location": "Location",
+        "duration": "Duration",
+        "hours": "Hours",
+        "volunteersNeeded": "Number of Volunteers Needed",
+        "status": {
+            "name": "Status",
+            "open": "Open",
+            "full": "Full",
+            "closed": "Closed"
+        },
+        "signUp": "Sign Up",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "apply": "Apply",
+        "applicationSubmitted": "Application Submitted, Thank You for Participating!"
     }
 }

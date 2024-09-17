@@ -18,3 +18,15 @@ export namespace LanguageTypes {
         name: string;
     }
 }
+
+export interface ActivityType {
+    id: number;
+    title: string;
+    description: string;
+    date: string;
+    location: string;
+    volunteersNeeded: number;
+    duration: number;
+    status: 'open' | 'full' | 'closed';
+    posterUrl?: string;
+}

@@ -12,21 +12,20 @@
     },
     "breadcrumb": {
         "home": "主页",
-        "activitySelfSubmission": "参与活动信息录入"
+        "activitySelfSubmission": "参与活动信息录入",
+        "volunteerActivities": "志愿者活动"
     },
     "index": {
-        "welcomeMessage": "欢迎来到志愿者小时跟踪器",
+        "welcomeMessage": "欢迎来到志愿者时长管理平台",
         "welcomeDescription": "使用我们易于使用的平台高效地跟踪和管理您的志愿时间。",
         "logHours": "记录时间",
         "logHoursContent": "记录您的志愿活动和时间",
         "viewStatistics": "查看统计",
         "viewStatisticsContent": "分析您的志愿数据和影响",
+        "activity": "活动",
+        "activityContent": "查看志愿者活动",
         "management": "管理站点",
         "managementContent": "供管理员对活动进行管理审批",
-        "certificates": "证书",
-        "certificatesContent": "生成和下载证书",
-        "settings": "设置",
-        "settingsContent": "自定义您的帐户偏好",
         "about": "关于本站点",
         "aboutContent": "更好的了解本项目"
     },
@@ -62,5 +61,40 @@
         "submissionSuccess": "提交成功",
         "studentLink": "学生表单链接",
         "organizerLink": "举办方表单链接"
+    },
+    "volunteerActivities": {
+        "title": "志愿者活动",
+        "backToList": "返回活动列表"
+    },
+    "activityCard": {
+        "date": "日期",
+        "location": "地点",
+        "duration": "时长",
+        "hours": "小时",
+        "volunteersNeeded": "需要 {count} 名志愿者",
+        "status": {
+            "open": "开放",
+            "full": "已满",
+            "closed": "已关闭"
+        }
+    },
+    "activityDetail": {
+        "date": "日期",
+        "location": "地点",
+        "duration": "时长",
+        "hours": "小时",
+        "volunteersNeeded": "需要志愿者人数",
+        "status": {
+            "name": "状态",
+            "open": "开放",
+            "full": "已满",
+            "closed": "已关闭"
+        },
+        "signUp": "报名参加",
+        "name": "姓名",
+        "email": "电子邮箱",
+        "message": "留言",
+        "apply": "申请参加",
+        "applicationSubmitted": "申请已提交，谢谢您的参与！"
     }
 }

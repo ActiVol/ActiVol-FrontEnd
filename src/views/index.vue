@@ -36,6 +36,7 @@ export default defineComponent({
         const listBoxItems = ref([
             { icon: 'mdi:clipboard-text', title: 'index.logHours', content: 'index.logHoursContent', path: '/self-submission', color: 'blue' },
             { icon: 'mdi:chart-bar', title: 'index.viewStatistics', content: 'index.viewStatisticsContent', path: '/details', color: 'green' },
+            { icon: 'mdi:calendar', title: 'index.activity', content: 'index.activityContent', path: '/activity', color: 'red' },
             // { icon: 'mdi:certificate', title: 'index.certificates', content: 'index.certificatesContent', path: '/certificates', color: 'indigo' },
             { icon: 'mdi:information', title: 'index.about', content: 'index.aboutContent', path: '/about', color: 'purple' },
             { icon: 'mdi:account-group', title: 'index.management', content: 'index.managementContent', path: '/admin', color: 'yellow' },
