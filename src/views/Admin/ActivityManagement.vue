@@ -60,7 +60,7 @@
     <div class="mb-6 bg-white p-4 rounded-lg shadow-md border border-gray-200">
       <div class="flex flex-wrap justify-between items-center">
         <div class="space-x-2 mb-2 sm:mb-0 flex flex-wrap">
-          <button @click="showAddModal = true"
+          <button @click="openNewActivityModal"
             class="px-4 py-2 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-colors duration-200 flex items-center mb-2 sm:mb-0">
             <Icon icon="mdi:plus" class="mr-1" /> 新增
           </button>
@@ -350,6 +350,7 @@ import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { Icon } from "@iconify/vue";
 import axios from "axios";
 import { debounce } from "lodash";
+import { jwtDecode } from 'jwt-decode';
 import Modal from "@/components/Admin/Modal.vue";
 import moment from 'moment';
 
@@ -430,31 +431,40 @@ const visiblePages = computed(() => {
 });
 
 const fetchActivities = async () => {
-  isLoading.value = true
+  isLoading.value = true;
   try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    const decodedToken: any = jwtDecode(token);
+    const isAdmin = decodedToken.isAdmin === 1 || decodedToken.isAdmin === 2;
+    const params = isAdmin ? { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value } : { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, uid: decodedToken.uid };
+
     const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
-      params: { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value },
-      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-    })
-    const newActivities = response.data.filter((activity: Activity) => activity.is_deleted !== 1)
+      params,
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const newActivities = response.data.filter((activity: Activity) => activity.is_deleted !== 1);
 
     // Implement a small delay strategy
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-    const startTime = Date.now()
-    await delay(800) // Minimum delay of 0.8 seconds
-    const elapsedTime = Date.now() - startTime
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const startTime = Date.now();
+    await delay(800); // Minimum delay of 0.8 seconds
+    const elapsedTime = Date.now() - startTime;
     if (elapsedTime < 800) {
-      await delay(800 - elapsedTime)
+      await delay(800 - elapsedTime);
     }
 
     // Sort activities by status and date
     activities.value = sortActivities(newActivities);
   } catch (error) {
-    console.error('Error fetching activities:', error)
+    console.error('Error fetching activities:', error);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 // Sort activities by status and date
 // pending > approved > rejected
@@ -704,11 +714,11 @@ const batchDelete = async () => {
   }
 };
 
-// const openNewActivityModal = () => {
-//   editingActivity.value = null;
-//   currentActivity.value = {};
-//   showAddModal.value = true;
-// };
+const openNewActivityModal = () => {
+  editingActivity.value = null;
+  currentActivity.value = { status: 'pending' };
+  showAddModal.value = true;
+};
 
 const closeModal = () => {
   showAddModal.value = false;
