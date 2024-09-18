@@ -164,6 +164,18 @@
                     t('submitForm.organizerEmailRequired') }}</p>
             </div>
 
+            <div>
+                <label for="activityCommentToAdmin" class="block text-sm font-medium leading-6 text-gray-900">{{
+                    t('submitForm.activityCommentToAdmin') }}</label>
+                <div class="relative mt-2 rounded-md shadow-sm">
+                    <textarea id="activityCommentToAdmin" v-model="form.activityCommentToAdmin" 
+                        @blur="touchField('activityCommentToAdmin')" :class="getInputClass('activityCommentToAdmin')"
+                        :placeholder="t('submitForm.activityCommentToAdmin')" required></textarea>
+                </div>
+                <p v-if="touched.activityCommentToAdmin && !form.activityCommentToAdmin" class="mt-1 text-sm text-red-500">{{
+                    t('submitForm.activityDescriptionRequired') }}</p>
+            </div>
+
             <div class="flex justify-between">
                 <button type="button" @click="toggleLoginStatus"
                 class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-300">
@@ -227,6 +239,7 @@ interface Form {
     activityDescription: string;
     organizerName: string;
     organizerEmail: string;
+    activityCommentToAdmin: string;
 }
 
 const touched = reactive({
@@ -240,7 +253,8 @@ const touched = reactive({
     activityDuration: false,
     activityDescription: false,
     organizerName: false,
-    organizerEmail: false
+    organizerEmail: false,
+    activityCommentToAdmin: false,
 })
 
 type FormFields = keyof typeof touched;

@@ -55,6 +55,7 @@
         "organizerNameRequired": "Organizer name is required.",
         "organizerEmail": "Organizer Email",
         "organizerEmailRequired": "Organizer email is required.",
+        "activityCommentToAdmin": "Comment to Admin",
         "toggleUnLoginStatus": "Toggle Unlogin Status",
         "toggleLoginStatus": "Toggle Login Status",
         "submit": "Submit",

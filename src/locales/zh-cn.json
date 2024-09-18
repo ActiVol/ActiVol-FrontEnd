@@ -55,6 +55,7 @@
         "organizerNameRequired": "举办者名字是必填的。",
         "organizerEmail": "活动举办者的邮箱",
         "organizerEmailRequired": "举办者邮箱是必填的。",
+        "activityCommentToAdmin": "对管理员的留言",
         "toggleUnLoginStatus": "切换未登录状态",
         "toggleLoginStatus": "切换已登录状态",
         "submit": "提交",
