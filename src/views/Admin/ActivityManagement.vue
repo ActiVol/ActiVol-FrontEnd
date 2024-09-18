@@ -240,7 +240,7 @@
     </div>
 
     <!-- 添加/编辑活动模态框 -->
-    <Modal v-if="showAddModal" @close="showAddModal = false">
+    <Modal v-if="showAddModal" @close="closeModal">
       <h2 class="text-2xl font-bold mb-4 text-gray-800">
         {{ editingActivity ? "编辑活动" : "添加新活动" }}
       </h2>
@@ -288,7 +288,7 @@
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
         </div>
         <div class="flex justify-end space-x-3">
-          <button type="button" @click="showAddModal = false"
+          <button type="button" @click="closeModal"
             class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             取消
           </button>
@@ -638,9 +638,7 @@ const submitActivity = async () => {
       );
     }
     await fetchActivities();
-    showAddModal.value = false;
-    editingActivity.value = null;
-    currentActivity.value = {};
+    closeModal();
   } catch (error) {
     console.error("Error submitting activity:", error);
   }
@@ -704,6 +702,18 @@ const batchDelete = async () => {
       console.error("Error batch deleting activities:", error);
     }
   }
+};
+
+const openNewActivityModal = () => {
+  editingActivity.value = null;
+  currentActivity.value = {};
+  showAddModal.value = true;
+};
+
+const closeModal = () => {
+  showAddModal.value = false;
+  editingActivity.value = null;
+  currentActivity.value = {};
 };
 
 const openReviewModal = (activity: Activity) => {
