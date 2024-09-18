@@ -440,7 +440,7 @@ const fetchActivities = async () => {
 
     const decodedToken: any = jwtDecode(token);
     const isAdmin = decodedToken.isAdmin === 1 || decodedToken.isAdmin === 2;
-    const params = isAdmin ? { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value } : { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, uid: decodedToken.uid };
+    const params = isAdmin ? { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, all: true } : { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, uid: decodedToken.uid };
 
     const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
       params,
