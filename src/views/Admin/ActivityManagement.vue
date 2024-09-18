@@ -704,11 +704,11 @@ const batchDelete = async () => {
   }
 };
 
-const openNewActivityModal = () => {
-  editingActivity.value = null;
-  currentActivity.value = {};
-  showAddModal.value = true;
-};
+// const openNewActivityModal = () => {
+//   editingActivity.value = null;
+//   currentActivity.value = {};
+//   showAddModal.value = true;
+// };
 
 const closeModal = () => {
   showAddModal.value = false;
