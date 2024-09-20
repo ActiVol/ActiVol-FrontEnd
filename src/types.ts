@@ -31,3 +31,21 @@ export interface ActivityType {
     posterUrl?: string;
     gradientColor?: string;
 }
+
+export interface User {
+    id: number;
+    username: string;
+    uid: string;
+    first_name: string;
+    last_name: string;
+    graduation_year: number;
+    interior_email: string;
+    exterior_email: string;
+    isAdmin: number;
+    latest_ip: string;
+    device_UA: string;
+    device_lang: string;
+    device_screen_size: string;
+    created_at: string;
+    updated_at: string;
+}
