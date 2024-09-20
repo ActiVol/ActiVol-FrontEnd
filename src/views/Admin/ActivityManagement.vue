@@ -199,7 +199,7 @@
                       <div>
                         <h4 class="font-semibold text-gray-700">更新时间</h4>
                         <p class="text-gray-600">
-                          {{ formatDate(activity.update_at) }}
+                          {{ formatDate(activity.updated_at) }}
                         </p>
                       </div>
                       <div>
@@ -368,7 +368,7 @@ interface Activity {
   admin_comment: string | null;
   is_deleted: number;
   created_at: string | null;
-  update_at: string | null;
+  updated_at: string | null;
 }
 
 const activities = ref<Activity[]>([]);

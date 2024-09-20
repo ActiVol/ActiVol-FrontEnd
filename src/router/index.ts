@@ -79,7 +79,7 @@ const routes = [
         children: [
             { path: '', name: 'Dashboard', component: () => import('@/views/Admin/Dashboard.vue') },
             { path: 'activity', name: 'ActivityManagement', component: () => import('@/views/Admin/ActivityManagement.vue') },
-            // { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
+            { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
             // { path: 'site-settings', name: 'SiteSettings', component: () => import('@/views/Admin/SiteSettings.vue') },
             // { path: 'personal-settings', name: 'PersonalSettings', component: () => import('@/views/Admin/PersonalSettings.vue') },
         ]
