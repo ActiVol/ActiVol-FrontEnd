@@ -1,32 +1,32 @@
 <template>
-    <nav class="h-full border-r border-gray-200">
-        <ul class="py-4 space-y-1">
+    <nav class="h-full bg-gradient-to-b from-gray-50 to-white border-r border-gray-200">
+        <ul class="py-2 px-2 space-y-0.5">
             <li v-for="item in items" :key="item.name">
                 <router-link v-if="item.to" :to="item.to"
-                    class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200 ease-in-out"
+                    class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out"
                     :class="{ 'bg-blue-50 text-blue-600 shadow-sm': isActive(item) }">
                     <div :class="{ 'w-full flex justify-center': collapsed }">
                         <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5" :class="[
-                            { 'mr-3': !collapsed },
+                            { 'mr-2': !collapsed },
                             isActive(item) ? 'text-blue-500' : 'text-gray-400'
                         ]" />
                     </div>
-                    <span v-if="!collapsed" class="flex-1 text-sm font-medium">{{ item.name }}</span>
+                    <span v-if="!collapsed" class="flex-1 text-sm">{{ item.name }}</span>
                 </router-link>
                 <div v-else @click="toggleSubmenu(item)"
-                    class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-lg cursor-pointer transition-all duration-200 ease-in-out"
+                    class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md cursor-pointer transition-all duration-200 ease-in-out"
                     :class="{ 'bg-blue-50 text-blue-600 shadow-sm': isActive(item) }">
                     <div :class="{ 'w-full flex justify-center': collapsed }">
                         <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5" :class="[
-                            { 'mr-3': !collapsed },
+                            { 'mr-2': !collapsed },
                             isActive(item) ? 'text-blue-500' : 'text-gray-400'
                         ]" />
                     </div>
-                    <span v-if="!collapsed" class="flex-1 text-sm font-medium">{{ item.name }}</span>
+                    <span v-if="!collapsed" class="flex-1 text-sm">{{ item.name }}</span>
                     <Icon v-if="!collapsed && item.children" :icon="item.isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'"
                         class="w-4 h-4 text-gray-400" />
                 </div>
-                <div v-if="!collapsed && item.children && item.isOpen" class="mt-1 ml-6 space-y-1">
+                <div v-if="!collapsed && item.children && item.isOpen" class="ml-4 space-y-0.5">
                     <Sidebar :items="item.children" :collapsed="collapsed" />
                 </div>
             </li>

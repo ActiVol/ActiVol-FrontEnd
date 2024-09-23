@@ -99,5 +99,20 @@
         "message": "Message",
         "apply": "Apply",
         "applicationSubmitted": "Application Submitted, Thank You for Participating!"
+    },
+    "authGuard": {
+        "title": "Volunteer Time Management Platform",
+        "messageTitle": "Access Restricted",
+        "messageContent": "You don't have permission to access this page. Please log in or return to the homepage.",
+        "loginCard": {
+            "title": "Login Required",
+            "description": "Please log in to access the admin area.",
+            "button": "Log In"
+        },
+        "homeCard": {
+            "title": "Return to Homepage",
+            "description": "The admin area is currently only accessible to administrators. Regular users can use the front-end pages for now.",
+            "button": "Go to Homepage"
+        }
     }
 }

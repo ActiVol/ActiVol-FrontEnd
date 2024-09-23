@@ -99,5 +99,20 @@
         "message": "留言",
         "apply": "申请参加",
         "applicationSubmitted": "申请已提交，谢谢您的参与！"
+    },
+    "authGuard": {
+        "title": "志愿者时长管理平台",
+        "messageTitle": "访问受限",
+        "messageContent": "您没有权限访问此页面。请登录或返回首页。",
+        "loginCard": {
+            "title": "需要登录",
+            "description": "请登录以访问管理员页面。",
+            "button": "登录"
+        },
+        "homeCard": {
+            "title": "返回首页",
+            "description": "目前后台仅允许管理员查看，普通用户暂时请使用前台页面。",
+            "button": "前往首页"
+        }
     }
 }

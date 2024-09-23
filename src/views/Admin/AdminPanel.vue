@@ -3,7 +3,7 @@
         <!-- Sidebar -->
         <aside :class="`bg-white fixed left-0 top-16 h-[calc(100%-4rem)] z-20 transition-all duration-300 ease-in-out ${isMobile ? (isSidebarOpen ? 'w-64' : '-ml-64') : isSidebarOpen ? 'w-64' : 'w-20'
             }`" class="flex flex-col border-r border-blue-100 overflow-hidden">
-            <nav class="flex-1 overflow-y-auto pt-4">
+            <nav class="flex-1 overflow-y-auto">
                 <Sidebar :items="navItems" :collapsed="!isSidebarOpen" />
             </nav>
         </aside>
