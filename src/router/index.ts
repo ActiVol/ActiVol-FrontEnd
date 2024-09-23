@@ -58,6 +58,8 @@ router.beforeEach(async (to, _from, next) => {
         await userStore.fetchUser();
     }
 
+    // console.log('User state in router:', userStore.user); // 添加调试信息
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isLoggedIn) {
             next({ name: 'AuthGuard' });
@@ -70,6 +72,9 @@ router.beforeEach(async (to, _from, next) => {
         } else {
             next();
         }
+    } else if (to.name === 'AuthGuard' && userStore.user.isAdmin) {
+        // 如果用户是管理员并且访问 /auth-guard 页面，则重定向到 /admin
+        next({ path: '/admin' });
     } else {
         next();
     }
