@@ -1,31 +1,37 @@
 <template>
-    <ul class="space-y-2">
-        <li v-for="item in items" :key="item.name">
-            <router-link v-if="item.to" :to="item.to"
-                class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-150 ease-in-out"
-                :class="{ 'bg-blue-100 text-blue-600': isActive(item) }">
-                <div :class="{ 'w-full flex justify-center': collapsed }">
-                    <Icon v-if="item.icon" :icon="item.icon" class="w-6 h-6 text-gray-500"
-                        :class="{ 'mr-3': !collapsed }" />
+    <nav class="h-full border-r border-gray-200">
+        <ul class="py-4 space-y-1">
+            <li v-for="item in items" :key="item.name">
+                <router-link v-if="item.to" :to="item.to"
+                    class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200 ease-in-out"
+                    :class="{ 'bg-blue-50 text-blue-600 shadow-sm': isActive(item) }">
+                    <div :class="{ 'w-full flex justify-center': collapsed }">
+                        <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5" :class="[
+                            { 'mr-3': !collapsed },
+                            isActive(item) ? 'text-blue-500' : 'text-gray-400'
+                        ]" />
+                    </div>
+                    <span v-if="!collapsed" class="flex-1 text-sm font-medium">{{ item.name }}</span>
+                </router-link>
+                <div v-else @click="toggleSubmenu(item)"
+                    class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-lg cursor-pointer transition-all duration-200 ease-in-out"
+                    :class="{ 'bg-blue-50 text-blue-600 shadow-sm': isActive(item) }">
+                    <div :class="{ 'w-full flex justify-center': collapsed }">
+                        <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5" :class="[
+                            { 'mr-3': !collapsed },
+                            isActive(item) ? 'text-blue-500' : 'text-gray-400'
+                        ]" />
+                    </div>
+                    <span v-if="!collapsed" class="flex-1 text-sm font-medium">{{ item.name }}</span>
+                    <Icon v-if="!collapsed && item.children" :icon="item.isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'"
+                        class="w-4 h-4 text-gray-400" />
                 </div>
-                <span v-if="!collapsed" class="flex-1">{{ item.name }}</span>
-            </router-link>
-            <div v-else @click="toggleSubmenu(item)"
-                class="flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors duration-150 ease-in-out"
-                :class="{ 'bg-blue-100 text-blue-600': isActive(item) }">
-                <div :class="{ 'w-full flex justify-center': collapsed }">
-                    <Icon v-if="item.icon" :icon="item.icon" class="w-5 h-5 text-gray-500"
-                        :class="{ 'mr-3': !collapsed }" />
+                <div v-if="!collapsed && item.children && item.isOpen" class="mt-1 ml-6 space-y-1">
+                    <Sidebar :items="item.children" :collapsed="collapsed" />
                 </div>
-                <span v-if="!collapsed" class="flex-1">{{ item.name }}</span>
-                <Icon v-if="!collapsed && item.children" :icon="item.isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'"
-                    class="w-5 h-5 text-gray-500" />
-            </div>
-            <div v-if="!collapsed && item.children && item.isOpen" :class="{ 'ml-8': item.icon, 'ml-9': !item.icon }">
-                <Sidebar :items="item.children" :collapsed="collapsed" />
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <script setup lang="ts">
