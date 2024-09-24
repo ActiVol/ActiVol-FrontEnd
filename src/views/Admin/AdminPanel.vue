@@ -51,8 +51,8 @@
                                         role="menuitem">Your Profile</a>
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         role="menuitem">Settings</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Sign out</a>
+                                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem" @click="logout">Sign out</a>
                                 </div>
                             </div>
                         </div>
@@ -82,6 +82,18 @@ interface MenuItem {
     to?: string
     children?: MenuItem[]
     isOpen?: boolean
+}
+
+const isLoggedIn = ref(true); // Add this line to define isLoggedIn
+const userInfo = ref(null); // Add this line to define userInfo
+
+// 退出登录
+const logout = () => {
+    localStorage.removeItem('token');
+    isLoggedIn.value = false;
+    userInfo.value = null;
+    // 刷新页面
+    window.location.reload();
 }
 
 const navItems = reactive<MenuItem[]>([

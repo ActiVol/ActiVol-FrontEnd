@@ -136,11 +136,13 @@ export default defineComponent({
             email: '',
         });
 
-        const checkUserAuth = () => {
+        const checkUserAuth = async () => {
             const token = localStorage.getItem('token');
             if (token) {
-                userStore.fetchUser();
-                router.push('/admin');
+                await userStore.fetchUser();
+                if (userStore.user.isAdmin === 1 || userStore.user.isAdmin === 2) {
+                    router.push('/admin');
+                }
             }
         };
 
@@ -166,9 +168,17 @@ export default defineComponent({
                 const accessToken = response.data.accessToken;
                 localStorage.setItem('token', accessToken);
 
-                userStore.isLoggedIn = true;
-                alert('登录成功！');
-                router.push('/admin');
+                await userStore.fetchUser();
+
+                if (userStore.user.isAdmin === 1 || userStore.user.isAdmin === 2) {
+                    // 刷新页面
+                    window.location.reload();
+                    router.push('/admin');
+                } else {
+                    // 刷新页面
+                    window.location.reload();
+                    router.push('/');
+                }
             } catch (error) {
                 console.error('Login Error:', error);
                 alert('登录失败！请检查你的用户名和密码。');
@@ -189,7 +199,6 @@ export default defineComponent({
                 localStorage.setItem('token', accessToken);
 
                 await handleLogin();
-                router.push('/admin');
             } catch (error) {
                 console.error('Registration Error:', error);
                 alert('注册失败！请重新检查你的信息。');
@@ -204,6 +213,8 @@ export default defineComponent({
             localStorage.removeItem('token');
             userStore.logout();
             router.push('/login');
+            // 刷新页面
+            window.location.reload();
         };
 
         onMounted(checkUserAuth);
