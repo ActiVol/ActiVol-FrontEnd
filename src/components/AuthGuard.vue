@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="mt-6 flex justify-center">
+            <div class="mt-4 flex justify-center">
                 <LanguageSelector />
             </div>
         </div>
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/stores/user';
 import LanguageSelector from '@/components/LanguageSelector.vue';
 import { Icon } from '@iconify/vue';
 

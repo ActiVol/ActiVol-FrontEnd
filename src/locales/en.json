@@ -114,5 +114,36 @@
             "description": "The admin area is currently only accessible to administrators. Regular users can use the front-end pages for now.",
             "button": "Go to Homepage"
         }
+    },
+    "auth": {
+        "title": "Volunteer Time Management System",
+        "tabs": {
+            "login": "Login",
+            "register": "Register",
+            "forget": "Forgot Password"
+        },
+        "login": {
+            "identifier": "Username or Email",
+            "password": "Password",
+            "submit": "Login",
+            "failed": "Login failed. Please check your credentials and try again."
+        },
+        "register": {
+            "username": "Username",
+            "uid": "Student ID",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "graduationYear": "Graduation Year",
+            "interiorEmail": "School Email",
+            "exteriorEmail": "Personal Email",
+            "password": "Password",
+            "submit": "Register"
+        },
+        "forget": {
+            "email": "Email",
+            "submit": "Reset Password",
+            "success": "Password reset email sent. Please check your inbox.",
+            "failed": "Failed to send password reset email. Please check if your email is correct."
+        }
     }
 }

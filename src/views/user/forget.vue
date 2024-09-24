@@ -106,7 +106,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/stores/user';
 
 export default defineComponent({
     name: 'LoginRegisterForgotPassword',

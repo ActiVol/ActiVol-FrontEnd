@@ -114,5 +114,36 @@
             "description": "目前后台仅允许管理员查看，普通用户暂时请使用前台页面。",
             "button": "前往首页"
         }
+    },
+    "auth": {
+        "title": "志愿者时长记录系统",
+        "tabs": {
+            "login": "登录",
+            "register": "注册",
+            "forget": "忘记密码"
+        },
+        "login": {
+            "identifier": "用户名或邮箱",
+            "password": "密码",
+            "submit": "登录",
+            "failed": "登录失败，请检查您的用户名和密码。"
+        },
+        "register": {
+            "username": "用户名",
+            "uid": "学号",
+            "firstName": "名",
+            "lastName": "姓",
+            "graduationYear": "毕业年份",
+            "interiorEmail": "校内邮箱",
+            "exteriorEmail": "校外邮箱",
+            "password": "密码",
+            "submit": "注册"
+        },
+        "forget": {
+            "email": "邮箱",
+            "submit": "重置密码",
+            "success": "重置密码邮件已发送，请查收。",
+            "failed": "重置密码邮件发送失败，请检查您的邮箱是否正确。"
+        }
     }
 }

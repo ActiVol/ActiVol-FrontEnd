@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/stores/user';
 import Index from '@/views/index.vue';
 import SubPage from '@/views/subpage.vue';
 import NotFound from '@/views/404.vue';
 import Test from '@/views/test.vue';
 import details from '@/views/details.vue';
 import selfSubmission from '@/views/Activity/self-submission.vue';
-import login from '@/views/user/login.vue';
-import forget from '@/views/user/forget.vue';
+// import forget from '@/views/user/forget.vue';
 import about from '@/views/about.vue';
+
+// Admin Panel
 import AdminPanel from '@/views/Admin/AdminPanel.vue';
 import VolunteerActivities from '@/views/activityPage.vue';
 import ActivityDetail from '@/components/ActivityDetail.vue';
+
+// Auth
+import Auth from '@/views/Auth.vue';
 import AuthGuard from '@/components/AuthGuard.vue';
 
 const routes = [
@@ -20,9 +24,19 @@ const routes = [
     { path: '/details', component: details },
     { path: '/self-submission', component: selfSubmission },
     { path: '/subpage', component: SubPage },
-    { path: '/login', component: login },
-    { path: '/forget', component: forget },
     { path: '/about', component: about },
+    {
+        path: '/activity',
+        name: 'VolunteerActivities',
+        component: VolunteerActivities,
+        children: [
+            { path: ':id', name: 'ActivityDetail', component: ActivityDetail },
+        ],
+    },
+    { path: '/auth-guard', component: AuthGuard, name: 'AuthGuard' },
+    { path: '/login', component: Auth, meta: { tab: 'login' } },
+    { path: '/register', component: Auth, meta: { tab: 'register' } },
+    { path: '/forget', component: Auth, meta: { tab: 'forget' } },
     {
         path: '/admin',
         component: AdminPanel,
@@ -33,16 +47,7 @@ const routes = [
             { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
         ],
     },
-    { path: '/auth-guard', component: AuthGuard, name: 'AuthGuard' },
     { path: '/:pathMatch(.*)*', component: NotFound, meta: { hideTitle: true } },
-    {
-        path: '/activity',
-        name: 'VolunteerActivities',
-        component: VolunteerActivities,
-        children: [
-            { path: ':id', name: 'ActivityDetail', component: ActivityDetail },
-        ],
-    },
 ];
 
 const router = createRouter({
@@ -58,8 +63,6 @@ router.beforeEach(async (to, _from, next) => {
         await userStore.fetchUser();
     }
 
-    // console.log('User state in router:', userStore.user); // 添加调试信息
-
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isLoggedIn) {
             next({ name: 'AuthGuard' });
@@ -73,7 +76,6 @@ router.beforeEach(async (to, _from, next) => {
             next();
         }
     } else if (to.name === 'AuthGuard' && userStore.user.isAdmin) {
-        // 如果用户是管理员并且访问 /auth-guard 页面，则重定向到 /admin
         next({ path: '/admin' });
     } else {
         next();

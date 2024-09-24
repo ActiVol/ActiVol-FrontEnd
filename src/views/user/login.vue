@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
         <div v-if="isLoggedIn"
             class="w-full max-w-md mb-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4" role="alert">
             <p class="font-bold">您已经登录！</p>
@@ -106,7 +106,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/stores/user';
 
 export default defineComponent({
     name: 'LoginRegisterForgotPassword',
