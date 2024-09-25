@@ -102,7 +102,7 @@
                             <div class="text-center sm:text-left">
                                 <h2 class="text-2xl font-semibold text-indigo-900 mb-2">欢迎回来，{{ fullName }}</h2>
                                 <p class="text-indigo-700 mb-1">ID: {{ userInfo.uid }}</p>
-                                <p class="text-indigo-700 mb-6">Email: {{ userInfo.interiorEmail }}</p>
+                                <p class="text-indigo-700 mb-6">Email: {{ userInfo.interior_email }}</p>
                                 <button @click="logout"
                                     class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
                                     退出登录
@@ -228,19 +228,29 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { Icon } from '@iconify/vue'
-import Layout from '@/components/Layout.vue'
-import axios from 'axios'
+import { ref, computed, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { Icon } from '@iconify/vue';
+import Layout from '@/components/Layout.vue';
 
-const isLoggedIn = ref(false)
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+const userInfo = computed(() => authStore.user);
+const activities = computed(() => authStore.activities);
+const totalHours = computed(() => activities.value.reduce((sum, activity) => sum + activity.hours, 0));
+const fullName = computed(() => `${userInfo.value?.firstName || ''} ${userInfo.value?.lastName || ''}`);
+const sortedActivities = computed(() => {
+    return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date));
+});
+
 const searchQuery = ref({
     fullName: {
         firstName: '',
         lastName: '',
     },
     uid: '',
-})
+});
 const firstNameTouched = ref(false);
 const lastNameTouched = ref(false);
 const UIDTouched = ref(false);
@@ -248,90 +258,26 @@ const breadcrumbItems = [
     { label: 'Home', path: '/' },
     { label: 'Inquiry', path: '/details' },
 ];
-const currentPage = 'Inquiry'; // Set the name of the current page according to actual logic
-const userInfo = ref(null)
-const activities = ref([])
-const totalHours = computed(() => activities.value.reduce((sum, activity) => sum + activity.hours, 0));
+const currentPage = 'Inquiry';
 
-const fullName = computed(() => `${userInfo.value?.firstName || ''} ${userInfo.value?.lastName || ''}`);
-
-const sortedActivities = computed(() => {
-    return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date)); // 最近的在前
-});
-
-// 调用用户信息 API
 const fetchUserInfo = async () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-        isLoggedIn.value = false
-        return
-    }
+    authStore.fetchUser();
+    await searchActivities();
+};
 
-    try {
-        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/userinfo', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-
-        userInfo.value = {
-            firstName: response.data.first_name,
-            lastName: response.data.last_name,
-            interiorEmail: response.data.interior_email,
-            uid: response.data.uid,
-            avatarUrl: response.data.avatarUrl || 'https://i.pravatar.cc/100'
-        }
-        isLoggedIn.value = true
-    } catch (error) {
-        console.error('Error fetching user info:', error)
-        isLoggedIn.value = false
-    }
-}
-
-// 组件挂载时获取用户信息并查询活动
-onMounted(async () => {
-    await fetchUserInfo();
-    await searchActivities(); // 在组件挂载时自动进行查询
-});
-
-// 退出登录
-const logout = () => {
-    localStorage.removeItem('token');
-    isLoggedIn.value = false;
-    userInfo.value = null;
-}
-
-// 进行活动搜索
 const searchActivities = async () => {
-    const token = localStorage.getItem('token');
-    let response;
-
-    try {
-        if (isLoggedIn.value && token) {
-            // 用户已登录，使用 JWT 进行查询
-            response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-        } else {
-            // 用户未登录，使用查询参数进行查询
-            const { firstName, lastName } = searchQuery.value.fullName;
-            const { uid } = searchQuery.value;
-            response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
-                params: {
-                    firstName,
-                    lastName,
-                    uid
-                }
-            });
-        }
-
-        activities.value = response.data; // 更新活动数据到前端
-    } catch (error) {
-        console.error('Error fetching activities:', error);
+    if (isLoggedIn.value) {
+        await authStore.fetchActivities();
+    } else {
+        const { firstName, lastName } = searchQuery.value.fullName;
+        const { uid } = searchQuery.value;
+        await authStore.fetchActivities({ firstName, lastName, uid });
     }
-}
+};
+
+const logout = () => {
+    authStore.logout();
+};
 
 const getStatusClass = (status) => {
     switch (status) {
@@ -346,11 +292,15 @@ const getStatusClass = (status) => {
         default:
             return 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800';
     }
-}
+};
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return date.toLocaleDateString('en-US', options); // 格式为 MM/DD/YYYY
-}
+    return date.toLocaleDateString('en-US', options);
+};
+
+onMounted(async () => {
+    await fetchUserInfo();
+});
 </script>
