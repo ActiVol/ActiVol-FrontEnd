@@ -122,7 +122,7 @@
                                 class="text-xs text-gray-700">(小时)</span></p>
                         <p
                             :class="['text-2xl font-bold text-center', totalHours >= 50 ? 'text-green-600' : 'text-red-600']">
-                            {{ totalHours }}<span class="text-xl font-normal">/50</span>
+                            {{ totalApprovedHours }}<span class="text-xl font-normal">/50</span>
                         </p>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-md border-4 border-blue-400">
@@ -238,7 +238,12 @@ const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const userInfo = computed(() => authStore.user);
 const activities = computed(() => authStore.activities);
-const totalHours = computed(() => activities.value.reduce((sum, activity) => sum + activity.hours, 0));
+const totalApprovedHours = computed(() => 
+    activities.value
+        .filter(activity => activity.status === 'approved')
+        .reduce((sum, activity) => sum + activity.hours, 0)
+);
+// const totalHours = computed(() => activities.value.reduce((sum, activity) => sum + activity.hours, 0));
 const fullName = computed(() => `${userInfo.value?.firstName || ''} ${userInfo.value?.lastName || ''}`);
 const sortedActivities = computed(() => {
     return [...activities.value].sort((a, b) => new Date(b.date) - new Date(a.date));
