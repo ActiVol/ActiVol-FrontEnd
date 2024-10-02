@@ -98,8 +98,9 @@ const logout = () => {
 
 const navItems = reactive<MenuItem[]>([
     { name: '首页', icon: 'mdi:home', to: '/admin' },
-    { name: '活动管理', icon: 'mdi:calendar', to: '/admin/activity' },
-    { name: '用户管理', icon: 'mdi:account-group', to: '/admin/user' },
+    { name: '用户提交管理', icon: 'mdi:account-multiple', to: '/admin/submission' },
+    { name: '活动发布管理', icon: 'mdi:calendar', to: '/admin/activities' },
+    { name: '用户管理', icon: 'mdi:account-group', to: '/admin/users' },
     {
         name: '文档',
         icon: 'mdi:file-document-outline',

@@ -20,6 +20,14 @@ import ActivityDetail from '@/components/ActivityDetail.vue';
 import Auth from '@/views/Auth.vue';
 import AuthGuard from '@/components/AuthGuard.vue';
 
+
+
+import ActivityList from '@/views/Admin/ActivityList.vue'
+import ActivityForm from '@/views/Admin/ActivityForm.vue'
+import ActivityDetailpage from '@/views/Admin/ActivityDetail.vue'
+
+
+
 const routes = [
     { path: '/', component: Index },
     { path: '/test', component: Test },
@@ -35,6 +43,7 @@ const routes = [
             { path: ':id', name: 'ActivityDetail', component: ActivityDetail },
         ],
     },
+
     { path: '/auth-guard', component: AuthGuard, name: 'AuthGuard' },
     { path: '/login', component: Auth, meta: { tab: 'login' } },
     { path: '/register', component: Auth, meta: { tab: 'register' } },
@@ -46,7 +55,11 @@ const routes = [
         children: [
             { path: '', name: 'Dashboard', component: () => import('@/views/Admin/Dashboard.vue') },
             { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
-            { path: 'trackinfo', name: 'UserSubmitHoursManagement', component: () => import('@/views/Admin/UserSubmitHoursManagement.vue') },
+            { path: 'submission', name: 'UserSubmissionManagement', component: () => import('@/views/Admin/UserSubmissionManagement.vue') },
+            { path: 'activities', name: 'ActivityList', component: () => import('@/views/Admin/ActivityList.vue') },
+            { path: 'activities/create', name: 'ActivityCreate', component: () => import('@/views/Admin/ActivityForm.vue') },
+            { path: 'activities/:id', name: 'ActivityDetail', component: () => import('@/views/Admin/ActivityDetail.vue') },
+            { path: 'activities/:id/edit', name: 'ActivityEdit', component: () => import('@/views/Admin/ActivityForm.vue') },
         ],
     },
     { path: '/:pathMatch(.*)*', component: NotFound, meta: { hideTitle: true } },
