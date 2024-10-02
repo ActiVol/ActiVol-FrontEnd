@@ -21,13 +21,6 @@ import Auth from '@/views/Auth.vue';
 import AuthGuard from '@/components/AuthGuard.vue';
 
 
-
-import ActivityList from '@/views/Admin/ActivityList.vue'
-import ActivityForm from '@/views/Admin/ActivityForm.vue'
-import ActivityDetailpage from '@/views/Admin/ActivityDetail.vue'
-
-
-
 const routes = [
     { path: '/', component: Index },
     { path: '/test', component: Test },
