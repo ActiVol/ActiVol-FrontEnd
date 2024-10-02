@@ -29,5 +29,11 @@
     },
     "types": ["vite/client", "vue", "vue-i18n"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*"],
+  "include": [
+    "src/**/*.ts", 
+    "src/**/*.tsx", 
+    "src/**/*.vue", 
+    "src/**/*",
+    "src/**/*.d.ts",
+  ],
 }
