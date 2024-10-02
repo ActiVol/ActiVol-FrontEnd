@@ -11,6 +11,8 @@ import about from '@/views/about.vue';
 
 // Admin Panel
 import AdminPanel from '@/views/Admin/AdminPanel.vue';
+
+// User front page -- Activity
 import VolunteerActivities from '@/views/activityPage.vue';
 import ActivityDetail from '@/components/ActivityDetail.vue';
 
@@ -43,8 +45,8 @@ const routes = [
         meta: { requiresAuth: true, requiresAdmin: true },
         children: [
             { path: '', name: 'Dashboard', component: () => import('@/views/Admin/Dashboard.vue') },
-            { path: 'activity', name: 'ActivityManagement', component: () => import('@/views/Admin/ActivityManagement.vue') },
             { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
+            { path: 'trackinfo', name: 'UserSubmitHoursManagement', component: () => import('@/views/Admin/UserSubmitHoursManagement.vue') },
         ],
     },
     { path: '/:pathMatch(.*)*', component: NotFound, meta: { hideTitle: true } },
