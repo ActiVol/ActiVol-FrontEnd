@@ -14,7 +14,7 @@ import AdminPanel from '@/views/Admin/AdminPanel.vue';
 
 // User front page -- Activity
 import VolunteerActivities from '@/views/activityPage.vue';
-import ActivityDetail from '@/components/ActivityDetail.vue';
+import ActivityPostDetail from '@/components/ActivityDetail.vue';
 
 // Auth
 import Auth from '@/views/Auth.vue';
@@ -33,7 +33,7 @@ const routes = [
         name: 'VolunteerActivities',
         component: VolunteerActivities,
         children: [
-            { path: ':id', name: 'ActivityDetail', component: ActivityDetail },
+            { path: ':id', name: 'ActivityDetail', component: ActivityPostDetail },
         ],
     },
 

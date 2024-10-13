@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
       <div v-if="activity" class="px-6 py-8">
         <div class="flex justify-between items-start mb-6">
-          <h1 class="text-3xl font-bold text-gray-900">{{ activity.title }}</h1>
+          <h1 class="text-3xl font-bold text-gray-900">{{ activity.activity_name }}</h1>
           <span :class="getStatusClass(getActivityStatus(activity))" class="px-2 py-1 text-sm font-medium rounded-full">
             {{ getActivityStatus(activity) }}
           </span>
@@ -21,15 +21,15 @@
             <h2 class="text-xl font-semibold text-gray-900 mb-2">活动信息</h2>
             <p class="text-gray-600 mb-2">
               <Icon icon="mdi:map-marker" class="inline-block mr-2" />
-              {{ activity.location }}
+              {{ activity.activity_location }}
             </p>
             <p class="text-gray-600 mb-2">
               <Icon icon="mdi:account" class="inline-block mr-2" />
-              举办者: {{ activity.organizer }}
+              举办者: {{ activity.organizer_name }}
             </p>
             <p class="text-gray-600 cursor-pointer hover:text-blue-600" @click="copyEmail">
               <Icon icon="mdi:email" class="inline-block mr-2" />
-              {{ activity.organizerEmail }}
+              {{ activity.organizer_email }}
               <span class="ml-2 text-sm text-blue-600">(点击复制)</span>
             </p>
           </div>
@@ -45,7 +45,7 @@
 
         <div class="mb-8">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">活动时间</h2>
-          <div v-for="(date, index) in activity.dates" :key="index" class="bg-gray-50 rounded-lg p-4 mb-4" :class="getDateStatusClass(date.date)">
+          <div v-for="(date, index) in activity.shift" :key="index" class="bg-gray-50 rounded-lg p-4 mb-4" :class="getDateStatusClass(date.date)">
             <p class="text-gray-800 font-medium">
               {{ formatDate(date.date) }}
             </p>
@@ -63,7 +63,7 @@
 
         <div class="mb-8">
           <h2 class="text-xl font-semibold text-gray-900 mb-4">活动详情</h2>
-          <div class="prose max-w-none" v-html="activity.content"></div>
+          <div class="prose max-w-none" v-html="activity.activity_description"></div>
         </div>
 
         <div class="flex justify-end space-x-3">
@@ -74,7 +74,7 @@
             编辑活动
           </router-link>
           <button
-            @click="deleteActivity"
+            @click="deleteActivityData"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
             删除活动
@@ -88,54 +88,47 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useActivities } from '@/api/activities'
+import { fetchActivity, deleteActivity } from '@/api/api'
 import { Icon } from '@iconify/vue'
 
 const route = useRoute()
 const router = useRouter()
-const { fetchActivity, deleteActivity: apiDeleteActivity } = useActivities()
 
 interface Activity {
-  id: number
-  title: string
-  dates: {
-    date: string
-    duration: number
-    participants?: number
-    unlimited: boolean
-    registeredParticipants?: number
-  }[]
-  location: string
-  categories: string[]
-  posterUrl?: string
-  organizer: string
-  organizerEmail: string
-  content: string
+  id: number;
+  activity_name: string;
+  posterUrl?: string;
+  activity_location: string;
+  organizer_name: string;
+  organizer_email: string;
+  categories: string[];
+  shift: { date: string; duration: number; unlimited: boolean; participants: number; registeredParticipants?: number }[];
+  activity_description: string;
 }
 
 const activity = ref<Activity | null>(null)
 
 onMounted(async () => {
   const id = Number(route.params.id)
-  const fetchedActivity = await fetchActivity(id)
-  if (fetchedActivity) {
-    fetchedActivity.dates = fetchedActivity.dates.map(date => ({
-      ...date,
-      unlimited: 'unlimited' in date ? Boolean(date.unlimited) : false,
-      participants: date.participants ?? 0,
-      registeredParticipants: 'registeredParticipants' in date ? date.registeredParticipants : 0
-    }))
-  }
-  activity.value = fetchedActivity as Activity
+  await fetchActivityData(id)
 })
+
+const fetchActivityData = async (id: number) => {
+  try {
+    const response = await fetchActivity(id)
+    activity.value = response.data
+  } catch (error) {
+    console.error(`Error fetching activity ${id}:`, error)
+  }
+}
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })
 }
 
-const getActivityStatus = (activity: Activity) => {
+const getActivityStatus = (activity: any) => {
   const now = new Date()
-  const lastDate = new Date(activity.dates[activity.dates.length - 1].date)
+  const lastDate = new Date(activity.shift[activity.shift.length - 1].date)
   return now > lastDate ? '已结束' : '报名中'
 }
 
@@ -164,16 +157,21 @@ const getDateStatusClass = (date: string) => {
   }
 }
 
-const deleteActivity = async () => {
-  if (confirm('确定要删除这个活动吗？')) {
-    await apiDeleteActivity(activity.value!.id)
-    router.push('/admin/activities')
+const deleteActivityData = async () => {
+  const token = localStorage.getItem('token')
+  if (token && confirm('确定要删除这个活动吗？')) {
+    try {
+      await deleteActivity(activity.value!.id, token)
+      router.push('/admin/activities')
+    } catch (error) {
+      console.error(`Error deleting activity ${activity.value!.id}:`, error)
+    }
   }
 }
 
 const copyEmail = () => {
   if (activity.value) {
-    navigator.clipboard.writeText(activity.value.organizerEmail)
+    navigator.clipboard.writeText(activity.value.organizer_email)
       .then(() => {
         alert('邮箱已复制到剪贴板')
       })

@@ -1,6 +1,5 @@
-// src/stores/activity.ts
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { fetchActivities, fetchActivity, createActivity, updateActivity, deleteActivity } from '@/api/api'
 
 interface Activity {
   id: number;
@@ -20,7 +19,7 @@ export const useActivityStore = defineStore('activity', {
   actions: {
     async fetchActivities() {
       try {
-        const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities?firstName=Test&lastName=Hello&uid=123456')
+        const response = await fetchActivities({})
         this.activities = response.data
       } catch (error) {
         console.error('Error fetching activities:', error)
@@ -29,16 +28,16 @@ export const useActivityStore = defineStore('activity', {
     },
     async fetchActivity(id: number) {
       try {
-        const response = await axios.get(`https://test-api-v.us.kjchmc.cn/api/auth/activities/${id}`)
+        const response = await fetchActivity(id)
         return response.data
       } catch (error) {
         console.error(`Error fetching activity ${id}:`, error)
         throw error
       }
     },
-    async createActivity(activityData: Partial<Activity>) {
+    async createActivity(activityData: Partial<Activity>, token: string) {
       try {
-        const response = await axios.post('https://test-api-v.us.kjchmc.cn/api/auth/activities', activityData)
+        const response = await createActivity(activityData, token)
         this.activities.push(response.data)
         return response.data
       } catch (error) {
@@ -46,9 +45,9 @@ export const useActivityStore = defineStore('activity', {
         throw error
       }
     },
-    async updateActivity(id: number, activityData: Partial<Activity>) {
+    async updateActivity(id: number, activityData: Partial<Activity>, token: string) {
       try {
-        const response = await axios.put(`https://test-api-v.us.kjchmc.cn/api/auth/activities/${id}`, activityData)
+        const response = await updateActivity(id, activityData, token)
         const index = this.activities.findIndex(a => a.id === id)
         if (index !== -1) {
           this.activities[index] = response.data
@@ -59,9 +58,9 @@ export const useActivityStore = defineStore('activity', {
         throw error
       }
     },
-    async deleteActivity(id: number) {
+    async deleteActivity(id: number, token: string) {
       try {
-        await axios.delete(`https://test-api-v.us.kjchmc.cn/api/auth/activities/${id}`)
+        await deleteActivity(id, token)
         this.activities = this.activities.filter(a => a.id !== id)
       } catch (error) {
         console.error(`Error deleting activity ${id}:`, error)

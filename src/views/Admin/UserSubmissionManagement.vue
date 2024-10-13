@@ -353,6 +353,7 @@ import { debounce } from "lodash";
 import { jwtDecode } from 'jwt-decode';
 import Modal from "@/components/Admin/Modal.vue";
 import moment from 'moment';
+import { fetchActivityRecords } from '@/api/api';
 
 interface Activity {
   id: number;
@@ -433,19 +434,12 @@ const visiblePages = computed(() => {
 const fetchActivities = async () => {
   isLoading.value = true;
   try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Token not found');
-    }
-
-    const decodedToken: any = jwtDecode(token);
+    const token = localStorage.getItem('token') || undefined;
+    const decodedToken: any = jwtDecode(token!);
     const isAdmin = decodedToken.isAdmin === 1 || decodedToken.isAdmin === 2;
     const params = isAdmin ? { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, all: true } : { ...searchParams.value, page: currentPage.value, limit: itemsPerPage.value, uid: decodedToken.uid };
 
-    const response = await axios.get('https://test-api-v.us.kjchmc.cn/api/auth/activities', {
-      params,
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
+    const response = await fetchActivityRecords(params, token);
     const newActivities = response.data.filter((activity: Activity) => activity.is_deleted !== 1);
 
     // Implement a small delay strategy
