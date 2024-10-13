@@ -70,12 +70,12 @@ export const useAuthStore = defineStore('auth', {
             const cacheKey = `activities_${JSON.stringify(params)}`;
             const cachedData = localStorage.getItem(cacheKey);
             const cachedTime = localStorage.getItem(`${cacheKey}_time`);
-
+        
             if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime)) < CACHE_EXPIRY_TIME) {
                 this.activities = JSON.parse(cachedData);
                 return;
             }
-
+        
             try {
                 const response = await fetchActivities(params, token || undefined);
                 this.activities = response.data;

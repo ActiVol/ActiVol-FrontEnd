@@ -105,8 +105,13 @@ export const reviewActivityRecord = (id: string, status: string, token: string) 
     });
 
 // 活动公告相关
-export const fetchActivities = () =>
-    axios.get(`${API_BASE_URL}/activity/posts`);
+export const fetchActivities = (params?: any, token?: string) =>
+    axios.get(`${API_BASE_URL}/activity/posts`, {
+        params,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
 export const fetchActivity = (id: number) =>
     axios.get(`${API_BASE_URL}/activity/posts/${id}`);

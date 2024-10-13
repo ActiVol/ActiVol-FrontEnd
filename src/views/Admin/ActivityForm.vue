@@ -137,7 +137,7 @@
           <div class="bg-gray-50 p-6 rounded-lg">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">活动详情</h2>
             <div class="border rounded-md shadow-sm">
-              <quill-editor v-model="form.activity_description" :options="editorOptions" @text-change="autoSave"
+              <quill-editor v-model:content="form.activity_description" :options="editorOptions" @text-change="autoSave"
                 class="h-64" />
             </div>
           </div>
@@ -326,7 +326,7 @@ onMounted(async () => {
         posterUrl: activity.posterUrl ?? '',
         organizer_name: activity.organizer_name,
         organizer_email: activity.organizer_email,
-        activity_description: activity.activity_description, // 确保这里设置了 activity_description
+        activity_description: activity.activity_description,
       }
     }
   }

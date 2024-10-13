@@ -19,13 +19,13 @@ export const useActivityStore = defineStore('activity', {
   actions: {
     async fetchActivities() {
       try {
-        const response = await fetchActivities({})
-        this.activities = response.data
+          const response = await fetchActivities();
+          this.activities = response.data;
       } catch (error) {
-        console.error('Error fetching activities:', error)
-        throw error
+          console.error('Error fetching activities:', error);
+          throw error;
       }
-    },
+  },
     async fetchActivity(id: number) {
       try {
         const response = await fetchActivity(id)
