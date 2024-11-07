@@ -100,7 +100,22 @@ const navItems = reactive<MenuItem[]>([
     { name: '首页', icon: 'mdi:home', to: '/admin' },
     { name: '用户提交管理', icon: 'mdi:account-multiple', to: '/admin/submission' },
     { name: '活动发布管理', icon: 'mdi:calendar', to: '/admin/activities' },
-    { name: '用户管理', icon: 'mdi:account-group', to: '/admin/users' },
+    {
+        name: '用户管理',
+        icon: 'mdi:account-cog',
+        children: [
+            { name: '用户信息', icon: 'fluent-mdl2:profile-search', to: '/admin/users/info' },
+            {
+                name: '权限管理',
+                icon: 'ic:outline-lock',
+                children: [
+                    { name: '角色管理', icon: 'mdi:account-group', to: '/admin/users/roles' },
+                    { name: '菜单管理', icon: 'mdi:menu-open', to: '/admin/users/menus' },
+                ]
+            },
+        ]
+    },
+    { name: '个人资料', icon: 'streamline:user-identifier-card', to: '/admin/users/profile' },
     {
         name: '文档',
         icon: 'mdi:file-document-outline',
@@ -146,15 +161,6 @@ const navItems = reactive<MenuItem[]>([
                     }
                 ]
             },
-        ]
-    },
-    {
-        name: '系统管理',
-        icon: 'mdi:cog',
-        children: [
-            { name: '用户管理', icon: 'mdi:account-cog', to: '/admin/users' },
-            { name: '角色管理', icon: 'mdi:account-group', to: '/admin/roles' },
-            { name: '菜单管理', icon: 'mdi:menu-open', to: '/admin/menus' },
         ]
     },
     { name: '关于', icon: 'mdi:information-outline', to: '/admin/about' },

@@ -47,7 +47,7 @@ const routes = [
         meta: { requiresAuth: true, requiresAdmin: true },
         children: [
             { path: '', name: 'Dashboard', component: () => import('@/views/Admin/Dashboard.vue') },
-            { path: 'users', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
+            { path: 'users/info', name: 'UserManagement', component: () => import('@/views/Admin/UserManagement.vue') },
             { path: 'submission', name: 'UserSubmissionManagement', component: () => import('@/views/Admin/UserSubmissionManagement.vue') },
             { path: 'activities', name: 'ActivityList', component: () => import('@/views/Admin/ActivityList.vue') },
             { path: 'activities/create', name: 'ActivityCreate', component: () => import('@/views/Admin/ActivityForm.vue') },
