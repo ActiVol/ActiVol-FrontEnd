@@ -1,14 +1,17 @@
 {
     "auth": {
-        "login":"登录",
-        "register":"注册",
-        "forget":"忘记密码"
+        "login": "登录",
+        "register": "注册",
+        "forget": "忘记密码",
+        "welcomeBack": "欢迎回来",
+        "createAccount": "创建账号",
+        "resetPassword": "重置密码"
     },
     "forget": {
-        "email":"邮箱",
-        "verificationCode":"验证码",
-        "verifying":"验证中",
-        "verify":"验 证",
+        "email": "邮箱",
+        "verificationCode": "验证码",
+        "verifying": "验证中",
+        "verify": "验 证",
         "verificationCodeRequired": "请输入验证码",
         "emailRequired": "请输入正确的个人邮箱地址",
         "verificationCodeSent": "验证码发送成功",
@@ -36,12 +39,20 @@
         "otherLoginLoadingTitle": "正在验证第三方应用账户数据，请稍候"
     },
     "register": {
-        "familyName":"姓",
-        "familyNameTip":"也称为姓氏，例如：张三的 “张”",
-        "givenName":"名",
-        "givenNameTip":"你的名字，例如：张三的 “三”",
-        "familyNameRequired":"姓不能为空",
-        "givenNameRequired":"名不能为空",
+        "selectUserType": "选择用户类型",
+        "changeUserType": "更改用户类型",
+        "userTypes": {
+            "student": "学生",
+            "admin": "管理员",
+            "counselor": "辅导员",
+            "volunteer": "志愿者"
+        },
+        "familyName": "姓",
+        "familyNameTip": "也称为姓氏，例如：张三的 “张”",
+        "givenName": "名",
+        "givenNameTip": "你的名字，例如：张三的 “三”",
+        "familyNameRequired": "姓不能为空",
+        "givenNameRequired": "名不能为空",
         "username": "用户名",
         "usernameTip": "用户名是您在注册时自定义的唯一名称",
         "studentId": "学号",
@@ -96,7 +107,7 @@
         "title": "ActiVol"
     },
     "layout": {
-        "backHome":"返回首页",
+        "backHome": "返回首页",
         "login": "登录",
         "logout": "退出",
         "confirmLogout": "确定注销并退出系统吗？",

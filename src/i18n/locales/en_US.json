@@ -2,7 +2,10 @@
   "auth": {
     "login": "Login",
     "register": "Register",
-    "forget": "Forgot Password"
+    "forget": "Forgot Password",
+    "welcomeBack": "Welcome Back",
+    "createAccount": "Create An Account",
+    "resetPassword": "Reset Password"
   },
   "forget": {
     "email": "Email",
@@ -36,6 +39,14 @@
     "otherLoginLoadingTitle": "Validating third-party application account data, please wait"
   },
   "register": {
+    "selectUserType": "Select User Type",
+    "changeUserType": "Change User Type",
+    "userTypes": {
+      "student": "Student",
+      "admin": "Admin",
+      "counselor": "Counselor",
+      "volunteer": "Volunteer"
+    },
     "givenName": "First Name",
     "givenNameTip": "As known as Given Name",
     "familyName": "Last Name",

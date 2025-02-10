@@ -95,12 +95,12 @@
 
       <div class="mt-2">
         <el-divider content-position="center">
-          <span class="w-full text-gray-200">{{ $t('login.otherLoginMethods') }}</span>
+          <span class="w-full text-gray-400">{{ $t('login.otherLoginMethods') }}</span>
         </el-divider>
         <el-form-item class="w-full">
           <div class="w-full space-y-4">
             <button @click="doSocialLogin('google')"
-                    class="w-full flex items-center justify-center space-x-2 py-2 px-4 border-2 border-blue-700 rounded-md shadow-sm font-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    class="w-full flex items-center justify-center space-x-2 py-2 px-4 border-2 rounded-md shadow-sm font-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               <!-- <svg-icon icon-class="google" class="w-12 h-12" /> -->
               <Icon icon="devicon:google" class="w-5 h-5" />
               <span class="text-md">{{ $t('login.loginWith', { provider: 'Google' }) }}</span>
