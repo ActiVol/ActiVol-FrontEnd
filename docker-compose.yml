@@ -1,0 +1,9 @@
+version: '2.3'
+services:
+  volunteer:
+    image: volunteer:1.0
+    ports:
+      - "8081:80"
+    restart: always
+    volumes:
+      - D:\docker\guyue-docker\volunteer:/usr/share/nginx/html/config

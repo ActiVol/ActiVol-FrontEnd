@@ -14,4 +14,4 @@ export default {
     addDynamicIconSelectors(),
     // require('@tailwindcss/forms'),
   ],
-}
+};

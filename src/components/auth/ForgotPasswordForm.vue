@@ -1,42 +1,134 @@
 <template>
-    <form @submit.prevent="handleForgotPassword" class="space-y-4">
-        <div class="relative">
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('auth.forget.email')
-                }}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Icon icon="mdi:email" class="text-gray-400" />
-                </div>
-                <input v-model="form.email" type="email" id="email"
-                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    required />
-            </div>
+  <div class="forgot_password_form space-y-6">
+    <el-form ref="loginRef" :model="forgotForm" :rules="forgotRules" class="w-full forgot-password-form space-y-4">
+      <el-form-item :label="$t('forget.email')" prop="email"  label-position="top">
+        <el-input
+          v-model="forgotForm.email"
+          type="text"
+          size="large"
+          auto-complete="off"
+          :placeholder="$t('forget.email')"
+        >
+          <template #prefix>
+            <el-icon>
+              <Message />
+            </el-icon>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item :label="$t('forget.verificationCode')" prop="code" v-if="captchaEnabled" label-position="top">
+        <el-input
+          size="large"
+          v-model="forgotForm.code"
+          auto-complete="off"
+          :placeholder="$t('forget.verificationCode')"
+          style="width: 63%"
+          @keyup.enter="handleForgot"
+        >
+          <template #prefix>
+            <svg-icon iconClass="code"/>
+          </template>
+        </el-input>
+        <div class="forgot-code">
+          <img :src="codeUrl" @click="getCode" class="forgot-code-img"/>
         </div>
-        <button type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            {{ $t('auth.forget.submit') }}
-        </button>
-    </form>
+      </el-form-item>
+      <el-form-item style="width:100%;">
+        <el-button
+          :loading="loading"
+          size="large"
+          type="primary"
+          style="width:100%;"
+          @click.prevent="handleForgot"
+        >
+          <span v-if="!loading">{{$t('forget.verify')}}</span>
+          <span v-else>{{ $t('forget.verifying') }}...</span>
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { reactive } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { Icon } from '@iconify/vue';
-
-const authStore = useAuthStore();
-
-const form = reactive({
-    email: '',
+<script setup>
+import { ElMessage } from 'element-plus';
+import { ref,onMounted,getCurrentInstance} from 'vue';
+import { getCodeImg,forgotPassword} from '../../api/login';
+const { proxy } = getCurrentInstance();
+const loading = ref(false);
+const codeUrl = ref('');
+const captchaEnabled = ref(true);
+const forgotForm = ref({
+  email: '',
+  code: '',
+  uuid: ''
 });
-
-const handleForgotPassword = async () => {
-    try {
-        await authStore.forgotPassword(form.email);
-        alert(`$t('auth.forget.success')`);
-    } catch (error) {
-        console.error('Password reset request failed:', error);
-        alert(`$t('auth.forget.failed')`);
-    }
+const forgotRules = {
+  email:[
+    {type: 'email',required: true,message: proxy.$t('forget.emailRequired'),trigger: ['blur','change']}
+  ],
+  code: [{ required: true, trigger: 'change', message: proxy.$t('forget.verificationCodeRequired') }]
 };
+const getCode = () => {
+  getCodeImg().then(res => {
+    captchaEnabled.value = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+    if (captchaEnabled.value) {
+      codeUrl.value = 'data:image/gif;base64,' + res.img;
+      forgotForm.value.uuid = res.uuid;
+    }
+  });
+};
+const handleForgot = () => {
+  proxy.$refs.loginRef.validate(valid => {
+    if (valid) {
+      forgotPassword(forgotForm.value).then(res => {
+        if(res.code == 200) {
+          ElMessage.success(proxy.$t('forget.verificationCodeSent'));
+          proxy.$router.push({ path: '/login' });
+        }else{
+          ElMessage.error(proxy.$t('forget.verificationCodeFailed') + res.msg);
+        }
+      });
+    }
+  });
+};
+onMounted(() => {
+  getCode();
+});
 </script>
+
+<style scoped>
+.forgot_password_form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+}
+.forgot-password-form {
+	border-radius: 6px;
+	background: #ffffff;
+}
+.forgot-password-form .input-icon {
+	height: 39px;
+	width: 14px;
+	margin-left: 0px;
+}
+.forgot-password-tip {
+	font-size: 13px;
+	text-align: center;
+	color: #bfbfbf;
+}
+.forgot-code {
+	width: 33%;
+	height: 40px;
+	float: right;
+}
+.forgot-code img {
+	cursor: pointer;
+	vertical-align: middle;
+}
+.forgot-code-img {
+	height: 40px;
+	padding-left: 12px;
+}
+
+</style>

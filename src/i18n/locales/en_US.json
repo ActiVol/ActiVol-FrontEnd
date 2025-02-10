@@ -1,0 +1,123 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "forget": "Forgot Password"
+  },
+  "forget": {
+    "email": "Email",
+    "verificationCode": "Verification Code",
+    "verifying": "Verifying",
+    "verify": "Verify",
+    "verificationCodeRequired": "Please enter the verification code",
+    "emailRequired": "Please enter a valid email address",
+    "verificationCodeSent": "Verification code sent successfully",
+    "verificationCodeFailed": "Verification code sending failed"
+  },
+  "login": {
+    "usernameOrStudentIDOrEmail": "Username/Student ID/Email",
+    "accountPlaceholder": "Account",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "verificationCode": "Verification Code",
+    "verificationCodePlaceholder": "Verification Code",
+    "rememberPassword": "Remember Password",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Log In",
+    "loggingIn": "Logging In...",
+    "noAccount": "Don't have an account?",
+    "registerNow": "Register Now",
+    "usernameRequired": "Please enter your account",
+    "passwordRequired": "Please enter your password",
+    "verificationCodeRequired": "Please enter the verification code",
+    "checkUserAgreement": "Please check the user agreement",
+    "otherLoginMethods": "OR",
+    "loginWith": "Log in with {provider}",
+    "otherLoginLoadingTitle": "Validating third-party application account data, please wait"
+  },
+  "register": {
+    "givenName": "First Name",
+    "givenNameTip": "As known as Given Name",
+    "familyName": "Last Name",
+    "familyNameTip": "As known as Surname/Family Name",
+    "givenNameRequired": "First name is required",
+    "familyNameRequired": "Last name is required",
+    "username": "Username",
+    "usernameTip": "Username is a unique name that you customize during registration",
+    "studentId": "Student ID",
+    "counselor": "Counselor",
+    "graduationYear": "Graduation Year",
+    "internalEmail": "School Email",
+    "externalEmail": "Personal Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "verificationCode": "Verification Code",
+    "agreement": "I have read and agree to",
+    "userAgreement": "User Agreement",
+    "and": "&",
+    "privacyStatement": "Privacy Statement",
+    "registerButton": "Register",
+    "registering": "Registering...",
+    "haveAccount": "Already have an account?",
+    "loginNow": "Login Now",
+    "agreementTitle": "User Agreement & Privacy Statement",
+    "readCarefully": "Please read the following carefully before making your decision",
+    "userAgreementTitle": "User Agreement",
+    "privacyStatementTitle": "Privacy Statement",
+    "viewUserAgreement": "View User Agreement",
+    "viewPrivacyStatement": "View Privacy Statement",
+    "disagree": "Disagree",
+    "agree": "Agree",
+    "onlyEnglishAllowed": "Only English characters are allowed",
+    "usernameRequired": "Please enter your username",
+    "usernameLengthError": "The username must be between 2 and 20 characters",
+    "studentIdRequired": "Please enter your student ID",
+    "studentIdLengthError": "The student ID must be between 2 and 20 characters",
+    "counselorRequired": "Please select your counselor",
+    "graduationYearRequired": "Please select your graduation year",
+    "internalEmailRequired": "Please enter a valid school email address",
+    "externalEmailRequired": "Please enter a valid personal email address",
+    "passwordRequired": "Please enter your password",
+    "passwordLengthError": "Password must be between 5 and 20 characters",
+    "passwordInvalidChars": "Password cannot contain invalid characters: < > \" ' \\ |",
+    "confirmPasswordRequired": "Please re-enter your password",
+    "passwordMismatch": "Passwords do not match",
+    "verificationCodeRequired": "Please enter the verification code",
+    "agreementRequired": "Please read and agree to the policy above",
+    "registrationSuccess": "Account {username} registered successfully!",
+    "systemAlert": "System Alert"
+  },
+  "error": {
+    "notFindPage": "Sorry, the page you requested does not exist",
+    "backHome": "Back to Home Page"
+  },
+  "app": {
+    "BrowserTitle": "ActiVol | Volunteer Tracker",
+    "title": "ActiVol"
+  },
+  "layout": {
+    "backHome":"Back to Home",
+    "login": "Log In",
+    "logout": "Log Out",
+    "confirmLogout": "Are you sure you want to log out and exit the system?"
+  },
+  "prompt": "Prompt",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the Volunteer Tracker Platform",
+    "easyVolunteer": "Use our easy-to-use platform to efficiently track and manage your volunteer hours."
+  },
+  "menu": {
+    "ActivityLogger": "Add your volunteer records",
+    "TimeLog": "Log Time",
+    "StatsView": "View Stats",
+    "VolunteerImpact": "Analyze your volunteer data and impact",
+    "Activity": "Activity",
+    "ActivityViewer": "View Volunteer Activities"
+  },
+  "message": {
+    "languageSwitchSuccess": "Successfully switched to {language}"
+  }
+}

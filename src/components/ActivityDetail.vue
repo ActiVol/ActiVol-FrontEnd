@@ -1,188 +1,170 @@
 <template>
-    <div v-if="activity" class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <div class="relative">
-            <div v-if="activity.posterUrl" class="h-64 md:h-96 overflow-hidden">
-                <img :src="activity.posterUrl" :alt="activity.title" class="w-full h-full object-cover" />
-                <button @click="showFullImage = true"
-                    class="absolute top-4 right-4 bg-white text-gray-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors shadow-md z-10">
-                    <Icon icon="mdi:fullscreen" class="w-5 h-5 mr-1 inline-block" />
-                    {{ $t('activityDetail.viewFullImage') }}
-                </button>
-            </div>
-            <div v-else :class="['h-64 md:h-96 flex items-center justify-center', gradientClass]">
-                <span class="text-6xl text-white">{{ activity.title.charAt(0) }}</span>
-            </div>
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-6">
-                <h2 class="text-3xl font-bold text-white mb-2 drop-shadow-md">{{ activity.title }}</h2>
-                <div class="inline-block px-3 py-1 rounded-full text-sm font-bold text-white shadow-md"
-                    :class="getStatusClass(activity.status)">
-                    {{ $t(`activityDetail.status.${activity.status}`) }}
-                </div>
-            </div>
-        </div>
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 space-y-4">
-                    <p class="text-gray-700">{{ activity.description }}</p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="flex items-center text-gray-600">
-                            <Icon icon="mdi:calendar" class="w-5 h-5 mr-2 text-indigo-500" />
-                            <span>{{ formatDate(activity.date) }}</span>
-                        </div>
-                        <div class="flex items-center text-gray-600">
-                            <Icon icon="mdi:clock-outline" class="w-5 h-5 mr-2 text-indigo-500" />
-                            <span>{{ activity.duration }} {{ $t('activityDetail.hours') }}</span>
-                        </div>
-                        <div class="flex items-center text-gray-600">
-                            <Icon icon="mdi:map-marker" class="w-5 h-5 mr-2 text-indigo-500" />
-                            <span>{{ activity.location }}</span>
-                        </div>
-                        <div class="flex items-center text-gray-600">
-                            <Icon icon="mdi:account-group" class="w-5 h-5 mr-2 text-indigo-500" />
-                            <span>{{ $t('activityDetail.volunteersNeeded', { count: activity.volunteersNeeded })
-                                }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-xl font-semibold mb-4">{{ $t('activityDetail.signUp') }}</h3>
-                    <form @submit.prevent="submitApplication" class="space-y-4">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700">{{
-                                $t('activityDetail.name') }}</label>
-                            <input type="text" id="name" v-model="application.name" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">{{
-                                $t('activityDetail.email') }}</label>
-                            <input type="email" id="email" v-model="application.email" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-                        </div>
-                        <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700">{{
-                                $t('activityDetail.message') }}</label>
-                            <textarea id="message" v-model="application.message" rows="4"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
-                        </div>
-                        <button type="submit"
-                            class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
-                            {{ $t('activityDetail.apply') }}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Full Image Modal -->
-        <div v-if="showFullImage" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-            @click="showFullImage = false">
-            <div class="max-w-4xl max-h-full p-4">
-                <img :src="activity.posterUrl" :alt="activity.title" class="max-w-full max-h-full object-contain" />
-            </div>
-            <button @click="showFullImage = false"
-                class="absolute top-4 right-4 bg-white text-gray-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors shadow-md z-60">
-                <Icon icon="mdi:close" class="w-5 h-5 mr-1 inline-block" />
-                {{ $t('activityDetail.closeFullImage') }}
-            </button>
-        </div>
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden"  v-loading="loading" :element-loading-svg="svg">
+    <div class="relative">
+      <div v-if="tempActivity&&tempActivity.activityPictures" class="overflow-hidden">
+        <img :src="baseURL+tempActivity.activityPictures" :alt="truncateDescription(tempActivity.activityName,10)" class="w-full h-full object-cover" />
+      </div>
+      <div v-else :class="['flex items-center justify-center']">
+        <span class="text-4xl text-white">{{ truncateDescription(tempActivity.activityName,10) }}</span>
+      </div>
     </div>
+    <div class="p-4">
+      <h3 class="text-xl font-bold text-gray-800 mb-2">{{ truncateDescription(tempActivity.activityName,10) }}</h3>
+
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center text-sm text-gray-500">
+          <div class="flex items-center">
+            <div class="w-4 h-4 mr-1"><svg-icon iconClass="zmrs"  /></div>
+          </div>
+          <div class="text font-medium max-w-3xl mx-auto">
+            <span class="mr-1">招募人数：</span>
+            <span class="mr-1">{{  tempActivity.recruitedNumber }}</span>
+            <span>/</span>
+            <span class="mr-1">{{  tempActivity.recruitNumber }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center text-sm text-gray-500">
+          <Icon icon="mdi:calendar" class="w-4 h-4 mr-1" />
+          <span class="mr-1">活动日期：</span>
+          <span class="mr-1">{{ tempActivity.startTime }}</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center text-sm text-gray-500 mr-2">
+          <div class="flex items-center">
+            <div class="w-4 h-4 mr-1"><svg-icon iconClass="map-marker" /></div>
+            <span class="w-20 text-sm mr-1">活动地址：</span>
+          </div>
+          <span class="mr-1">{{ tempActivity.address }}</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center text-sm text-gray-500 mr-2">
+          <div class="flex items-center">
+            <div class="w-4 h-4 mr-1"><svg-icon iconClass="ic_leader" /></div>
+          </div>
+          <span class="text-sm mr-1">举&nbsp;&nbsp;办&nbsp;&nbsp;者：</span>
+          <span class="mr-1">{{ tempActivity?.dept?.leader }}</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center text-sm text-gray-500 mr-2">
+          <div class="flex items-center">
+            <div class="w-4 h-4 mr-1"><svg-icon iconClass="email" /></div>
+          </div>
+          <span class="text-sm mr-1">邮&nbsp;&nbsp;&nbsp;&nbsp;箱&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+          <span class="mr-1" @click="copyCurrentUrl(tempActivity?.dept?.email)">{{ tempActivity?.dept?.email }}</span>
+        </div>
+      </div>
+      <div class="flex items-center mb-2">
+        <dict-tag class="mr-2" :options="serviceFields" :value="tempActivity.serviceField"/>
+        <dict-tag class="mr-2" :options="serviceObjects" :value="tempActivity.serviceObject"/>
+        <dict-tag class="mr-2" :options="serviceLocations" :value="tempActivity.serviceLocation"/>
+      </div>
+      <div class="mr-2">
+        <p class="text font-bold text-gray-800 mb-2">活动详情</p>
+      </div>
+      <div class="bg-grey shadow-lg overflow-hidden px-2 py-2" style="border:solid 1px #00cbab">
+        <p class="text-sm text-gray-600 mb-2">{{ tempActivity.details }}</p>
+      </div>
+    </div>
+    <el-button
+      :loading="loading"
+      size="large"
+      type="primary"
+      class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      @click.prevent="handleSubmit"
+    >
+      <span v-if="!loading">提 交</span>
+      <span v-else>提 交 中...</span>
+    </el-button>
+  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, ref, PropType } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+<script setup>
+import {defineProps,ref, watch,onMounted,defineComponent } from 'vue';
+import { ElMessage } from 'element-plus';
+import {signUpActivity} from '../api/openness/openness';
+import { getToken } from '../utils/auth';
+import {copyCurrentUrl} from '../utils/ruoyi';
 import { Icon } from '@iconify/vue';
-import { ActivityType } from '@/types';
-
-interface ApplicationType {
-    name: string;
-    email: string;
-    message: string;
-}
-
-const gradients = {
-    blue: 'bg-gradient-to-br from-blue-400 to-indigo-600',
-    green: 'bg-gradient-to-br from-green-400 to-emerald-600',
-    purple: 'bg-gradient-to-br from-purple-400 to-fuchsia-600',
-    orange: 'bg-gradient-to-br from-orange-400 to-red-600',
-    teal: 'bg-gradient-to-br from-teal-400 to-cyan-600',
+defineComponent(['Icon']);
+import { useRouter } from 'vue-router';
+const router = useRouter();
+import config from 'config';
+const baseURL = config.baseURL;
+import { useRoute } from 'vue-router';
+import { getActivityDetailById } from '../api/openness/openness';
+const tempActivity = ref({});
+const svg = `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `;
+const loading = ref(false);
+const props = defineProps({
+  serviceField: Object,
+  serviceLocation: Object,
+  serviceObject: Object
+});
+const serviceFields = ref([]);
+const serviceObjects = ref([]);
+const serviceLocations = ref([]);
+watch(() => props.serviceField, (newValue) => {
+  serviceFields.value = newValue;
+},{deep:true,immediate:true});
+watch(() => props.serviceObject, (newValue) => {
+  serviceObjects.value = newValue;
+},{deep:true,immediate:true});
+watch(() => props.serviceLocation, (newValue) => {
+  serviceLocations.value = newValue;
+},{deep:true,immediate:true});
+const truncateDescription = (details, maxLength = 100) => {
+  return details && details.length > maxLength
+    ? details.substring(0, maxLength) + '...'
+    : details;
 };
-
-export default defineComponent({
-    name: 'ActivityDetail',
-    components: {
-        Icon,
-    },
-    props: {
-        activities: {
-            type: Array as PropType<ActivityType[]>,
-            required: true,
-        },
-    },
-    setup(props) {
-        const { t } = useI18n();
-        const route = useRoute();
-        const showFullImage = ref(false);
-
-        const activity = computed(() => {
-            const id = Number(route.params.id);
-            return props.activities.find(a => a.id === id);
-        });
-
-        const gradientClass = computed(() => {
-            if (activity.value?.gradientColor && gradients[activity.value.gradientColor as keyof typeof gradients]) {
-                return gradients[activity.value.gradientColor as keyof typeof gradients];
-            }
-            const colors = Object.values(gradients);
-            return colors[Math.floor(Math.random() * colors.length)];
-        });
-
-        const application = reactive<ApplicationType>({
-            name: '',
-            email: '',
-            message: '',
-        });
-
-        const formatDate = (dateString: string) => {
-            const date = new Date(dateString);
-            return date.toLocaleDateString();
-        };
-
-        const getStatusClass = (status: string) => {
-            switch (status) {
-                case 'open':
-                    return 'bg-green-500';
-                case 'full':
-                    return 'bg-yellow-500';
-                case 'closed':
-                    return 'bg-red-500';
-                default:
-                    return 'bg-gray-500';
-            }
-        };
-
-        const submitApplication = () => {
-            // Implement application submission logic
-            console.log('Submitting application:', application);
-            // Reset form after submission
-            application.name = '';
-            application.email = '';
-            application.message = '';
-            alert(t('activityDetail.applicationSubmitted'));
-        };
-
-        return {
-            activity,
-            formatDate,
-            getStatusClass,
-            submitApplication,
-            application,
-            t,
-            showFullImage,
-            gradientClass
-        };
-    },
+const handleSubmit = () => {
+  if(!getToken()) {
+    return router.push('/login');
+  }
+  loading.value = true;
+  signUpActivity(tempActivity.value.activityId).then((res) => {
+    if(res.code == 200) {
+      loading.value = false;
+      ElMessage({
+        message: '报名成功',
+        type: 'success'
+      });
+    }else{
+      loading.value = false;
+      ElMessage({
+        message: '报名失败',
+        type: 'error'
+      });
+    }
+  }).catch(error => {
+    loading.value = false;
+  });
+};
+onMounted(() => {
+  loading.value = true;
+  const route = useRoute();
+  const activityId = route.query.activityId;
+  getActivityDetailById(activityId).then((res) => {
+    if(res.code == 200) {
+      tempActivity.value = res.data;
+      loading.value = false;
+    }
+  }).catch(error => {
+    loading.value = false;
+  });
 });
 </script>

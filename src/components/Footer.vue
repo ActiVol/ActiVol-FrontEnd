@@ -1,13 +1,13 @@
 <template>
-    <footer class="mt-4 text-center text-blue-500 text-md">
-        <p>Made with ❤️ by kjch</p>
-    </footer>
+  <footer class="mt-4 text-center text-blue-500 text-md">
+    <p>Made with ❤️ by kjch</p>
+  </footer>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'Footer',
+  name: 'Footer',
 });
 </script>
