@@ -44,73 +44,75 @@
 
         <!-- Form Fields -->
         <div class="space-y-6">
-          <!-- Given Name -->
-          <div class="form-field">
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              <span class="text-red-500 mr-1">*</span>
-              {{ t('register.givenName') }}
-              <el-tooltip :content="t('register.givenNameTip')" placement="right" effect="light" :show-after="100">
-                <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
-              </el-tooltip>
-            </label>
-            <el-form-item prop="givenName" class="mb-0">
-              <el-input v-model="registerForm.givenName"
-                        type="text"
-                        size="large"
-                        :placeholder="t('register.givenNamePlaceholder')">
-                <template #prefix>
-                  <el-icon>
-                    <User />
-                  </el-icon>
-                </template>
-              </el-input>
-            </el-form-item>
-          </div>
+          <!-- Name Fields -->
+          <div class="flex space-x-4">
+            <!-- Given Name -->
+            <div class="form-field flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                <span class="text-red-500 mr-1">*</span>
+                {{ t('register.givenName') }}
+                <el-tooltip :content="t('register.givenNameTip')" placement="right" effect="light" :show-after="100">
+                  <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
+                </el-tooltip>
+              </label>
+              <el-form-item prop="givenName" class="mb-0">
+                <el-input v-model="registerForm.givenName"
+                          type="text"
+                          size="large"
+                          :placeholder="t('register.givenNamePlaceholder')">
+                  <template #prefix>
+                    <el-icon>
+                      <User />
+                    </el-icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </div>
 
-          <!-- Middle Name -->
-          <div class="form-field">
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              <!-- <span class="text-red-500 mr-1">*</span> -->
-              {{ t('register.middleName') }}
-              <el-tooltip :content="t('register.middleNameTip')" placement="right" effect="light" :show-after="100">
-                <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
-              </el-tooltip>
-            </label>
-            <el-form-item prop="middleName" class="mb-0">
-              <el-input v-model="registerForm.middleName"
-                        type="text"
-                        size="large"
-                        :placeholder="t('register.middleeNamePlaceholder')">
-                <template #prefix>
-                  <el-icon>
-                    <User />
-                  </el-icon>
-                </template>
-              </el-input>
-            </el-form-item>
-          </div>
+            <!-- Middle Name -->
+            <div class="form-field flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                {{ t('register.middleName') }}
+                <el-tooltip :content="t('register.middleNameTip')" placement="right" effect="light" :show-after="100">
+                  <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
+                </el-tooltip>
+              </label>
+              <el-form-item prop="middleName" class="mb-0">
+                <el-input v-model="registerForm.middleName"
+                          type="text"
+                          size="large"
+                          :placeholder="t('register.middleNamePlaceholder')">
+                  <template #prefix>
+                    <el-icon>
+                      <User />
+                    </el-icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </div>
 
-          <!-- Family Name -->
-          <div class="form-field">
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              <span class="text-red-500 mr-1">*</span>
-              {{ t('register.familyName') }}
-              <el-tooltip :content="t('register.familyNameTip')" placement="right" effect="light" :show-after="100">
-                <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
-              </el-tooltip>
-            </label>
-            <el-form-item prop="familyName" class="mb-0">
-              <el-input v-model="registerForm.familyName"
-                        type="text"
-                        size="large"
-                        :placeholder="t('register.familyNamePlaceholder')">
-                <template #prefix>
-                  <el-icon>
-                    <User />
-                  </el-icon>
-                </template>
-              </el-input>
-            </el-form-item>
+            <!-- Family Name -->
+            <div class="form-field flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                <span class="text-red-500 mr-1">*</span>
+                {{ t('register.familyName') }}
+                <el-tooltip :content="t('register.familyNameTip')" placement="right" effect="light" :show-after="100">
+                  <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
+                </el-tooltip>
+              </label>
+              <el-form-item prop="familyName" class="mb-0">
+                <el-input v-model="registerForm.familyName"
+                          type="text"
+                          size="large"
+                          :placeholder="t('register.familyNamePlaceholder')">
+                  <template #prefix>
+                    <el-icon>
+                      <User />
+                    </el-icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+            </div>
           </div>
 
           <!-- Username -->
@@ -137,7 +139,8 @@
           </div>
 
           <!-- Student ID -->
-          <div class="form-field" v-if="selectedUserType === 'student'">
+          <!-- 由于隐私原因，暂时不开放学号注册 -->
+          <!-- <div class="form-field" v-if="selectedUserType === 'Student'">
             <label class="block text-sm font-medium text-gray-700 mb-1">
               <span class="text-red-500 mr-1">*</span>
               {{ t('register.studentId') }}
@@ -152,10 +155,10 @@
                 </template>
               </el-input>
             </el-form-item>
-          </div>
+          </div> -->
 
           <!-- Graduation Year -->
-          <div class="form-field" v-if="selectedUserType === 'student'">
+          <div class="form-field" v-if="selectedUserType === 'Student'">
             <label class="block text-sm font-medium text-gray-700 mb-1">
               <span class="text-red-500 mr-1">*</span>
               {{ t('register.graduationYear') }}
@@ -172,7 +175,7 @@
           </div>
 
           <!-- Counselor Selection -->
-          <div class="form-field" v-if="selectedUserType === 'student'">
+          <div class="form-field" v-if="selectedUserType === 'Student'">
             <label class="block text-sm font-medium text-gray-700 mb-1">
               <span class="text-red-500 mr-1">*</span>
               {{ t('register.counselor') }}
@@ -423,7 +426,7 @@ const registerForm = ref({
   familyName: '',
   givenName: '',
   username: '',
-  studentId: '',
+  // studentId: '', // 由于隐私原因，暂时不开放学号注册
   counselor: '',
   graduationYear: null,
   internalEmail: '',
@@ -471,10 +474,10 @@ const registerRules = {
     { required: true, trigger: 'blur', message: proxy.$t('register.usernameRequired') },
     { min: 2, max: 20, message: proxy.$t('register.usernameLengthError'), trigger: 'blur' }
   ],
-  studentId: [
-    { required: true, trigger: 'blur', message: proxy.$t('register.studentIdRequired') },
-    { min: 2, max: 20, message: proxy.$t('register.studentIdLengthError'), trigger: 'blur' }
-  ],
+  // studentId: [
+  //   { required: true, trigger: 'blur', message: proxy.$t('register.studentIdRequired') },
+  //   { min: 2, max: 20, message: proxy.$t('register.studentIdLengthError'), trigger: 'blur' }
+  // ],
   counselor: [
     { required: true, trigger: 'change', message: proxy.$t('register.counselorRequired') }
   ],
