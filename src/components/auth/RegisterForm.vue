@@ -79,6 +79,29 @@
             </el-form-item>
           </div>
 
+          <!-- Middle Name -->
+          <div class="form-field">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              <!-- <span class="text-red-500 mr-1">*</span> -->
+              {{ t('register.middleName') }}
+              <el-tooltip :content="t('register.middleNameTip')" placement="right" effect="light" :show-after="100">
+                <Icon icon="mdi:information-outline" class="inline-block ml-1 text-blue-500 w-4 h-4 cursor-help" />
+              </el-tooltip>
+            </label>
+            <el-form-item prop="middleName" class="mb-0">
+              <el-input v-model="registerForm.middleName"
+                        type="text"
+                        size="large"
+                        :placeholder="t('register.middleeNamePlaceholder')">
+                <template #prefix>
+                  <el-icon>
+                    <User />
+                  </el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+          </div>
+
           <!-- Family Name -->
           <div class="form-field">
             <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -446,6 +469,10 @@ const equalToPassword = (rule, value, callback) => {
 const registerRules = {
   givenName: [
     { required: true, trigger: 'blur', message: proxy.$t('register.givenNameRequired') },
+    { pattern: /^[A-Za-z]+$/, message: proxy.$t('register.onlyEnglishAllowed'), trigger: 'blur' }
+  ],
+  middleName: [
+    { required: false, trigger: 'blur' },
     { pattern: /^[A-Za-z]+$/, message: proxy.$t('register.onlyEnglishAllowed'), trigger: 'blur' }
   ],
   familyName: [

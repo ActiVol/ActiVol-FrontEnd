@@ -49,6 +49,8 @@
         },
         "familyName": "姓",
         "familyNameTip": "也称为姓氏，例如：张三的 “张”",
+        "middleName": "中间名",
+        "middleNameTip": "也称为中间名",
         "givenName": "名",
         "givenNameTip": "你的名字，例如：张三的 “三”",
         "familyNameRequired": "姓不能为空",
