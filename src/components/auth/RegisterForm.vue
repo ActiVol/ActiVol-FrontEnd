@@ -12,31 +12,19 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-xl mx-auto">
-          <el-button v-for="type in userTypes"
+          <el-button v-for="(type, index) in userTypes"
                      :key="type.value"
                      size="large"
                      :class="[
-                       'relative group flex items-center justify-center h-[72px] border-2 rounded-xl transition-all duration-300',
-                       'w-full',
-                       // 移除默认的左边距
-                       '!ml-0',
-                       // 颜色主题
-                       type.value === 'student' ? 'hover:border-blue-500 hover:bg-blue-50' : '',
-                       type.value === 'admin' ? 'hover:border-purple-500 hover:bg-purple-50' : '',
-                       type.value === 'counselor' ? 'hover:border-emerald-500 hover:bg-emerald-50' : '',
-                       type.value === 'volunteer' ? 'hover:border-rose-500 hover:bg-rose-50' : '',
+                       'relative group flex items-center justify-center h-[72px] border-2 rounded-xl transition-all duration-300 w-full !ml-0',
+                       type.hoverClass,
+                       { 'md:col-span-2': userTypes.length % 2 !== 0 && index === userTypes.length - 1 }
                      ]"
                      style="margin-left: 0 !important;"
                      @click="selectUserType(type.value)">
             <div class="flex items-center justify-center gap-3">
               <Icon :icon="type.icon"
-                    :class="[
-                      'text-2xl transition-transform duration-300 group-hover:scale-110',
-                      type.value === 'student' ? 'text-blue-500' : '',
-                      type.value === 'admin' ? 'text-purple-500' : '',
-                      type.value === 'counselor' ? 'text-emerald-500' : '',
-                      type.value === 'volunteer' ? 'text-rose-500' : ''
-                    ]" />
+                    :class="[ 'text-2xl transition-transform duration-300 group-hover:scale-110', type.colorClass ]" />
               <span class="text-base font-medium text-gray-700">{{ type.label }}</span>
             </div>
           </el-button>
@@ -424,10 +412,10 @@ const selectedUserType = ref(null);
 
 // 用户类型选项
 const userTypes = [
-  { value: 'student', label: t('register.userTypes.student'), icon: 'mdi:school' },
-  { value: 'admin', label: t('register.userTypes.admin'), icon: 'mdi:shield-account' },
-  { value: 'counselor', label: t('register.userTypes.counselor'), icon: 'mdi:account-tie' },
-  { value: 'volunteer', label: t('register.userTypes.volunteer'), icon: 'mdi:hand-heart' },
+  { value: 'Student', label: t('register.userTypes.student'), icon: 'mdi:school', colorClass: 'text-blue-500', hoverClass: 'hover:border-blue-500 hover:bg-blue-50' },
+  { value: 'Counselor', label: t('register.userTypes.counselor'), icon: 'mdi:shield-account', colorClass: 'text-purple-500', hoverClass: 'hover:border-purple-500 hover:bg-purple-50' },
+  { value: 'Organizer', label: t('register.userTypes.organizer'), icon: 'mdi:account-tie', colorClass: 'text-emerald-500', hoverClass: 'hover:border-emerald-500 hover:bg-emerald-50' },
+  // { value: 'Volunteer', label: t('register.userTypes.volunteer'), icon: 'mdi:hand-heart', colorClass: 'text-rose-500', hoverClass: 'hover:border-rose-500 hover:bg-rose-50' },
 ];
 
 // 表单数据
@@ -614,55 +602,5 @@ onMounted(() => {
   );
   border-radius: 1.5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.user-type-button {
-  @apply relative overflow-hidden shadow-sm;
-}
-
-.icon-wrapper {
-  @apply transition-all duration-300;
-}
-
-.user-type-button:hover .icon-wrapper {
-  @apply transform scale-110;
-}
-
-/* Input styling */
-.el-input :deep(.el-input__wrapper) {
-  @apply shadow-sm border border-gray-200 rounded-lg transition-all duration-200;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-.el-input :deep(.el-input__wrapper:hover) {
-  @apply border-primary/60;
-}
-
-.el-input :deep(.el-input__wrapper.is-focus) {
-  @apply border-primary ring-2 ring-primary/20;
-}
-
-/* Form field styling */
-.form-field {
-  @apply space-y-2;
-}
-
-.form-field label {
-  @apply text-gray-700 font-medium;
-}
-
-/* Select styling */
-.el-select :deep(.el-input__wrapper) {
-  @apply shadow-sm border border-gray-200;
-}
-
-/* Checkbox styling */
-.el-checkbox :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
-  @apply bg-primary border-primary;
-}
-
-/* Date picker styling */
-.el-date-picker :deep(.el-input__wrapper) {
-  @apply shadow-sm border border-gray-200;
 }
 </style>

@@ -45,6 +45,7 @@
             "student": "学生",
             "admin": "管理员",
             "counselor": "辅导员",
+            "organizer": "组织者",
             "volunteer": "志愿者"
         },
         "familyName": "姓",

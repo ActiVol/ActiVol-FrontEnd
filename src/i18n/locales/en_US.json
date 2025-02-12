@@ -45,6 +45,7 @@
       "student": "Student",
       "admin": "Admin",
       "counselor": "Counselor",
+      "organizer": "Organizer",
       "volunteer": "Volunteer"
     },
     "givenName": "First Name",
