@@ -58,13 +58,12 @@
               <el-form-item prop="givenName" class="mb-0">
                 <el-input v-model="registerForm.givenName"
                           type="text"
-                          size="large"
-                          :placeholder="t('register.givenNamePlaceholder')">
-                  <template #prefix>
+                          size="large">
+                <!-- <template #prefix>
                     <el-icon>
                       <User />
                     </el-icon>
-                  </template>
+                  </template> -->
                 </el-input>
               </el-form-item>
             </div>
@@ -80,13 +79,12 @@
               <el-form-item prop="middleName" class="mb-0">
                 <el-input v-model="registerForm.middleName"
                           type="text"
-                          size="large"
-                          :placeholder="t('register.middleNamePlaceholder')">
-                  <template #prefix>
+                          size="large">
+                <!-- <template #prefix>
                     <el-icon>
                       <User />
                     </el-icon>
-                  </template>
+                  </template> -->
                 </el-input>
               </el-form-item>
             </div>
@@ -103,13 +101,12 @@
               <el-form-item prop="familyName" class="mb-0">
                 <el-input v-model="registerForm.familyName"
                           type="text"
-                          size="large"
-                          :placeholder="t('register.familyNamePlaceholder')">
-                  <template #prefix>
+                          size="large">
+                <!-- <template #prefix>
                     <el-icon>
                       <User />
                     </el-icon>
-                  </template>
+                  </template> -->
                 </el-input>
               </el-form-item>
             </div>
@@ -128,7 +125,7 @@
               <el-input v-model="registerForm.username"
                         type="text"
                         size="large"
-                        :placeholder="t('register.usernamePlaceholder')">
+                        :placeholder="t('register.placeholder.username')">
                 <template #prefix>
                   <el-icon>
                     <User />
@@ -166,7 +163,7 @@
             <el-form-item prop="graduationYear" class="mb-0">
               <el-date-picker v-model="registerForm.graduationYear"
                               type="year"
-                              :placeholder="t('register.graduationYearPlaceholder')"
+                              :placeholder="t('register.placeholder.graduationYear')"
                               size="large"
                               format="YYYY"
                               value-format="YYYY"
@@ -182,7 +179,7 @@
             </label>
             <el-form-item prop="counselor" class="mb-0">
               <el-select v-model="registerForm.counselor"
-                         :placeholder="t('register.counselorPlaceholder')"
+                         :placeholder="t('register.placeholder.counselor')"
                          filterable
                          clearable
                          size="large"
@@ -201,7 +198,7 @@
           </div>
 
           <!-- Internal Email -->
-          <div class="form-field">
+          <div class="form-field" v-if="selectedUserType === 'Student'">
             <label class="block text-sm font-medium text-gray-700 mb-1">
               <span class="text-red-500 mr-1">*</span>
               {{ t('register.internalEmail') }}
@@ -210,7 +207,7 @@
               <el-input v-model="registerForm.internalEmail"
                         type="email"
                         size="large"
-                        :placeholder="t('register.internalEmailPlaceholder')">
+                        :placeholder="t('register.placeholder.internalEmail')">
                 <template #prefix>
                   <el-icon>
                     <Message />
@@ -229,7 +226,7 @@
               <el-input v-model="registerForm.externalEmail"
                         type="email"
                         size="large"
-                        :placeholder="t('register.externalEmailPlaceholder')">
+                        :placeholder="t('register.placeholder.externalEmail')">
                 <template #prefix>
                   <el-icon>
                     <Message />
@@ -249,7 +246,7 @@
               <el-input v-model="registerForm.password"
                         type="password"
                         size="large"
-                        :placeholder="t('register.passwordPlaceholder')">
+                        :placeholder="t('register.placeholder.password')">
                 <template #prefix>
                   <el-icon>
                     <Lock />
@@ -269,7 +266,7 @@
               <el-input v-model="registerForm.confirmPassword"
                         type="password"
                         size="large"
-                        :placeholder="t('register.confirmPasswordPlaceholder')"
+                        :placeholder="t('register.placeholder.confirmPassword')"
                         @keyup.enter="handleRegister">
                 <template #prefix>
                   <el-icon>
@@ -290,14 +287,14 @@
               <div class="flex space-x-4">
                 <el-input v-model="registerForm.code"
                           size="large"
-                          :placeholder="t('register.verificationCodePlaceholder')"
+                          :placeholder="t('register.placeholder.verificationCode')"
                           class="flex-grow"
                           @keyup.enter="handleRegister">
                   <template #prefix>
                     <svg-icon iconClass="code" />
                   </template>
                 </el-input>
-                <div class="w-4/12 h-[40px]">
+                <div class="w-fit h-fit">
                   <img :src="codeUrl" @click="getCode" class="h-full cursor-pointer rounded" />
                 </div>
               </div>

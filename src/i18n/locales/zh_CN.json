@@ -99,7 +99,18 @@
         "verificationCodeRequired": "请输入验证码",
         "agreementRequired": "请阅读并同意用户协议和隐私声明",
         "registrationSuccess": "账号 {username} 注册成功！",
-        "systemAlert": "系统提示"
+        "systemAlert": "系统提示",
+        "placeholder": {
+            "username": "请输入用户名",
+            "studentId": "请输入学号",
+            "graduationYear": "请选择毕业年份",
+            "counselor": "请选择辅导员",
+            "internalEmail": "请输入校内邮箱",
+            "externalEmail": "请输入个人邮箱",
+            "password": "请输入密码",
+            "confirmPassword": "请再次输入密码",
+            "verificationCode": "请输入验证码"
+        }
     },
     "error": {
         "notFindPage": "抱歉，你访问的页面不存在",

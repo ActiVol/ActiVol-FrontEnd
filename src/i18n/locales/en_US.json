@@ -100,7 +100,18 @@
     "verificationCodeRequired": "Please enter the verification code",
     "agreementRequired": "Please read and agree to the policy above",
     "registrationSuccess": "Account {username} registered successfully!",
-    "systemAlert": "System Alert"
+    "systemAlert": "System Alert",
+    "placeholder": {
+      "username": "Enter your username",
+      "studentId": "Enter your student ID",
+      "graduationYear": "Select your graduation year",
+      "counselor": "Select your counselor",
+      "internalEmail": "Enter your school email address",
+      "externalEmail": "Enter your personal email address",
+      "password": "Enter your password",
+      "confirmPassword": "Re-enter your password",
+      "verificationCode": "Enter the verification code"
+    }
   },
   "error": {
     "notFindPage": "Sorry, the page you requested does not exist",
