@@ -45,7 +45,7 @@
               <svg-icon iconClass="code" />
             </template>
           </el-input>
-          <div class="w-4/12 h-2.5 float-right ">
+          <div class="w-fit h-fit float-right ">
             <img :src="codeUrl" @click="getCode" class="cursor-pointer" alt="Verification Code" />
           </div>
         </div>
