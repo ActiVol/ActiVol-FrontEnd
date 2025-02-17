@@ -121,6 +121,9 @@
         "title": "ActiVol"
     },
     "layout": {
+        "welcomeMessage": "欢迎使用志愿者时长管理平台",
+        "welcomeBack": "欢迎回来 {username}",
+        "loginOrRegister": "登录/注册",
         "backHome": "返回首页",
         "login": "登录",
         "logout": "退出",

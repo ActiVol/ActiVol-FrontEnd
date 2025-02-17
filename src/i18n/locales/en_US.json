@@ -122,10 +122,15 @@
     "title": "ActiVol"
   },
   "layout": {
+    "welcomeMessage": "Welcome to ActiVol",
+    "welcomeBack": "Welcome back",
+    "loginOrRegister": "Log In/Register",
     "backHome":"Back to Home",
     "login": "Log In",
     "logout": "Log Out",
-    "confirmLogout": "Are you sure you want to log out and exit the system?"
+    "confirmLogout": "Are you sure you want to log out and exit the system?",
+    "ok": "Yes",
+    "cancel": "Cancel"
   },
   "prompt": "Prompt",
   "ok": "OK",

@@ -13,7 +13,8 @@ const useUserStore = defineStore(
       name: '',
       avatar: '',
       roles: [],
-      permissions: []
+      permissions: [],
+      isLoggedIn: !!getToken()
     }),
     actions: {
       // 登录
@@ -26,6 +27,8 @@ const useUserStore = defineStore(
           login(username, password, code, uuid).then(res => {
             setToken(res.token);
             this.token = res.token;
+            this.isLoggedIn = true;
+            this.getInfo();
             resolve();
           }).catch(error => {
             reject(error);
@@ -53,6 +56,8 @@ const useUserStore = defineStore(
             if(code == 200) {
               setToken(token);
               this.token = res.token;
+              this.isLoggedIn = true;
+              this.getInfo();
               return resolve(res);
             }else if(code === 10001 || code === 10002) {
               return resolve(res);
@@ -82,6 +87,7 @@ const useUserStore = defineStore(
             this.id = user.userId;
             this.name = user.userName;
             this.avatar = avatar;
+            this.isLoggedIn = true;
             resolve(res);
           }).catch(error => {
             reject(error);
@@ -95,6 +101,7 @@ const useUserStore = defineStore(
             this.token = '';
             this.roles = [];
             this.permissions = [];
+            this.isLoggedIn = false;
             removeToken();
             resolve();
           }).catch(error => {
