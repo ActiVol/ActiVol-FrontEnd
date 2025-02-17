@@ -3,7 +3,7 @@
     class="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
     <div class="relative">
       <div v-if="activity.activityPictures" class="h-48 overflow-hidden">
-        <img :src="baseURL+activity.activityPictures"
+        <img :src="activity.activityPictures"
              :alt="truncateDescription(activity.activityName,10)"
              class="w-full h-full object-cover"
         />

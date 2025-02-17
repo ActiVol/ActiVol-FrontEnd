@@ -2,7 +2,7 @@
   <div class="bg-white rounded-lg shadow-lg overflow-hidden"  v-loading="loading" :element-loading-svg="svg">
     <div class="relative">
       <div v-if="tempActivity&&tempActivity.activityPictures" class="overflow-hidden">
-        <img :src="baseURL+tempActivity.activityPictures" :alt="truncateDescription(tempActivity.activityName,10)" class="w-full h-full object-cover" />
+        <img :src="tempActivity.activityPictures" :alt="truncateDescription(tempActivity.activityName,10)" class="w-full h-full object-cover" />
       </div>
       <div v-else :class="['flex items-center justify-center']">
         <span class="text-4xl text-white">{{ truncateDescription(tempActivity.activityName,10) }}</span>
@@ -143,13 +143,14 @@ const handleSubmit = () => {
         message: '报名成功',
         type: 'success'
       });
-    }else{
-      loading.value = false;
-      ElMessage({
-        message: '报名失败',
-        type: 'error'
-      });
+      return router.push('/home');
     }
+    loading.value = false;
+    ElMessage({
+      message: '报名失败',
+      type: 'error'
+    });
+
   }).catch(error => {
     loading.value = false;
   });
