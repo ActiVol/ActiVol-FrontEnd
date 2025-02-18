@@ -1,15 +1,70 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- 设置跨域策略 -->
-    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
-    <title>ActiVol | Volunteer Tracker</title>
-    <link rel="icon" href="/favicon.ico">
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- 设置跨域策略 -->
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
+  <title>ActiVol | Volunteer Tracker</title>
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- PageSpy 第一步: 引入 SDK -->
+  <!-- PageSpy SDK -->
+  <script crossorigin="anonymous" src="https://report.makesome.cool/page-spy/index.min.js"></script>
+
+  <!-- 插件（非必须，但建议使用） -->
+  <script crossorigin="anonymous" src="https://report.makesome.cool/plugin/data-harbor/index.min.js"></script>
+  <script crossorigin="anonymous" src="https://report.makesome.cool/plugin/rrweb/index.min.js"></script>
+
+  <!-- PageSpy 第二步：实例化 PageSpy -->
+    <!-- <script>
+      window.$harbor = new DataHarborPlugin();
+      window.$rrweb = new RRWebPlugin();
+      [window.$harbor, window.$rrweb].forEach((p) => {
+        PageSpy.registerPlugin(p);
+      });
+
+      // 实例化的参数都是可选的
+      window.$pageSpy = new PageSpy({
+        api: "report.makesome.cool",
+        clientOrigin: "https://report.makesome.cool",
+
+        // project 作为信息的一种聚合，可以在调试端房间列表进行搜索
+        // 默认值 'default'
+        project: "ActiVol_User_Frontend",
+
+        // 指示 SDK 初始化完成，是否自动在客户端左下角渲染「圆形白底带 Logo」的控件
+        // 如果设置为 false, 可以调用 window.$pageSpy.render() 手动渲染
+        // 默认值 true
+        autoRender: false,
+
+        // 手动指定 PageSpy 服务的 scheme。
+        // 这在 SDK 无法正确分析出 scheme 可以使用，例如 PageSpy 的浏览器插件
+        // 是通过 chrome-extension://xxx/sdk/index.min.js 引入 SDK，这会
+        // 被 SDK 解析成无效的 "chrome-extension://" 并回退到 ["http://", "ws://"]。
+        //   - （默认）传值 undefined 或者 null：SDK 会自动分析；
+        //   - 传递 boolean 值：
+        //     - true：SDK 将通过 ["https://", "wss://"] 访问 PageSpy 服务
+        //     - false：SDK 将通过 ["http://", "ws://"] 访问 PageSpy 服务
+        enableSSL: true,
+        title: "ActiVol | Volunteer Tracker",
+        // 自定义 logo
+        logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBmaWxsPSIjNTM1MzUzIiBkPSJNMyA2YTMgMyAwIDAgMSAzLTNoOGEzIDMgMCAwIDEgMyAzdjIuMDNhNC41IDQuNSAwIDAgMC0xLS4wMDRWN0g0djdhMiAyIDAgMCAwIDIgMmgzLjQ5MmEyLjUgMi41IDAgMCAwLS40NDMgMUg2YTMgMyAwIDAgMS0zLTN6bTEwLjA0NCAzLjU4N2wtMS40NC0xLjQ0YS41LjUgMCAwIDAtLjcwOC43MDdsMS41NzggMS41NzdxLjIzMi0uNDQ3LjU3LS44NDRtLTMuOTQtLjczM2EuNS41IDAgMSAwLS43MDgtLjcwOGwtMi41IDIuNWEuNS41IDAgMCAwIDAgLjcwOGwyLjUgMi41YS41LjUgMCAwIDAgLjcwOC0uNzA4TDYuOTU3IDExem03Ljc4OC4xN2MuMzY2LjA0Mi40NzEuNDguMjEuNzQybC0uOTc1Ljk3NWExLjUwNyAxLjUwNyAwIDEgMCAyLjEzMiAyLjEzMmwuOTc1LS45NzVjLjI2MS0uMjYxLjctLjE1Ni43NDIuMjFhMy41MTggMy41MTggMCAwIDEtNC42NzYgMy43MjNsLTIuNzI2IDIuNzI3YTEuNTA3IDEuNTA3IDAgMSAxLTIuMTMyLTIuMTMybDIuNzI2LTIuNzI2YTMuNTE4IDMuNTE4IDAgMCAxIDMuNzI0LTQuNjc2Ii8+PC9zdmc+",
+
+        // 自定义 logo 样式
+        logoStyle: {
+          width: "10%",
+          height: "10%",
+        },
+      });
+      // 之后即可使用 PageSpy，前往 https://pagespy.jikejishu.com 体验
+    </script> -->
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

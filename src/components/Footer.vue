@@ -47,6 +47,16 @@
         </a>
       </div>
 
+      <!-- Debug Button -->
+      <div class="flex items-center justify-center space-x-2 text-xs text-blue-400 mt-4">
+        <button
+          @click="toggleDebug"
+          class="hover:text-blue-600 transition-colors underline-offset-2 hover:underline"
+        >
+          {{ debugEnabled ? 'Disable Debug' : 'Enable Debug' }}
+        </button>
+      </div>
+
       <!-- License Modal -->
       <el-dialog
         v-model="showLicense"
@@ -85,7 +95,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import pkg from '../../package.json';
 
@@ -97,10 +107,72 @@ export default defineComponent({
   setup() {
     const version = ref(pkg.version);
     const showLicense = ref(false);
+    const debugEnabled = ref(false);
+
+    const initializePageSpy = () => {
+      if (!window.$harbor) {
+        window.$harbor = new DataHarborPlugin();
+        PageSpy.registerPlugin(window.$harbor);
+      }
+
+      if (!window.$rrweb) {
+        window.$rrweb = new RRWebPlugin();
+        PageSpy.registerPlugin(window.$rrweb);
+      }
+
+      window.$pageSpy = new PageSpy({
+        api: 'report.makesome.cool',
+        clientOrigin: 'https://report.makesome.cool',
+        autoRender: false,
+        enableSSL: true,
+        project: 'ActiVol_Index',
+        title: 'PROD',
+        logo: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj48cGF0aCBmaWxsPSIjNTM1MzUzIiBkPSJNMyA2YTMgMyAwIDAgMSAzLTNoOGEzIDMgMCAwIDEgMyAzdjIuMDNhNC41IDQuNSAwIDAgMC0xLS4wMDRWN0g0djdhMiAyIDAgMCAwIDIgMmgzLjQ5MmEyLjUgMi41IDAgMCAwLS40NDMgMUg2YTMgMyAwIDAgMS0zLTN6bTEwLjA0NCAzLjU4N2wtMS40NC0xLjQ0YS41LjUgMCAwIDAtLjcwOC43MDdsMS41NzggMS41NzdxLjIzMi0uNDQ3LjU3LS44NDRtLTMuOTQtLjczM2EuNS41IDAgMSAwLS43MDgtLjcwOGwtMi41IDIuNWEuNS41IDAgMCAwIDAgLjcwOGwyLjUgMi41YS41LjUgMCAwIDAgLjcwOC0uNzA4TDYuOTU3IDExem03Ljc4OC4xN2MuMzY2LjA0Mi40NzEuNDguMjEuNzQybC0uOTc1Ljk3NWExLjUwNyAxLjUwNyAwIDEgMCAyLjEzMiAyLjEzMmwuOTc1LS45NzVjLjI2MS0uMjYxLjctLjE1Ni43NDIuMjFhMy41MTggMy41MTggMCAwIDEtNC42NzYgMy43MjNsLTIuNzI2IDIuNzI3YTEuNTA3IDEuNTA3IDAgMSAxLTIuMTMyLTIuMTMybDIuNzI2LTIuNzI2YTMuNTE4IDMuNTE4IDAgMCAxIDMuNzI0LTQuNjc2Ii8+PC9zdmc+',
+        logoStyle: {
+          width: '10%',
+          height: '10%',
+        },
+      });
+    };
+
+    const toggleDebug = () => {
+      if (!window.$pageSpy) {
+        initializePageSpy();
+      }
+
+      if (debugEnabled.value) {
+        window.$pageSpy.abort();
+        console.log('[PageSpy] [LOG]  Render aborted');
+        localStorage.setItem('debugEnabled', 'false');
+      } else {
+        window.$pageSpy.render();
+        localStorage.setItem('debugEnabled', 'true');
+        initializePageSpy();
+        window.$pageSpy.updateRoomInfo({
+          project: 'ActiVol_Index',
+          title: 'PROD',
+        });
+      }
+      debugEnabled.value = !debugEnabled.value;
+    };
+
+    onMounted(() => {
+      const debugStatus = localStorage.getItem('debugEnabled');
+      if (debugStatus === 'true') {
+        debugEnabled.value = true;
+        if (!window.$pageSpy) {
+          initializePageSpy();
+        }
+        debugEnabled.value = true;
+        window.$pageSpy.render();
+      }
+    });
 
     return {
       version,
-      showLicense
+      showLicense,
+      debugEnabled,
+      toggleDebug
     };
   }
 });
