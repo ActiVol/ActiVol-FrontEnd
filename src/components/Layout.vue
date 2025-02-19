@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-200">
-    <div class="flex flex-col items-center justify-between w-full max-w-5xl p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col items-center justify-between w-full max-w-5xl mt-6 p-4 sm:p-6 lg:p-8">
       <Vheader />
       <div class="flex justify-between w-full items-center mb-4">
         <div class="items-center">
