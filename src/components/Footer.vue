@@ -562,22 +562,27 @@ export default defineComponent({
 
     const fetchIPs = async () => {
       try {
-        const [ipv4Response, ipv6Response] = await Promise.all([
-          fetch('https://api.ipify.org?format=json'),
-          fetch('https://api6.ipify.org?format=json')
-        ]);
-
+        const ipv4Response = await fetch('https://api.ipify.org?format=json');
         if (ipv4Response.ok) {
           const data = await ipv4Response.json();
           ipv4.value = data.ip;
+        } else {
+          console.error('[Debug Tools] Error fetching IPv4 address:', ipv4Response.statusText);
         }
+      } catch (error) {
+        console.error('[Debug Tools] Error fetching IPv4 address:', error);
+      }
 
+      try {
+        const ipv6Response = await fetch('https://api6.ipify.org?format=json');
         if (ipv6Response.ok) {
           const data = await ipv6Response.json();
           ipv6.value = data.ip;
+        } else {
+          console.error('[Debug Tools] Error fetching IPv6 address:', ipv6Response.statusText);
         }
       } catch (error) {
-        console.error('Error fetching IP addresses:', error);
+        console.error('[Debug Tools] Error fetching IPv6 address:', error);
       }
     };
 
