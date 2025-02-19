@@ -86,9 +86,9 @@
 
             <div class="p-4 space-y-6">
               <!-- License Summary -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-yellow-50 rounded-lg border-2 border-dotted border-pink-500">
                 <div class="space-y-2">
-                  <h4 class="font-medium text-gray-900">Permissions</h4>
+                  <h4 class="font-bold text-gray-900">Permissions</h4>
                   <ul class="space-y-1">
                     <li class="flex items-center space-x-2 text-sm text-gray-600">
                       <Icon icon="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" />
@@ -109,7 +109,7 @@
                   </ul>
                 </div>
                 <div class="space-y-2">
-                  <h4 class="font-medium text-gray-900">Limitations</h4>
+                  <h4 class="font-bold text-gray-900">Limitations</h4>
                   <ul class="space-y-1">
                     <li class="flex items-center space-x-2 text-sm text-gray-600">
                       <Icon icon="lucide:x" class="w-4 h-4 text-red-500 flex-shrink-0" />
@@ -122,7 +122,7 @@
                   </ul>
                 </div>
                 <div class="space-y-2">
-                  <h4 class="font-medium text-gray-900">Conditions</h4>
+                  <h4 class="font-bold text-gray-900">Conditions</h4>
                   <ul class="space-y-1">
                     <li class="flex items-center space-x-2 text-sm text-gray-600">
                       <Icon icon="lucide:info" class="w-4 h-4 text-blue-500 flex-shrink-0" />
@@ -133,7 +133,7 @@
               </div>
 
               <!-- License Text -->
-              <div class="bg-gray-50 rounded-lg p-4">
+              <div class="bg-gray-50 rounded-lg p-4 border-2 border-dashed border-cyan-500">
                 <div v-if="licenseContent" class="whitespace-pre-wrap text-sm text-gray-600">{{ licenseContent }}</div>
                 <div v-else class="flex justify-center py-8">
                   <Icon icon="lucide:loader-2" class="w-6 h-6 animate-spin text-blue-500" />
@@ -458,7 +458,8 @@ export default defineComponent({
 
     const fetchLicense = async () => {
       try {
-        const response = await fetch('https://raw.githubusercontent.com/ActiVol/ActiVol-FrontEnd/refs/heads/master/LICENSE');
+        // GitHub raw content URL: https://raw.githubusercontent.com/ActiVol/ActiVol-FrontEnd/refs/heads/master/LICENSE
+        const response = await fetch('https://cdn.jsdelivr.net/gh/ActiVol/ActiVol-FrontEnd@refs/heads/master/LICENSE');
         const text = await response.text();
         licenseContent.value = text;
       } catch (error) {
