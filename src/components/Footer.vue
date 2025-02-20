@@ -10,19 +10,18 @@
         <div class="relative flex items-center justify-center space-x-1.5">
           <span class="text-sm font-medium text-blue-600">Made with</span>
           <div class="relative group/heart">
-            <Icon
-              icon="lucide:heart"
-              class="w-4 h-4 text-red-400 transform transition-all duration-300 group-hover/heart:scale-110 group-hover/heart:text-red-500"
-            />
-            <div class="absolute -inset-1 bg-red-100 rounded-full opacity-0 group-hover/heart:opacity-30 group-hover/heart:animate-ping"></div>
+            <Icon icon="lucide:heart"
+                  class="w-4 h-4 text-red-400 transform transition-all duration-300 group-hover/heart:scale-110 group-hover/heart:text-red-500" />
+            <div
+              class="absolute -inset-1 bg-red-100 rounded-full opacity-0 group-hover/heart:opacity-30 group-hover/heart:animate-ping">
+            </div>
           </div>
           <span class="text-sm font-medium text-blue-600">by</span>
-          <a
-            href="#"
-            class="relative text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors group/link"
-          >
+          <a href="#"
+             class="relative text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors group/link">
             kjch
-            <span class="absolute -bottom-0.5 left-0 w-0 h-px bg-blue-400 transition-all duration-300 group-hover/link:w-full"></span>
+            <span
+              class="absolute -bottom-0.5 left-0 w-0 h-px bg-blue-400 transition-all duration-300 group-hover/link:w-full"></span>
           </a>
         </div>
       </div>
@@ -30,19 +29,15 @@
       <!-- Footer Links -->
       <div class="flex flex-wrap justify-center items-center gap-2 text-xs">
         <div class="flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-          <button
-            @click="showLicense = true"
-            class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1"
-          >
+          <button @click="showLicense = true"
+                  class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1">
             <Icon icon="lucide:scroll" class="w-4 h-4" />
             <span class="text-xs">MIT License</span>
           </button>
           <span class="text-blue-300">•</span>
-          <a
-            href="https://github.com/ActiVol"
-            target="_blank"
-            class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1"
-          >
+          <a href="https://github.com/ActiVol"
+             target="_blank"
+             class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1">
             <Icon icon="lucide:github" class="w-4 h-4" />
             <span class="text-xs">GitHub</span>
           </a>
@@ -52,10 +47,8 @@
           <span class="text-blue-600 text-xs">v{{ version }}</span>
           <!-- v-if="isDevelopment" -->
           <span class="text-blue-300">•</span>
-          <button
-            @click="showDebugTools = true"
-            class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1"
-          >
+          <button @click="showDebugTools = true"
+                  class="text-blue-600 hover:text-blue-700 transition-colors flex items-center space-x-1">
             <Icon icon="lucide:settings" class="w-4 h-4" />
             <span class="text-xs">Debug Tools</span>
           </button>
@@ -76,17 +69,15 @@
                   <p class="text-sm text-gray-500">ActiVol/ActiVol-FrontEnd is licensed under the MIT License</p>
                 </div>
               </div>
-              <button
-                @click="showLicense = false"
-                class="text-gray-400 hover:text-gray-500 transition-colors"
-              >
+              <button @click="showLicense = false" class="text-gray-400 hover:text-gray-500 transition-colors">
                 <Icon icon="lucide:x" class="w-5 h-5" />
               </button>
             </div>
 
             <div class="p-4 space-y-6">
               <!-- License Summary -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-yellow-50 rounded-lg border-2 border-dotted border-pink-500">
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-yellow-50 rounded-lg border-2 border-dotted border-pink-500">
                 <div class="space-y-2">
                   <h4 class="font-bold text-gray-900">Permissions</h4>
                   <ul class="space-y-1">
@@ -155,10 +146,7 @@
                 <Icon icon="lucide:settings" class="w-6 h-6 text-blue-600" />
                 <h3 class="text-lg font-semibold text-gray-900">Debug Tools</h3>
               </div>
-              <button
-                @click="showDebugTools = false"
-                class="text-gray-400 hover:text-gray-500 transition-colors"
-              >
+              <button @click="showDebugTools = false" class="text-gray-400 hover:text-gray-500 transition-colors">
                 <Icon icon="lucide:x" class="w-5 h-5" />
               </button>
             </div>
@@ -181,57 +169,61 @@
                   <h4 class="font-medium text-gray-900">PageSpy</h4>
                   <p class="text-sm text-gray-500">Enable page inspection and debugging</p>
                 </div>
-                <button
-                  @click="toggleDebug"
-                  class="flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs transition-all"
-                  :class="debugEnabled ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
-                >
-                  <Icon
-                    :icon="debugEnabled ? 'lucide:check-circle' : 'lucide:circle'"
-                    class="w-4 h-4"
-                  />
+                <button @click="toggleDebug"
+                        class="flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs transition-all"
+                        :class="debugEnabled ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'">
                   <span>{{ debugEnabled ? 'Enabled' : 'Disabled' }}</span>
+                  <Icon :icon="debugEnabled ? 'lucide:check-circle' : 'lucide:circle'" class="w-4 h-4" />
                 </button>
               </div>
 
               <!-- Clear Cache and Reload -->
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div class="space-y-1">
-                  <h4 class="font-medium text-gray-900">Clear Cache</h4>
+                <div class="space-y-1 flex-1">
+                  <div class="flex items-center">
+                    <h4 class="font-medium text-gray-900">Clear Cache</h4>
+                    <Icon icon="lucide:alert-triangle"
+                          class="w-4 h-4 text-yellow-500 ml-2"
+                          title="High-risk operation" />
+                  </div>
                   <p class="text-sm text-gray-500">Clear all cache and reload page</p>
                 </div>
-                <button
-                  @click="clearCacheAndReload"
-                  class="px-3 py-1.5 bg-red-100 text-red-700 rounded-full text-xs hover:bg-red-200 transition-colors"
-                >
+                <button @click="confirmClearCache"
+                        class="px-3 py-1.5 bg-red-100 text-red-700 rounded-full text-xs hover:bg-red-200 transition-colors">
                   Clear & Reload
                 </button>
               </div>
 
               <!-- Local Storage Viewer -->
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div class="space-y-1">
-                  <h4 class="font-medium text-gray-900">Local Storage</h4>
+                <div class="space-y-1 flex-1">
+                  <div class="flex items-center">
+                    <h4 class="font-medium text-gray-900">Local Storage</h4>
+                    <Icon icon="lucide:alert-triangle"
+                          class="w-4 h-4 text-red-500 ml-2"
+                          title="Contains sensitive data" />
+                  </div>
                   <p class="text-sm text-gray-500">View and manage local storage</p>
                 </div>
-                <button
-                  @click="showLocalStorage = true"
-                  class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors"
-                >
+                <button @click="showLocalStorage = true"
+                        class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors">
                   View
                 </button>
               </div>
 
               <!-- Cookie Viewer -->
               <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div class="space-y-1">
-                  <h4 class="font-medium text-gray-900">Cookies</h4>
+                <div class="space-y-1 flex-1">
+                  <div class="flex items-center">
+                    <h4 class="font-medium text-gray-900">Cookies</h4>
+                    <Icon icon="lucide:alert-triangle"
+                          class="w-4 h-4 text-red-500 ml-2"
+                          title="Contains sensitive data" />
+                  </div>
                   <p class="text-sm text-gray-500">View and manage cookies</p>
                 </div>
-                <button
-                  @click="showCookies = true"
-                  class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors"
-                >
+                <button @click="showCookies = true"
+                        class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors">
                   View
                 </button>
               </div>
@@ -242,10 +234,8 @@
                   <h4 class="font-medium text-gray-900">Browser Information</h4>
                   <p class="text-sm text-gray-500">View detailed browser information</p>
                 </div>
-                <button
-                  @click="showBrowserInfo = true"
-                  class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors"
-                >
+                <button @click="showBrowserInfo = true"
+                        class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs hover:bg-blue-200 transition-colors">
                   View
                 </button>
               </div>
@@ -257,8 +247,9 @@
                 <div class="flex items-center justify-between">
                   <div class="flex items-center justify-start w-full">
                     <span class="text-gray-500">IPv4:</span>
-                    <span class="text-gray-900 ml-2">{{ ipv4 || '无信息' }}</span>
-                    <button @click="copyToClipboard(ipv4)" class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
+                    <span class="text-gray-900 ml-2">{{ ipv4 || 'Unknown' }}</span>
+                    <button @click="copyToClipboard(ipv4)"
+                            class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
                       <Icon :icon="ipv4CopyIcon" class="w-4 h-4" />
                     </button>
                   </div>
@@ -266,8 +257,9 @@
                 <div class="flex items-center justify-between">
                   <div class="flex items-center justify-start w-full">
                     <span class="text-gray-500">IPv6:</span>
-                    <span class="text-gray-900 ml-2 truncate max-w-fit">{{ ipv6 || '无信息' }}</span>
-                    <button @click="copyToClipboard(ipv6)" class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
+                    <span class="text-gray-900 ml-2 truncate max-w-fit">{{ ipv6 || 'Unknown' }}</span>
+                    <button @click="copyToClipboard(ipv6)"
+                            class="text-blue-600 hover:text-blue-700 transition-colors ml-2">
                       <Icon :icon="ipv6CopyIcon" class="w-4 h-4" />
                     </button>
                   </div>
@@ -289,10 +281,7 @@
                 <Icon icon="lucide:database" class="w-6 h-6 text-blue-600" />
                 <h3 class="text-lg font-semibold text-gray-900">Local Storage</h3>
               </div>
-              <button
-                @click="showLocalStorage = false"
-                class="text-gray-400 hover:text-gray-500 transition-colors"
-              >
+              <button @click="showLocalStorage = false" class="text-gray-400 hover:text-gray-500 transition-colors">
                 <Icon icon="lucide:x" class="w-5 h-5" />
               </button>
             </div>
@@ -304,10 +293,8 @@
                     <div class="font-medium text-gray-900 break-all">{{ key }}</div>
                     <div class="text-sm text-gray-500 break-all">{{ value }}</div>
                   </div>
-                  <button
-                    @click="removeLocalStorageItem(key)"
-                    class="ml-4 p-1 text-red-500 hover:text-red-600 transition-colors flex-shrink-0"
-                  >
+                  <button @click="confirmDeleteLocalStorageItem(key)"
+                          class="ml-4 p-1 text-red-500 hover:text-red-600 transition-colors flex-shrink-0">
                     <Icon icon="lucide:trash-2" class="w-4 h-4" />
                   </button>
                 </div>
@@ -328,10 +315,7 @@
                 <Icon icon="lucide:cookie" class="w-6 h-6 text-blue-600" />
                 <h3 class="text-lg font-semibold text-gray-900">Cookies</h3>
               </div>
-              <button
-                @click="showCookies = false"
-                class="text-gray-400 hover:text-gray-500 transition-colors"
-              >
+              <button @click="showCookies = false" class="text-gray-400 hover:text-gray-500 transition-colors">
                 <Icon icon="lucide:x" class="w-5 h-5" />
               </button>
             </div>
@@ -343,10 +327,8 @@
                     <div class="font-medium text-gray-900 break-all">{{ cookie.name }}</div>
                     <div class="text-sm text-gray-500 break-all">{{ cookie.value }}</div>
                   </div>
-                  <button
-                    @click="confirmDeleteCookie(cookie.name)"
-                    class="ml-4 p-1 text-red-500 hover:text-red-600 transition-colors flex-shrink-0"
-                  >
+                  <button @click="confirmDeleteCookie(cookie.name)"
+                          class="ml-4 p-1 text-red-500 hover:text-red-600 transition-colors flex-shrink-0">
                     <Icon icon="lucide:trash-2" class="w-4 h-4" />
                   </button>
                 </div>
@@ -389,6 +371,64 @@
         </div>
       </div>
 
+      <!-- Clear Cache Confirmation Modal -->
+      <div v-if="showClearCacheConfirm" class="fixed inset-0 z-[60] overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="fixed inset-0 bg-black/20 backdrop-blur-sm"></div>
+
+          <div class="relative bg-white rounded-xl shadow-lg w-full max-w-md mx-auto">
+            <div class="p-6 space-y-4">
+              <div class="flex items-center space-x-3">
+                <Icon icon="lucide:alert-triangle" class="w-6 h-6 text-yellow-500" />
+                <h3 class="text-lg font-semibold text-gray-900">确认清除缓存</h3>
+              </div>
+              <p class="text-sm text-gray-600">
+                您确定要清除所有缓存并重新加载页面吗？此操作可能会导致暂时的性能下降。
+              </p>
+              <div class="flex justify-end space-x-3">
+                <button @click="showClearCacheConfirm = false"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                  取消
+                </button>
+                <button @click="executeClearCache"
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
+                  确认清除
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Local Storage Item Confirmation Modal -->
+      <div v-if="showDeleteLocalStorageConfirm" class="fixed inset-0 z-[60] overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="fixed inset-0 bg-black/20 backdrop-blur-sm"></div>
+
+          <div class="relative bg-white rounded-xl shadow-lg w-full max-w-md mx-auto">
+            <div class="p-6 space-y-4">
+              <div class="flex items-center space-x-3">
+                <Icon icon="lucide:alert-triangle" class="w-6 h-6 text-yellow-500" />
+                <h3 class="text-lg font-semibold text-gray-900">确认删除</h3>
+              </div>
+              <p class="text-sm text-gray-600">
+                您确定要删除这个 Local Storage 项目吗？此操作无法撤销，可能会影响网站的某些功能。
+              </p>
+              <div class="flex justify-end space-x-3">
+                <button @click="showDeleteLocalStorageConfirm = false"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                  取消
+                </button>
+                <button @click="executeDeleteLocalStorageItem"
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
+                  确认删除
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Browser Info Modal -->
       <div v-if="showBrowserInfo" class="fixed inset-0 z-50 overflow-y-auto" @click.self="showBrowserInfo = false">
         <div class="flex items-center justify-center min-h-screen p-4">
@@ -399,19 +439,16 @@
                 <Icon icon="lucide:info" class="w-6 h-6 text-blue-600" />
                 <h3 class="text-lg font-semibold text-gray-900">Browser Information</h3>
               </div>
-              <button
-                @click="showBrowserInfo = false"
-                class="text-gray-400 hover:text-gray-500 transition-colors"
-              >
+              <button @click="showBrowserInfo = false" class="text-gray-400 hover:text-gray-500 transition-colors">
                 <Icon icon="lucide:x" class="w-5 h-5" />
               </button>
             </div>
 
             <div class="p-4 max-h-[60vh] overflow-y-auto">
-              <div v-if="browserInfo" class="space-y-4">
+              <div v-if="browserInfo" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div v-for="(value, key) in browserInfo" :key="key" class="bg-gray-50 p-3 rounded-lg">
-                  <h4 class="font-medium text-gray-900 capitalize">{{ key }}</h4>
-                  <p class="mt-1 text-sm text-gray-600">{{ value }}</p>
+                  <h4 class="font-medium text-gray-900 capitalize">{{ formatKey(key) }}</h4>
+                  <p class="mt-1 text-sm text-gray-600">{{ formatValue(value) }}</p>
                 </div>
               </div>
               <div v-else class="flex justify-center py-8">
@@ -467,6 +504,42 @@ export default defineComponent({
         licenseContent.value = 'Failed to load license content. Please try again later.';
       }
     };
+
+
+    const showClearCacheConfirm = ref(false);
+    const showDeleteLocalStorageConfirm = ref(false);
+    const localStorageItemToDelete = ref('');
+
+    const confirmClearCache = () => {
+      showClearCacheConfirm.value = true;
+    };
+
+    const executeClearCache = async () => {
+      await clearCacheAndReload();
+      showClearCacheConfirm.value = false;
+    };
+
+    const confirmDeleteLocalStorageItem = (key) => {
+      localStorageItemToDelete.value = key;
+      showDeleteLocalStorageConfirm.value = true;
+    };
+
+    const executeDeleteLocalStorageItem = () => {
+      removeLocalStorageItem(localStorageItemToDelete.value);
+      showDeleteLocalStorageConfirm.value = false;
+    };
+
+    const formatKey = (key) => {
+      return key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+    };
+
+    const formatValue = (value) => {
+      if (typeof value === 'boolean') {
+        return value ? 'Yes' : 'No';
+      }
+      return value;
+    };
+
 
     const updateLocalStorageItems = () => {
       const items = {};
@@ -670,6 +743,8 @@ export default defineComponent({
       showCookies,
       showBrowserInfo,
       showDeleteCookieConfirm,
+      showClearCacheConfirm,
+      showDeleteLocalStorageConfirm,
       debugEnabled,
       licenseContent,
       localStorageItems,
@@ -682,10 +757,16 @@ export default defineComponent({
       isDevelopment,
       toggleDebug,
       clearCacheAndReload,
+      formatKey,
+      formatValue,
       removeLocalStorageItem,
+      confirmDeleteLocalStorageItem,
+      executeDeleteLocalStorageItem,
+      confirmClearCache,
+      executeClearCache,
       confirmDeleteCookie,
       deleteCookie,
-      copyToClipboard
+      copyToClipboard,
     };
   }
 });
