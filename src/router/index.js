@@ -27,7 +27,6 @@ const routes = [
 ];
 
 const router = createRouter({
-  // base:'/volunteer',
   base:'/',
   history: createWebHistory(import.meta.env.VITE_APP_BASE),
   routes,

@@ -34,10 +34,12 @@ export function getAppConfigCopyInfo() {
   for (let key in appConfigFiles) {
     let relativePath = appConfigFiles[key];
     let fileName = relativePath.substr(relativePath.lastIndexOf('/') + 1);
+	console.log(fileName);
     copyInfo.push({
-      src: path.resolve(__dirname, `../src/config/${relativePath}`),
-      dest: `dist/config/`,
+      src: path.join(__dirname, '..', `src/config/${relativePath}`),
+      dest: `dist/config`,
     });
   }
+  console.log(copyInfo);
   return copyInfo;
 }
