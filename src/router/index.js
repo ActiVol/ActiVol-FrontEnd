@@ -7,7 +7,7 @@ const routes = [
     meta: { title: 'app.BrowserTitle' },
   },
   { path: '/home', name:'home', component: () => import('../view/index.vue')},
-  { path: '/userDetails', name:'details', component: () => import('../view/userDetails.vue')},
+  { path: '/self-inquiry', name:'details', component: () => import('../view/userRecordInquiry.vue')},
   { path: '/selfSubmission', name:'selfSubmission', component: () => import('../view/selfSubmission.vue')},
   { path: '/activity', name:'VolunteerActivities', component: () => import('../view/activityPage.vue'),
   },

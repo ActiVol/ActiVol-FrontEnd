@@ -9,7 +9,7 @@ import useUserStore from './stores/modules/user';
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/404', '/login', '/register','/home','/selfSubmission','/activity','/userDetails','/activityDetail','/agreement','/privacy','/resetPasswordByUrl/*','/socialLogin','/forget'];
+const whiteList = ['/404', '/login', '/register','/home','/selfSubmission','/activity','/self-inquiry','/activityDetail','/agreement','/privacy','/resetPasswordByUrl/*','/socialLogin','/forget'];
 // const whiteList = ['/volunteer/login', '/volunteer/register','/volunteer/home','/volunteer/selfSubmission','/volunteer/activity','/volunteer/userDetails','/volunteer/activityDetail'];
 const isWhiteList = (path) => {
   return whiteList.some(pattern => isPathMatch(pattern, path));

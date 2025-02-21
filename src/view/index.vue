@@ -40,7 +40,7 @@ const listBoxItems = ref([
     icon: 'lucide:bar-chart-2',
     title: proxy.$t('menu.StatsView'),
     content: proxy.$t('menu.VolunteerImpact'),
-    path: '/userDetails',
+    path: '/self-inquiry',
     color: 'green'
   },
   {
