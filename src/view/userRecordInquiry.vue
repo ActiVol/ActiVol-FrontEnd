@@ -230,7 +230,7 @@ const breadcrumbItems = [
   { label: t('breadCrumb.userRecordInquiry'), path: '/self-inquiry' },
 ];
 
-const currentPage = 'userRecordInquiry';
+const currentPage = t('breadCrumb.userRecordInquiry');
 
 const tableHeaders = [
   { key: 'name' },
