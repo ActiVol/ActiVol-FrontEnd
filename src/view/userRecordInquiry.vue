@@ -245,7 +245,7 @@ const rules = {
     { min: 2, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
   ],
   middleName: [
-    { min: 2, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
+    { min: 1, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
   ],
   lastName: [
     { required: true, message: t('userRecordInquiry.validation.lastNameRequired'), trigger: 'blur' },
