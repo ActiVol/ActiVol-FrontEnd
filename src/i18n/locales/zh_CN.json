@@ -4,7 +4,8 @@
         "login": "登录",
         "register": "注册",
         "forget": "忘记密码",
-        "userRecordInquiry": "用户活动记录查询"
+        "userRecordInquiry": "用户活动记录查询",
+        "activityPage": "志愿者活动"
     },
     "auth": {
         "login": "登录",
@@ -161,55 +162,71 @@
         "loginReminder": {
             "title": "你还没有登录！",
             "content": "登录后可以快速查看您的志愿活动记录无需频繁输入。"
+        },
+        "noDataArea": {
+            "title": "暂无数据",
+            "content": "请稍后再来查看，或者尝试刷新页面"
         }
     },
-    "userRecordInquiry": {
-        "stats": {
-            "totalHours": "累计时长",
-            "totalActivities": "累计活动",
-            "status": "完成状态",
-            "activities": "个活动",
-            "completed": "已完成",
-            "inProgress": "进行中"
+    "page": {
+        "activity": {
+            "title": "志愿者活动",
+            "activities": {
+                "title": "活动",
+                "name": "活动名称",
+                "date": "活动日期",
+                "organizer": "组织者",
+                "duration": "活动时长"
+            }
         },
-        "search": {
-            "title": "快速活动查询",
-            "firstName": "名字",
-            "middleName": "中间名",
-            "lastName": "姓氏",
-            "username": "用户名",
-            "email": "邮箱",
-            "firstNamePlaceholder": "请输入名字",
-            "middleNamePlaceholder": "请输入中间名",
-            "lastNamePlaceholder": "请输入姓氏",
-            "usernamePlaceholder": "请输入用户名",
-            "emailPlaceholder": "请输入邮箱",
-            "search": "查询",
-            "searching": "查询中..."
-        },
-        "activities": {
-            "title": "活动详情",
-            "name": "活动名称",
-            "date": "参与时间",
-            "organizer": "举办人",
-            "duration": "活动时长",
-            "noData": "暂无数据。请去添加申报数据或查看可选活动。"
-        },
-        "validation": {
-            "firstNameRequired": "名字是必填项",
-            "nameLength": "名字至少2个字符",
-            "lastNameRequired": "姓氏是必填项",
-            "usernameRequired": "用户名是必填项",
-            "usernameLength": "用户名至少2个字符",
-            "emailRequired": "邮箱是必填项",
-            "emailFormat": "请输入正确的邮箱格式"
-        },
-        "messages": {
-            "noData": "未获取到数据！",
-            "error": "操作失败，请重试"
-        },
-        "profile": {
-            "welcome": "欢迎回来，{name}"
+        "userRecordInquiry": {
+            "stats": {
+                "totalHours": "累计时长",
+                "totalActivities": "累计活动",
+                "status": "完成状态",
+                "activities": "个活动",
+                "completed": "已完成",
+                "inProgress": "进行中"
+            },
+            "search": {
+                "title": "快速活动查询",
+                "firstName": "名字",
+                "middleName": "中间名",
+                "lastName": "姓氏",
+                "username": "用户名",
+                "email": "邮箱",
+                "firstNamePlaceholder": "请输入名字",
+                "middleNamePlaceholder": "请输入中间名",
+                "lastNamePlaceholder": "请输入姓氏",
+                "usernamePlaceholder": "请输入用户名",
+                "emailPlaceholder": "请输入邮箱",
+                "search": "查询",
+                "searching": "查询中..."
+            },
+            "activities": {
+                "title": "活动详情",
+                "name": "活动名称",
+                "date": "参与时间",
+                "organizer": "举办人",
+                "duration": "活动时长",
+                "noData": "暂无数据。请去添加申报数据或查看可选活动。"
+            },
+            "validation": {
+                "firstNameRequired": "名字是必填项",
+                "nameLength": "名字至少2个字符",
+                "lastNameRequired": "姓氏是必填项",
+                "usernameRequired": "用户名是必填项",
+                "usernameLength": "用户名至少2个字符",
+                "emailRequired": "邮箱是必填项",
+                "emailFormat": "请输入正确的邮箱格式"
+            },
+            "messages": {
+                "noData": "未获取到数据！",
+                "error": "操作失败，请重试"
+            },
+            "profile": {
+                "welcome": "欢迎回来，{name}"
+            }
         }
     }
 }

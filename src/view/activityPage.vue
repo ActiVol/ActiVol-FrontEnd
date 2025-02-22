@@ -1,7 +1,7 @@
 <template>
   <Layout :breadcrumbItems="breadcrumbItems" :currentPage="currentPage">
     <div class="w-full max-w-5xl mx-auto mb-6" v-loading="loading" :element-loading-svg="svg">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">志愿者活动</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $t('page.activity.title') }}</h1>
       <div class="rainbow-border mb-6"></div>
 
       <div v-if="activities.length > 0"
@@ -22,8 +22,8 @@
 
       <div v-else class="flex flex-col items-center justify-center h-[calc(100vh-300px)]">
         <Icon icon="mdi:clipboard-text-clock-outline" class="text-6xl mb-4 text-gray-400" />
-        <p class="text-xl font-semibold text-gray-500">暂无活动数据</p>
-        <p class="mt-2 text-gray-400">请稍后再来查看，或者尝试刷新页面</p>
+        <p class="text-xl font-semibold text-gray-500">{{ $t('component.noDataArea.title') }}</p>
+        <p class="mt-2 text-gray-400">{{ $t('component.noDataArea.content') }}</p>
       </div>
 
       <el-pagination
@@ -43,12 +43,15 @@
 <script setup>
 import { defineComponent, ref, onMounted, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import Layout from '../components/Layout.vue';
 import ActivityCard from '../components/ActivityCard.vue';
 import { getPublishActivities } from '../api/openness/openness';
 import { Icon } from '@iconify/vue';
 
 defineComponent(['ActivityCard', 'Layout', 'Icon']);
+
+const { t } = useI18n();
 
 const { proxy } = getCurrentInstance();
 const dictDatas = proxy.useDict('service_location', 'service_field', 'service_object');
@@ -70,10 +73,10 @@ const svg = `
   </svg>
 `;
 const breadcrumbItems = [
-  { label: '首页', path: '/' },
-  { label: '志愿者活动', path: '/activity' },
+  { label: t('breadCrumb.home'), path: '/' },
+  { label: t('breadCrumb.activityPage'), path: '/activity' },
 ];
-const currentPage = '志愿者活动';
+const currentPage = t('breadCrumb.activityPage');
 const activities = ref([]);
 
 const handleActivityCard = (activityId) => {

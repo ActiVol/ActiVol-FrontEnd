@@ -1,171 +1,252 @@
 <template>
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden"  v-loading="loading" :element-loading-svg="svg">
-    <div class="relative">
-      <div v-if="tempActivity&&tempActivity.activityPictures" class="overflow-hidden">
-        <img :src="tempActivity.activityPictures" :alt="truncateDescription(tempActivity.activityName,10)" class="w-full h-full object-cover" />
+  <div class="max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden" v-loading="loading" :element-loading-svg="svg">
+      <!-- Activity Image/Header Section -->
+      <div class="relative">
+        <div v-if="tempActivity?.activityPictures" class="h-64 sm:h-96 overflow-hidden">
+          <img
+            :src="tempActivity.activityPictures"
+            :alt="truncateDescription(tempActivity.activityName, 10)"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div v-else class="h-64 sm:h-96 flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600">
+          <span class="text-3xl sm:text-4xl text-white font-bold px-6 text-center">
+            {{ truncateDescription(tempActivity.activityName, 20) }}
+          </span>
+        </div>
       </div>
-      <div v-else :class="['flex items-center justify-center']">
-        <span class="text-4xl text-white">{{ truncateDescription(tempActivity.activityName,10) }}</span>
-      </div>
-    </div>
-    <div class="p-4">
-      <h3 class="text-xl font-bold text-gray-800 mb-2">{{ truncateDescription(tempActivity.activityName,10) }}</h3>
 
-      <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center text-sm text-gray-500">
-          <div class="flex items-center">
-            <div class="w-4 h-4 mr-1"><svg-icon iconClass="zmrs"  /></div>
-          </div>
-          <div class="text font-medium max-w-3xl mx-auto">
-            <span class="mr-1">招募人数：</span>
-            <span class="mr-1">{{  tempActivity.recruitedNumber }}</span>
-            <span>/</span>
-            <span class="mr-1">{{  tempActivity.recruitNumber }}</span>
+      <!-- Activity Content -->
+      <div class="p-6 sm:p-8">
+        <!-- Title and Tags Section -->
+        <div class="mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            {{ tempActivity.activityName }}
+          </h1>
+          <div class="flex flex-wrap gap-2">
+            <dict-tag
+              v-for="(tag, type) in {
+                serviceField: serviceFields,
+                serviceObject: serviceObjects,
+                serviceLocation: serviceLocations
+              }"
+              :key="type"
+              :options="tag"
+              :value="tempActivity[type]"
+              class="transition-all duration-300 hover:scale-105"
+            />
           </div>
         </div>
-      </div>
-      <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center text-sm text-gray-500">
-          <Icon icon="mdi:calendar" class="w-4 h-4 mr-1" />
-          <span class="mr-1">活动日期：</span>
-          <span class="mr-1">{{ tempActivity.startTime }}</span>
-        </div>
-      </div>
-      <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center text-sm text-gray-500 mr-2">
-          <div class="flex items-center">
-            <div class="w-4 h-4 mr-1"><svg-icon iconClass="map-marker" /></div>
-            <span class="w-20 text-sm mr-1">活动地址：</span>
+
+        <!-- Key Information Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <!-- Recruitment Status -->
+          <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+            <div class="p-2 bg-blue-100 rounded-lg">
+              <Icon icon="mdi:account-group" class="w-6 h-6 text-blue-600" />
+            </div>
+            <div>
+              <div class="text-sm text-gray-500">招募人数</div>
+              <div class="text-lg font-semibold text-gray-900">
+                {{ tempActivity.recruitedNumber }} / {{ tempActivity.recruitNumber }}
+              </div>
+            </div>
           </div>
-          <span class="mr-1">{{ tempActivity.address }}</span>
-        </div>
-      </div>
-      <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center text-sm text-gray-500 mr-2">
-          <div class="flex items-center">
-            <div class="w-4 h-4 mr-1"><svg-icon iconClass="ic_leader" /></div>
+
+          <!-- Activity Date -->
+          <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+            <div class="p-2 bg-green-100 rounded-lg">
+              <Icon icon="mdi:calendar" class="w-6 h-6 text-green-600" />
+            </div>
+            <div>
+              <div class="text-sm text-gray-500">活动日期</div>
+              <div class="text-lg font-semibold text-gray-900">
+                {{ tempActivity.startTime }}
+              </div>
+            </div>
           </div>
-          <span class="text-sm mr-1">举&nbsp;&nbsp;办&nbsp;&nbsp;者：</span>
-          <span class="mr-1">{{ tempActivity?.dept?.leader }}</span>
-        </div>
-      </div>
-      <div class="flex items-center justify-between mb-2">
-        <div class="flex items-center text-sm text-gray-500 mr-2">
-          <div class="flex items-center">
-            <div class="w-4 h-4 mr-1"><svg-icon iconClass="email" /></div>
+
+          <!-- Location -->
+          <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg sm:col-span-2">
+            <div class="p-2 bg-purple-100 rounded-lg">
+              <Icon icon="mdi:map-marker" class="w-6 h-6 text-purple-600" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm text-gray-500">活动地址</div>
+              <div class="text-lg font-semibold text-gray-900 truncate">
+                {{ tempActivity.address }}
+              </div>
+            </div>
           </div>
-          <span class="text-sm mr-1">邮&nbsp;&nbsp;&nbsp;&nbsp;箱&nbsp;&nbsp;&nbsp;&nbsp;：</span>
-          <span class="mr-1" @click="copyCurrentUrl(tempActivity?.dept?.email)">{{ tempActivity?.dept?.email }}</span>
         </div>
-      </div>
-      <div class="flex items-center mb-2">
-        <dict-tag class="mr-2" :options="serviceFields" :value="tempActivity.serviceField"/>
-        <dict-tag class="mr-2" :options="serviceObjects" :value="tempActivity.serviceObject"/>
-        <dict-tag class="mr-2" :options="serviceLocations" :value="tempActivity.serviceLocation"/>
-      </div>
-      <div class="mr-2">
-        <p class="text font-bold text-gray-800 mb-2">活动详情</p>
-      </div>
-      <div class="bg-grey shadow-lg overflow-hidden px-2 py-2" style="border:solid 1px #00cbab">
-        <p class="text-sm text-gray-600 mb-2">{{ tempActivity.details }}</p>
+
+        <!-- Organizer Information -->
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">主办方信息</h2>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <Icon icon="mdi:account" class="w-5 h-5 text-gray-400 mr-3" />
+              <span class="text-sm text-gray-500 w-20">举办者：</span>
+              <span class="text-sm text-gray-900">{{ tempActivity?.dept?.leader }}</span>
+            </div>
+            <div class="flex items-center">
+              <Icon icon="mdi:email" class="w-5 h-5 text-gray-400 mr-3" />
+              <span class="text-sm text-gray-500 w-20">邮箱：</span>
+              <span
+                class="text-sm text-blue-600 cursor-pointer hover:text-blue-800"
+                @click="copyCurrentUrl(tempActivity?.dept?.email)"
+              >
+                {{ tempActivity?.dept?.email }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Details -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">活动详情</h2>
+          <div class="bg-gray-50 rounded-lg p-6">
+            <p class="text-gray-700 whitespace-pre-line">{{ tempActivity.details }}</p>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <el-button
+          :loading="loading"
+          type="primary"
+          class="w-full py-3 px-4 text-base font-medium transition-all duration-300 hover:scale-[1.02]"
+          @click.prevent="handleSubmit"
+        >
+          {{ loading ? '报名中...' : '立即报名' }}
+        </el-button>
       </div>
     </div>
-    <el-button
-      :loading="loading"
-      size="large"
-      type="primary"
-      class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      @click.prevent="handleSubmit"
-    >
-      <span v-if="!loading">提 交</span>
-      <span v-else>提 交 中...</span>
-    </el-button>
   </div>
 </template>
 
 <script setup>
-import {defineProps,ref, watch,onMounted,defineComponent } from 'vue';
+import { defineProps, ref, watch, onMounted, defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
-import {signUpActivity} from '../api/openness/openness';
+import { signUpActivity, getActivityDetailById } from '../api/openness/openness';
 import { getToken } from '../utils/auth';
-import {copyCurrentUrl} from '../utils/ruoyi';
+import { copyCurrentUrl } from '../utils/ruoyi';
 import { Icon } from '@iconify/vue';
-defineComponent(['Icon']);
-import { useRouter } from 'vue-router';
-const router = useRouter();
+import { useRouter, useRoute } from 'vue-router';
 import config from 'config';
+
+defineComponent(['Icon']);
+
+const router = useRouter();
+const route = useRoute();
 const baseURL = config.baseURL;
-import { useRoute } from 'vue-router';
-import { getActivityDetailById } from '../api/openness/openness';
+
 const tempActivity = ref({});
-const svg = `
-        <path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `;
 const loading = ref(false);
+
+const svg = `
+  <path class="path" d="
+    M 30 15
+    L 28 17
+    M 25.61 25.61
+    A 15 15, 0, 0, 1, 15 30
+    A 15 15, 0, 1, 1, 27.99 7.5
+    L 15 15
+  " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+`;
+
 const props = defineProps({
   serviceField: Object,
   serviceLocation: Object,
   serviceObject: Object
 });
+
 const serviceFields = ref([]);
 const serviceObjects = ref([]);
 const serviceLocations = ref([]);
+
 watch(() => props.serviceField, (newValue) => {
   serviceFields.value = newValue;
-},{deep:true,immediate:true});
+}, { deep: true, immediate: true });
+
 watch(() => props.serviceObject, (newValue) => {
   serviceObjects.value = newValue;
-},{deep:true,immediate:true});
+}, { deep: true, immediate: true });
+
 watch(() => props.serviceLocation, (newValue) => {
   serviceLocations.value = newValue;
-},{deep:true,immediate:true});
-const truncateDescription = (details, maxLength = 100) => {
-  return details && details.length > maxLength
-    ? details.substring(0, maxLength) + '...'
-    : details;
-};
-const handleSubmit = () => {
-  if(!getToken()) {
-    return router.push('/login');
+}, { deep: true, immediate: true });
+
+const truncateDescription = (text, maxLength = 100) => {
+  if (!text) {
+    return '';
   }
+  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+};
+
+const handleSubmit = async () => {
+  if (!getToken()) {
+    router.push('/login');
+    return;
+  }
+
   loading.value = true;
-  signUpActivity(tempActivity.value.activityId).then((res) => {
-    if(res.code == 200) {
-      loading.value = false;
+  try {
+    const res = await signUpActivity(tempActivity.value.activityId);
+    if (res.code === 200) {
       ElMessage({
         message: '报名成功',
         type: 'success'
       });
-      return router.push('/home');
+      router.push('/home');
+    } else {
+      ElMessage({
+        message: res.msg || '报名失败',
+        type: 'error'
+      });
     }
-    loading.value = false;
+  } catch (error) {
     ElMessage({
       message: '报名失败',
       type: 'error'
     });
-
-  }).catch(error => {
+  } finally {
     loading.value = false;
-  });
+  }
 };
-onMounted(() => {
+
+onMounted(async () => {
   loading.value = true;
-  const route = useRoute();
-  const activityId = route.query.activityId;
-  getActivityDetailById(activityId).then((res) => {
-    if(res.code == 200) {
+  try {
+    const activityId = route.query.activityId;
+    const res = await getActivityDetailById(activityId);
+    if (res.code === 200) {
       tempActivity.value = res.data;
-      loading.value = false;
+    } else {
+      ElMessage({
+        message: res.msg || '获取活动详情失败',
+        type: 'error'
+      });
     }
-  }).catch(error => {
+  } catch (error) {
+    ElMessage({
+      message: '获取活动详情失败',
+      type: 'error'
+    });
+  } finally {
     loading.value = false;
-  });
+  }
 });
 </script>
+
+<style scoped>
+.el-button--primary {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.el-button--primary:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+</style>

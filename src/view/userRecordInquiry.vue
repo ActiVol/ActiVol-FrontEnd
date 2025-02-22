@@ -52,13 +52,13 @@
       <!-- Quick Search Form (Not Logged In) -->
       <div v-if="!isLoggedIn" class="bg-white rounded-lg shadow-sm overflow-hidden">
         <div class="p-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $t('userRecordInquiry.search.title') }}</h3>
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $t('page.userRecordInquiry.search.title') }}</h3>
           <el-form ref="searchFormRef" :model="searchQuery" :rules="rules" @submit.prevent="searchActivities">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <el-form-item :label="$t('userRecordInquiry.search.firstName')" prop="firstName" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.firstName')" prop="firstName" label-position="top">
                 <el-input
                   v-model="searchQuery.firstName"
-                  :placeholder="$t('userRecordInquiry.search.firstNamePlaceholder')"
+                  :placeholder="$t('page.userRecordInquiry.search.firstNamePlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:user" class="w-4 h-4 text-gray-400" />
@@ -66,10 +66,10 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item :label="$t('userRecordInquiry.search.middleName')" prop="middleName" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.middleName')" prop="middleName" label-position="top">
                 <el-input
                   v-model="searchQuery.middleName"
-                  :placeholder="$t('userRecordInquiry.search.middleNamePlaceholder')"
+                  :placeholder="$t('page.userRecordInquiry.search.middleNamePlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:user" class="w-4 h-4 text-gray-400" />
@@ -77,10 +77,10 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item :label="$t('userRecordInquiry.search.lastName')" prop="lastName" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.lastName')" prop="lastName" label-position="top">
                 <el-input
                   v-model="searchQuery.lastName"
-                  :placeholder="$t('userRecordInquiry.search.lastNamePlaceholder')"
+                  :placeholder="$t('page.userRecordInquiry.search.lastNamePlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:user" class="w-4 h-4 text-gray-400" />
@@ -90,10 +90,10 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <el-form-item :label="$t('userRecordInquiry.search.username')" prop="username" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.username')" prop="username" label-position="top">
                 <el-input
                   v-model="searchQuery.username"
-                  :placeholder="$t('userRecordInquiry.search.usernamePlaceholder')"
+                  :placeholder="$t('page.userRecordInquiry.search.usernamePlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:user" class="w-4 h-4 text-gray-400" />
@@ -101,10 +101,10 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item :label="$t('userRecordInquiry.search.email')" prop="email" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.email')" prop="email" label-position="top">
                 <el-input
                   v-model="searchQuery.email"
-                  :placeholder="$t('userRecordInquiry.search.emailPlaceholder')"
+                  :placeholder="$t('page.userRecordInquiry.search.emailPlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:mail" class="w-4 h-4 text-gray-400" />
@@ -119,7 +119,7 @@
               type="primary"
               class="w-full md:w-auto px-6 py-2 text-sm font-medium mt-4"
             >
-              {{ loading ? $t('userRecordInquiry.search.searching') : $t('userRecordInquiry.search.search') }}
+              {{ loading ? $t('page.userRecordInquiry.search.searching') : $t('page.userRecordInquiry.search.search') }}
             </el-button>
           </el-form>
         </div>
@@ -136,7 +136,7 @@
             />
             <div class="flex-1 text-center sm:text-left">
               <h2 class="text-xl font-semibold text-gray-900 mb-1">
-                {{ $t('userRecordInquiry.profile.welcome', { name: participatedActivitiesData.username }) }}
+                {{ $t('page.userRecordInquiry.profile.welcome', { name: participatedActivitiesData.username }) }}
               </h2>
               <p class="text-sm text-gray-600 mb-1">ID: {{ participatedActivitiesData.userId }}</p>
               <p class="text-sm text-gray-600">{{ participatedActivitiesData.email }}</p>
@@ -148,7 +148,7 @@
       <!-- Activity Details Table -->
       <div class="bg-white rounded-lg shadow-sm overflow-hidden">
         <div class="p-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $t('userRecordInquiry.activities.title') }}</h3>
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $t('page.userRecordInquiry.activities.title') }}</h3>
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
@@ -157,7 +157,7 @@
                       :key="header.key"
                       class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    {{ $t(`userRecordInquiry.activities.${header.key}`) }}
+                    {{ $t(`page.userRecordInquiry.activities.${header.key}`) }}
                   </th>
                 </tr>
               </thead>
@@ -183,7 +183,7 @@
                 </template>
                 <tr v-else>
                   <td colspan="4" class="px-4 py-2 text-center text-sm text-gray-500">
-                    {{ $t('userRecordInquiry.activities.noData') }}
+                    {{ $t('page.userRecordInquiry.activities.noData') }}
                   </td>
                 </tr>
               </tbody>
@@ -241,23 +241,23 @@ const tableHeaders = [
 
 const rules = {
   firstName: [
-    { required: true, message: t('userRecordInquiry.validation.firstNameRequired'), trigger: 'blur' },
-    { min: 2, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
+    { required: true, message: t('page.userRecordInquiry.validation.firstNameRequired'), trigger: 'blur' },
+    { min: 2, message: t('page.userRecordInquiry.validation.nameLength'), trigger: 'blur' },
   ],
   middleName: [
-    { min: 1, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
+    { min: 1, message: t('page.userRecordInquiry.validation.nameLength'), trigger: 'blur' },
   ],
   lastName: [
-    { required: true, message: t('userRecordInquiry.validation.lastNameRequired'), trigger: 'blur' },
-    { min: 2, message: t('userRecordInquiry.validation.nameLength'), trigger: 'blur' },
+    { required: true, message: t('page.userRecordInquiry.validation.lastNameRequired'), trigger: 'blur' },
+    { min: 2, message: t('page.userRecordInquiry.validation.nameLength'), trigger: 'blur' },
   ],
   username: [
-    { required: true, message: t('userRecordInquiry.validation.usernameRequired'), trigger: 'blur' },
-    { min: 2, message: t('userRecordInquiry.validation.usernameLength'), trigger: 'blur' },
+    { required: true, message: t('page.userRecordInquiry.validation.usernameRequired'), trigger: 'blur' },
+    { min: 2, message: t('page.userRecordInquiry.validation.usernameLength'), trigger: 'blur' },
   ],
   email: [
-    { required: true, message: t('userRecordInquiry.validation.emailRequired'), trigger: 'blur' },
-    { type: 'email', message: t('userRecordInquiry.validation.emailFormat'), trigger: 'blur' },
+    { required: true, message: t('page.userRecordInquiry.validation.emailRequired'), trigger: 'blur' },
+    { type: 'email', message: t('page.userRecordInquiry.validation.emailFormat'), trigger: 'blur' },
   ],
 };
 
@@ -266,7 +266,7 @@ const stats = computed(() => {
   const isCompleted = accumulatedDuration >= 50;
   return [
     {
-      title: 'userRecordInquiry.stats.totalHours',
+      title: 'page.userRecordInquiry.stats.totalHours',
       value: accumulatedDuration,
       suffix: '/50h',
       icon: 'lucide:clock',
@@ -277,17 +277,17 @@ const stats = computed(() => {
       progressColor: isCompleted ? 'bg-green-500' : 'bg-red-500',
     },
     {
-      title: 'userRecordInquiry.stats.totalActivities',
+      title: 'page.userRecordInquiry.stats.totalActivities',
       value: participatedActivitiesData.value.partivipatedCount || 0,
-      suffix: t('userRecordInquiry.stats.activities'),
+      suffix: t('page.userRecordInquiry.stats.activities'),
       icon: 'lucide:calendar',
       borderColor: 'border-green-500',
       iconColor: 'text-green-500',
       valueColor: 'text-green-600',
     },
     {
-      title: 'userRecordInquiry.stats.status',
-      value: isCompleted ? t('userRecordInquiry.stats.completed') : t('userRecordInquiry.stats.inProgress'),
+      title: 'page.userRecordInquiry.stats.status',
+      value: isCompleted ? t('page.userRecordInquiry.stats.completed') : t('page.userRecordInquiry.stats.inProgress'),
       icon: 'lucide:award',
       borderColor: isCompleted ? 'border-green-500' : 'border-yellow-500',
       iconColor: isCompleted ? 'text-green-500' : 'text-yellow-500',
@@ -313,7 +313,7 @@ const searchActivities = async () => {
     const res = await getParticipatedActivities(searchQuery.value);
     if (res.code === 200) {
       if (!res.data.userId) {
-        ElMessage.warning(t('userRecordInquiry.messages.noData'));
+        ElMessage.warning(t('page.userRecordInquiry.messages.noData'));
       } else {
         participatedActivitiesData.value = {
           ...res.data,
@@ -321,11 +321,11 @@ const searchActivities = async () => {
         };
       }
     } else {
-      ElMessage.error(res.msg || t('userRecordInquiry.messages.error'));
+      ElMessage.error(res.msg || t('page.userRecordInquiry.messages.error'));
     }
   } catch (error) {
     console.error('Search activities error:', error);
-    ElMessage.error(t('userRecordInquiry.messages.error'));
+    ElMessage.error(t('page.userRecordInquiry.messages.error'));
   } finally {
     loading.value = false;
   }
@@ -341,10 +341,10 @@ const initData = async () => {
         activityInfo: res.data.activityInfo || [],
       };
     } else {
-      ElMessage.error(t('userRecordInquiry.messages.error'));
+      ElMessage.error(t('page.userRecordInquiry.messages.error'));
     }
   } catch (error) {
-    ElMessage.error(t('userRecordInquiry.messages.error'));
+    ElMessage.error(t('page.userRecordInquiry.messages.error'));
   } finally {
     loading.value = false;
   }

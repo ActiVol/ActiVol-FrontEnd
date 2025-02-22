@@ -4,7 +4,8 @@
     "login": "Log In",
     "register": "Register",
     "forget": "Forgot Password",
-    "userRecordInquiry": "User Activity Record Inquiry"
+    "userRecordInquiry": "User Activity Record Inquiry",
+    "activityPage": "Activities"
   },
   "auth": {
     "login": "Login",
@@ -162,55 +163,71 @@
     "loginReminder": {
       "title": "You are not logged in!",
       "content": "Login to quickly view your volunteer activity records without frequent input."
+    },
+    "noDataArea": {
+      "title": "No Data",
+      "content": "No data available at the moment. Please check back later."
     }
   },
-  "userRecordInquiry": {
-    "stats": {
-      "totalHours": "Total Hours",
-      "totalActivities": "Total Activities",
-      "status": "Status",
-      "activities": "activities",
-      "completed": "Completed",
-      "inProgress": "In Progress"
+  "page": {
+    "activity": {
+      "title": "Activities",
+      "activities": {
+        "title": "Activity List",
+        "name": "Activity Name",
+        "date": "Date",
+        "organizer": "Organizer",
+        "duration": "Duration"
+      }
     },
-    "search": {
-      "title": "Quick Activity Search",
-      "firstName": "First Name",
-      "middleName": "Middle Name",
-      "lastName": "Last Name",
-      "username": "Username",
-      "email": "Email",
-      "firstNamePlaceholder": "Enter your first name",
-      "middleNamePlaceholder": "Enter your middle name",
-      "lastNamePlaceholder": "Enter your last name",
-      "usernamePlaceholder": "Enter your username",
-      "emailPlaceholder": "Enter your email",
-      "search": "Search",
-      "searching": "Searching..."
-    },
-    "activities": {
-      "title": "Activity Details",
-      "name": "Activity Name",
-      "date": "Date",
-      "organizer": "Organizer",
-      "duration": "Duration",
-      "noData": "No activities found. Please participate in activities or check available ones."
-    },
-    "validation": {
-      "firstNameRequired": "First name is required",
-      "nameLength": "Name must be at least 2 characters",
-      "lastNameRequired": "Last name is required",
-      "usernameRequired": "Username is required",
-      "usernameLength": "Username must be at least 2 characters",
-      "emailRequired": "Email is required",
-      "emailFormat": "Please enter a valid email address"
-    },
-    "messages": {
-      "noData": "No data found",
-      "error": "An error occurred. Please try again."
-    },
-    "profile": {
-      "welcome": "Welcome back, {name}"
+    "userRecordInquiry": {
+      "stats": {
+        "totalHours": "Total Hours",
+        "totalActivities": "Total Activities",
+        "status": "Status",
+        "activities": "activities",
+        "completed": "Completed",
+        "inProgress": "In Progress"
+      },
+      "search": {
+        "title": "Quick Activity Search",
+        "firstName": "First Name",
+        "middleName": "Middle Name",
+        "lastName": "Last Name",
+        "username": "Username",
+        "email": "Email",
+        "firstNamePlaceholder": "Enter your first name",
+        "middleNamePlaceholder": "Enter your middle name",
+        "lastNamePlaceholder": "Enter your last name",
+        "usernamePlaceholder": "Enter your username",
+        "emailPlaceholder": "Enter your email",
+        "search": "Search",
+        "searching": "Searching..."
+      },
+      "activities": {
+        "title": "Activity Details",
+        "name": "Activity Name",
+        "date": "Date",
+        "organizer": "Organizer",
+        "duration": "Duration",
+        "noData": "No activities found. Please participate in activities or check available ones."
+      },
+      "validation": {
+        "firstNameRequired": "First name is required",
+        "nameLength": "Name must be at least 2 characters",
+        "lastNameRequired": "Last name is required",
+        "usernameRequired": "Username is required",
+        "usernameLength": "Username must be at least 2 characters",
+        "emailRequired": "Email is required",
+        "emailFormat": "Please enter a valid email address"
+      },
+      "messages": {
+        "noData": "No data found",
+        "error": "An error occurred. Please try again."
+      },
+      "profile": {
+        "welcome": "Welcome back, {name}"
+      }
     }
   }
 }
