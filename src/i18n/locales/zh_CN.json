@@ -179,6 +179,29 @@
                 "duration": "活动时长"
             }
         },
+        "activityDetail": {
+            "recruitmentStatus": "招募人数",
+            "activityDuration": "活动时间",
+            "hours": "小时",
+            "activityDate": "活动日期",
+            "activityAddress": "活动地址",
+            "copyAddress": "复制地址",
+            "showMap": "显示地图",
+            "hideMap": "隐藏地图",
+            "mapUnavailable": "地图服务暂不可用",
+            "organizerInfo": "主办方信息",
+            "organizer": "举办者",
+            "email": "邮箱",
+            "copyEmail": "复制邮箱",
+            "activityDetails": "活动详情",
+            "signingUp": "报名中...",
+            "signUpNow": "立即报名",
+            "signUpSuccess": "报名成功",
+            "signUpFailed": "报名失败",
+            "copySuccess": "复制成功",
+            "copyFailed": "复制失败",
+            "fetchFailed": "获取活动详情失败"
+        },
         "userRecordInquiry": {
             "stats": {
                 "totalHours": "累计时长",

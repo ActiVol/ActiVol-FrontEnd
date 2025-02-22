@@ -180,6 +180,29 @@
         "duration": "Duration"
       }
     },
+    "activityDetail": {
+      "recruitmentStatus": "Recruitment Status",
+      "activityDuration": "Activity Duration",
+      "hours": "hours",
+      "activityDate": "Activity Date",
+      "activityAddress": "Activity Address",
+      "copyAddress": "Copy Address",
+      "showMap": "Show Map",
+      "hideMap": "Hide Map",
+      "mapUnavailable": "Map service is currently unavailable",
+      "organizerInfo": "Organizer Information",
+      "organizer": "Organizer",
+      "email": "Email",
+      "copyEmail": "Copy Email",
+      "activityDetails": "Activity Details",
+      "signingUp": "Signing Up...",
+      "signUpNow": "Sign Up Now",
+      "signUpSuccess": "Sign up successful",
+      "signUpFailed": "Sign up failed",
+      "copySuccess": "Copy successful",
+      "copyFailed": "Copy failed",
+      "fetchFailed": "Failed to fetch activity details"
+    },
     "userRecordInquiry": {
       "stats": {
         "totalHours": "Total Hours",

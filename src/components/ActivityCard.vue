@@ -2,10 +2,11 @@
   <div
     class="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
     <div class="relative">
-      <div v-if="activity.activityPictures" class="h-48 overflow-hidden">
+      <div v-if="activity.activityPictures && isImageValid" class="h-48 overflow-hidden">
         <img :src="activity.activityPictures"
              :alt="truncateDescription(activity.activityName, 10)"
-             class="w-full h-full object-cover" />
+             class="w-full h-full object-cover"
+             @error="handleImageError" />
       </div>
       <div v-else :class="['h-48 flex items-center justify-center', gradientClass]">
         <span class="text-4xl text-white">{{ truncateDescription(activity.activityName, 10) }}</span>
@@ -59,14 +60,17 @@
 import { defineComponent, computed, defineProps, watch, ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import config from 'config';
+import { getGradientColor } from '../utils/gradientColors';
 
-const gradients = {
-  blue: 'bg-gradient-to-br from-blue-400 to-indigo-600',
-  green: 'bg-gradient-to-br from-green-400 to-emerald-600',
-  purple: 'bg-gradient-to-br from-purple-400 to-fuchsia-600',
-  orange: 'bg-gradient-to-br from-orange-400 to-red-600',
-  teal: 'bg-gradient-to-br from-teal-400 to-cyan-600',
+const isImageValid = ref(true);
+
+const handleImageError = () => {
+  isImageValid.value = false;
 };
+
+const gradientClass = computed(() => {
+  return getGradientColor(props.activity);
+});
 
 defineComponent(['Icon']);
 
@@ -109,13 +113,6 @@ watch(() => props.serviceLocation, (newValue) => {
 }, { deep: true, immediate: true });
 
 const baseURL = config.baseURL;
-const gradientClass = computed(() => {
-  if (props.activity.gradientColor && gradients[props.activity.gradientColor]) {
-    return gradients[props.activity.gradientColor];
-  }
-  const colors = Object.values(gradients);
-  return colors[Math.floor(Math.random() * colors.length)];
-});
 
 const getStatusClass = (status) => {
   switch (status) {
