@@ -101,10 +101,10 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item :label="$t('page.userRecordInquiry.search.email')" prop="email" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.internalEmail')" prop="internalEmail" label-position="top">
                 <el-input
-                  v-model="searchQuery.email"
-                  :placeholder="$t('page.userRecordInquiry.search.emailPlaceholder')"
+                  v-model="searchQuery.internalEmail"
+                  :placeholder="$t('page.userRecordInquiry.search.internalEmailPlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:mail" class="w-4 h-4 text-gray-400" />
@@ -255,9 +255,9 @@ const rules = {
     { required: true, message: t('page.userRecordInquiry.validation.usernameRequired'), trigger: 'blur' },
     { min: 2, message: t('page.userRecordInquiry.validation.usernameLength'), trigger: 'blur' },
   ],
-  email: [
-    { required: true, message: t('page.userRecordInquiry.validation.emailRequired'), trigger: 'blur' },
-    { type: 'email', message: t('page.userRecordInquiry.validation.emailFormat'), trigger: 'blur' },
+  internalEmail: [
+    { required: true, message: t('page.userRecordInquiry.validation.internalEmailRequired'), trigger: 'blur' },
+    { type: 'email', message: t('page.userRecordInquiry.validation.internalEmailFormat'), trigger: 'blur' },
   ],
 };
 

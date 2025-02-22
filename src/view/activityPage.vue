@@ -63,6 +63,7 @@ const loading = ref(false);
 const pageNum = ref(1);
 const pageSize = ref(6);
 const total = ref(0);
+
 // SVG for loading animation
 const svg = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -72,10 +73,12 @@ const svg = `
     </g>
   </svg>
 `;
+
 const breadcrumbItems = [
   { label: t('breadCrumb.home'), path: '/' },
   { label: t('breadCrumb.activityPage'), path: '/activity' },
 ];
+
 const currentPage = t('breadCrumb.activityPage');
 const activities = ref([]);
 

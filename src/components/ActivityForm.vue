@@ -1,217 +1,154 @@
 <template>
-  <div class="w-full max-w-3xl mx-auto">
-    <el-form ref="tempActivityRef" :model="form" :rules="rules" class="login-form space-y-6">
-      <el-form-item v-hasLogin label="姓名" prop="userName" label-position="top">
-        <el-input v-model="form.userName" placeholder="请输入姓名" />
+  <div class="w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <el-form ref="tempActivityRef" :model="form" :rules="rules" class="space-y-6">
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item :label="$t('page.logTime.firstName')" prop="firstName" label-position="top">
+            <el-input v-model="form.firstName" :placeholder="$t('page.logTime.enterFirstName')" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="$t('page.logTime.middleName')" prop="middleName" label-position="top">
+            <el-input v-model="form.middleName" :placeholder="$t('page.logTime.enterMiddleName')" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="$t('page.logTime.lastName')" prop="lastName" label-position="top">
+            <el-input v-model="form.lastName" :placeholder="$t('page.logTime.enterLastName')" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.graduationYear')" prop="graduationYear" label-position="top">
+        <el-date-picker v-model="form.graduationYear"
+                        type="year"
+                        :placeholder="$t('page.logTime.selectGraduationYear')"
+                        style="width: 100%;"
+                        format="YYYY"
+                        value-format="YYYY" />
       </el-form-item>
-      <el-form-item v-hasLogin label="学号" prop="studentId"  label-position="top">
-        <el-input
-          v-model="form.studentId"
-          type="text"
-          size="large"
-          auto-complete="off"
-          placeholder="学号"
-        >
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.internalEmail')" prop="internalEmail" label-position="top">
+        <el-input v-model="form.internalEmail" type="text" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterInternalEmail')">
           <template #prefix>
-            <svg-icon iconClass="student-id"/>
+            <el-icon><Message /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item v-hasLogin label="毕业年份" prop="graduationYear"  label-position="top">
-        <el-date-picker
-          v-model="form.graduationYear"
-          type="year"
-          placeholder="毕业年份"
-          style="width: 100%;"
-          format="YYYY"
-          value-format="YYYY"
-        />
-      </el-form-item>
-      <el-form-item v-hasLogin label="校内邮箱" prop="internalEmail"  label-position="top">
-        <el-input
-          v-model="form.internalEmail"
-          type="text"
-          size="large"
-          auto-complete="off"
-          placeholder="校内邮箱"
-        >
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.externalEmail')" prop="externalEmail" label-position="top">
+        <el-input v-model="form.externalEmail" type="text" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterExternalEmail')">
           <template #prefix>
-            <el-icon>
-              <Message />
-            </el-icon>
+            <el-icon><Message /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item v-hasLogin label="校外邮箱" prop="email"  label-position="top">
-        <el-input
-          v-model="form.email"
-          type="text"
-          size="large"
-          auto-complete="off"
-          placeholder="校外邮箱"
-        >
+
+      <el-form-item :label="$t('page.logTime.activityName')" prop="activityName" label-position="top">
+        <el-input v-model="form.activityName" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterActivityName')">
           <template #prefix>
-            <el-icon>
-              <Message />
-            </el-icon>
+            <el-icon><House /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="参加活动的名称" prop="activityName"  label-position="top">
-        <el-input
-          v-model="form.activityName"
-          size="large"
-          auto-complete="off"
-          placeholder="参加活动的名称"
-        >
+
+      <el-form-item :label="$t('page.logTime.activityLocation')" prop="address" label-position="top">
+        <el-input v-model="form.address" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterActivityLocation')">
           <template #prefix>
-            <el-icon>
-              <House />
-            </el-icon>
+            <el-icon><LocationInformation /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="参加活动的地点" prop="address"  label-position="top">
-        <el-input
-          v-model="form.address"
-          size="large"
-          auto-complete="off"
-          placeholder="参加活动的地点"
-        >
-          <template #prefix>
-            <el-icon>
-              <LocationInformation />
-            </el-icon>
-          </template>
-        </el-input>
+
+      <el-form-item :label="$t('page.logTime.startTime')" prop="startTime" label-position="top">
+        <el-date-picker v-model="form.startTime"
+                        type="date"
+                        :placeholder="$t('page.logTime.selectStartTime')"
+                        style="width: 100%;"
+                        format="YYYY-MM-DD"
+                        value-format="YYYY-MM-DD" />
       </el-form-item>
-      <el-form-item label="活动开始时间" prop="startTime"  label-position="top">
-        <el-date-picker
-          v-model="form.startTime"
-          type="date"
-          placeholder="参加活动的日期"
-          style="width: 100%;"
-          format="YYYY-MM-DD"
-          value-format="YYYY-MM-DD"
-        />
+
+      <el-form-item :label="$t('page.logTime.endTime')" prop="endTime" label-position="top">
+        <el-date-picker v-model="form.endTime"
+                        type="date"
+                        :placeholder="$t('page.logTime.selectEndTime')"
+                        style="width: 100%;"
+                        format="YYYY-MM-DD"
+                        value-format="YYYY-MM-DD" />
       </el-form-item>
-      <el-form-item label="活动结束时间" prop="endTime" label-position="top">
-        <el-date-picker
-          v-model="form.endTime"
-          type="date"
-          placeholder="活动结束时间"
-          style="width: 100%;"
-          format="YYYY-MM-DD"
-          value-format="YYYY-MM-DD"
-        />
-      </el-form-item>
-      <el-form-item label="参加活动的总时长（小时）" prop="duration"  label-position="top">
-        <el-input
-          v-model="form.duration"
-          type="number"
-          size="large"
-        >
+
+      <el-form-item :label="$t('page.logTime.duration')" prop="duration" label-position="top">
+        <el-input v-model="form.duration" type="number" size="large" :placeholder="$t('page.logTime.enterDuration')">
           <template #prefix>
             <el-icon><Timer /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="参加活动的图片" prop="activityPictures" label-position="top">
-        <el-upload
-          class="px-3 py-5 bg-blue-100"
-          :action="uploadImgUrl"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else ><Plus /></el-icon>
-        </el-upload>
-      </el-form-item>
-      <el-form-item label="服务领域" prop="serviceField" label-position="top">
-        <el-select v-model="form.serviceField" placeholder="请选择服务领域">
-          <el-option v-for="dict in service_field" :key="dict.value" :label="dict.label" :value="dict.value"/>
+
+      <!-- <el-form-item :label="$t('page.logTime.serviceField')" prop="serviceField" label-position="top">
+        <el-select v-model="form.serviceField" :placeholder="$t('page.logTime.selectServiceField')">
+          <el-option v-for="dict in service_field" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="服务对象" prop="serviceObject" label-position="top">
-        <el-select v-model="form.serviceObject" placeholder="请选择服务对象">
-          <el-option v-for="dict in service_object" :key="dict.value" :label="dict.label" :value="dict.value"/>
+
+      <el-form-item :label="$t('page.logTime.serviceObject')" prop="serviceObject" label-position="top">
+        <el-select v-model="form.serviceObject" :placeholder="$t('page.logTime.selectServiceObject')">
+          <el-option v-for="dict in service_object" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
       </el-form-item>
-      <el-form-item label="服务场所" prop="serviceLocation" label-position="top">
-        <el-select v-model="form.serviceLocation" placeholder="请选择服务场所">
-          <el-option v-for="dict in service_location" :key="dict.value" :label="dict.label" :value="dict.value"/>
+
+      <el-form-item :label="$t('page.logTime.serviceLocation')" prop="serviceLocation" label-position="top">
+        <el-select v-model="form.serviceLocation" :placeholder="$t('page.logTime.selectServiceLocation')">
+          <el-option v-for="dict in service_location" :key="dict.value" :label="dict.label" :value="dict.value" />
         </el-select>
-      </el-form-item>
-      <el-form-item v-hasLogin label="活动举办者的名字" prop="leader"  label-position="top">
-        <el-input
-          v-model="form.leader"
-          size="large"
-          auto-complete="off"
-          placeholder="活动举办者的名字"
-        >
+      </el-form-item> -->
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.organizerName')" prop="organizer" label-position="top">
+        <el-input v-model="form.organizer" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterOrganizerName')">
           <template #prefix>
-            <el-icon>
-              <User />
-            </el-icon>
+            <el-icon><User /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item v-hasLogin label="活动举办者的邮箱" prop="leaderEmail"  label-position="top">
-        <el-input
-          v-model="form.leaderEmail"
-          size="large"
-          auto-complete="off"
-          placeholder="活动举办者的邮箱"
-        >
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.organizerEmail')" prop="organizerEmail" label-position="top">
+        <el-input v-model="form.organizerEmail" size="large" auto-complete="off" :placeholder="$t('page.logTime.enterOrganizerEmail')">
           <template #prefix>
-            <el-icon>
-              <Message />
-            </el-icon>
+            <el-icon><Message /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item label="参加活动的简介" prop="details"  label-position="top">
-        <el-input
-          v-model="form.details"
-          type="textarea"
-          size="large"
-          :rows="3"
-          placeholder="参加活动的简介"
-        >
+
+      <el-form-item :label="$t('page.logTime.activityDescription')" prop="details" label-position="top">
+        <el-input v-model="form.details" type="textarea" size="large" :rows="3" :placeholder="$t('page.logTime.enterActivityDescription')">
           <template #prefix>
-            <el-icon>
-              <Document />
-            </el-icon>
+            <el-icon><Document /></el-icon>
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item v-hasLogin label="对管理员的留言" label-position="top">
-        <el-input
-          v-model="form.leaveMessage"
-          size="large"
-          type="textarea"
-          :rows="3"
-          auto-complete="off"
-          placeholder="对管理员的留言"
-        >
+
+      <el-form-item v-hasLogin :label="$t('page.logTime.messageToAdmin')" label-position="top">
+        <el-input v-model="form.leaveMessage"
+                  size="large"
+                  type="textarea"
+                  :rows="3"
+                  auto-complete="off"
+                  :placeholder="$t('page.logTime.enterMessageToAdmin')">
           <template #prefix>
-            <el-icon>
-              <Message />
-            </el-icon>
+            <el-icon><Message /></el-icon>
           </template>
         </el-input>
       </el-form-item>
+
       <div>
-        <el-button
-          :loading="loading"
-          size="large"
-          type="primary"
-          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          @click.prevent="handleSubmit"
-        >
-          <span v-if="!loading">提 交</span>
-          <span v-else>提 交 中...</span>
+        <el-button :loading="loading"
+                   size="large"
+                   type="primary"
+                   class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                   @click.prevent="handleSubmit">
+          <span v-if="!loading">{{ $t('page.logTime.submit') }}</span>
+          <span v-else>{{ $t('page.logTime.submitting') }}</span>
         </el-button>
       </div>
     </el-form>
@@ -220,117 +157,124 @@
 
 <script setup>
 import { ElMessage } from 'element-plus';
-import { ref,onMounted,getCurrentInstance} from 'vue';
-import {addTempAcitivity} from '@/api/openness/openness';
-import config from 'config';
-const { proxy } = getCurrentInstance();
-const { service_field, service_object,service_location } = proxy.useDict('service_field','service_object', 'service_location');
-const loading = ref(false);
-const uploadImgUrl = config.baseURL + '/openness/upload/image'; // 上传的图片服务器地址
-const imageUrl = ref('');
+import { ref, onMounted, getCurrentInstance } from 'vue';
+import { addTempAcitivity } from '@/api/openness/openness';
 import { getToken } from '../utils/auth';
+import config from 'config';
+
+const { proxy } = getCurrentInstance();
+const { service_field, service_object, service_location } = proxy.useDict('service_field', 'service_object', 'service_location');
+const loading = ref(false);
+const uploadImgUrl = config.baseURL + '/openness/upload/image';
+const imageUrl = ref('');
+
 const isLoggedIn = getToken();
 const form = ref({
-  userName: '',
-  studentId:'',
+  firstName: '',
+  middleName: '',
+  lastName: '',
   graduationYear: null,
   internalEmail: null,
-  startTime:null,
-  endTime:null,
-  email: '',
+  externalEmail: '',
+  startTime: null,
+  endTime: null,
   address: '',
   duration: null,
-  leader:'',
-  leaderEmail:'',
-  leaveMessage:'',
-  activityPictures:'',
+  organizer: '',
+  organizerEmail: '',
+  leaveMessage: '',
+  activityPictures: '',
   code: '',
   uuid: ''
 });
+
 const endTimeValidator = (rule, value, callback) => {
   if (value && form.value.startTime) {
     const start = new Date(form.value.startTime).getTime();
     const end = new Date(value).getTime();
     if (end <= start) {
-      callback(new Error('结束时间必须大于开始时间'));
+      callback(new Error(proxy.$t('page.logTime.endTimeError')));
     } else {
       callback(); // 验证通过
     }
   }
 };
+
 const rules = {
-  userName: [{ required: true, trigger: 'blur', message: '请输入姓名' }],
-  studentId: [{ required: true, trigger: 'blur', message: '请输入学号' }],
-  graduationYear: [{ required: true, trigger: 'change', message: '请选择毕业年份' }],
-  internalEmail: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-  email: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-  activityName: [{ required: true, trigger: 'blur', message: '请输入参加活动的名称' }],
-  address: [{ required: true, trigger: 'blur', message: '请输入参加活动的地点' }],
-  startTime: [{ required: true, trigger: 'change', message: '请选择参加活动的日期' }],
-  endTime: [{ validator: endTimeValidator(), trigger: 'change' }],
-  duration: [{ required: true, trigger: 'blur', message: '请输入参加活动的总时长（小时）' }],
-  activityPictures: [{ required: true, trigger: 'change', message: '请上传参加活动的图片' }],
-  serviceField: [{ required: true, trigger: 'change', message: '请选择服务领域' }],
-  serviceObject: [{ required: true, trigger: 'change', message: '请选择服务对象' }],
-  serviceLocation: [{ required: true, trigger: 'change', message: '请选择服务场所' }],
-  leader: [{ required: true, trigger: 'blur', message: '请输入活动举办者的名字' }],
-  leaderEmail: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-  details: [{ required: true, trigger: 'blur', message: '请输入参加活动的简介' }],
+  firstName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.firstNameRequired') }],
+  lastName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.lastNameRequired') }],
+  graduationYear: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.graduationYearRequired') }],
+  internalEmail: [{ type: 'email', required: true, message: proxy.$t('page.logTime.internalEmailInvalid'), trigger: ['blur', 'change'] }],
+  externalEmail: [{ type: 'email', required: false, message: proxy.$t('page.logTime.externalEmailInvalid'), trigger: ['blur', 'change'] }],
+  activityName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityNameRequired') }],
+  address: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityLocationRequired') }],
+  startTime: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.startTimeRequired') }],
+  endTime: [{ validator: endTimeValidator, trigger: 'change' }],
+  duration: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.durationRequired') }],
+  serviceField: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceFieldRequired') }],
+  serviceObject: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceObjectRequired') }],
+  serviceLocation: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceLocationRequired') }],
+  organizer: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.organizerNameRequired') }],
+  organizerEmail: [{ type: 'email', required: true, message: proxy.$t('page.logTime.organizerEmailInvalid'), trigger: ['blur', 'change'] }],
+  details: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityDescriptionRequired') }],
 };
-const handleAvatarSuccess = (response,
-  uploadFile) => {
+
+const handleAvatarSuccess = (response, uploadFile) => {
   form.value.activityPictures = response.url;
   imageUrl.value = URL.createObjectURL(uploadFile.raw);
 };
+
 const beforeAvatarUpload = (file) => {
   const isLt2M = file.size / 1024 / 1024 < 20;
   if (!isLt2M) {
-    ElMessage.error('上传头像图片大小不能超过20MB!');
+    ElMessage.error(proxy.$t('page.logTime.imageSizeError'));
   }
 };
+
 const handleSubmit = () => {
   proxy.$refs.tempActivityRef.validate(valid => {
     if (valid) {
       loading.value = true;
-      if(isLoggedIn) {
-        addTempAcitivityByToken(form.value)
-          .then(response => {
-            if(response.code === 200) {
-              ElMessage({
-                message: '提交成功',
-                type: 'success'
-              });
-            }else{
-              ElMessage({
-                message: '提交失败' + response.msg,
-                type: 'error'
-              });
-            }
-            loading.value = false;
-          }).catch(error => {
-            loading.value = false;
-          });
-      }else{
-        addTempAcitivity(form.value)
-          .then(response => {
-            if(response.code === 200) {
-              ElMessage({
-                message: '提交成功',
-                type: 'success'
-              });
-            }else{
-              ElMessage({
-                message: '提交失败' + response.msg,
-                type: 'error'
-              });
-            }
-            loading.value = false;
-          }).catch(error => {
-            loading.value = false;
-          });
-      }
+      const submitFunction = isLoggedIn ? addTempAcitivityByToken : addTempAcitivity;
 
+      submitFunction(form.value)
+        .then(response => {
+          if (response.code === 200) {
+            ElMessage({
+              message: proxy.$t('page.logTime.submitSuccess'),
+              type: 'success'
+            });
+          } else {
+            ElMessage({
+              message: proxy.$t('page.logTime.submitFail') + response.msg,
+              type: 'error'
+            });
+          }
+        })
+        .catch(error => {
+          ElMessage({
+            message: proxy.$t('page.logTime.submitError'),
+            type: 'error'
+          });
+        })
+        .finally(() => {
+          loading.value = false;
+        });
     }
   });
 };
 </script>
+
+<style scoped>
+.el-form-item {
+  margin-bottom: 1.5rem;
+}
+
+.el-input, .el-select, .el-date-picker {
+  width: 100%;
+}
+
+.el-textarea__inner {
+  min-height: 100px;
+}
+</style>
