@@ -196,6 +196,7 @@
             "activityDetails": "活动详情",
             "signingUp": "报名中...",
             "signUpNow": "立即报名",
+            "loginToSignUp": "登录后才能报名",
             "signUpSuccess": "报名成功",
             "signUpFailed": "报名失败",
             "copySuccess": "复制成功",

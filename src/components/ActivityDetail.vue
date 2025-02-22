@@ -152,14 +152,24 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit Button (Logged In) hover:scale-[1.02] -->
         <el-button
+          v-if="getToken()"
           :loading="loading"
           type="primary"
-          class="w-full py-5 px-4 text-base font-medium transition-all duration-300 hover:scale-[1.02]"
+          class="w-full py-5 px-4 text-base font-medium transition-all duration-300"
           @click.prevent="handleSubmit"
         >
           {{ loading ? $t('page.activityDetail.signingUp') : $t('page.activityDetail.signUpNow') }}
+        </el-button>
+        <!-- Submit Button (Not Logged In) -->
+        <el-button
+          v-else
+          type="primary"
+          class="w-full py-5 px-4 text-base font-medium transition-all duration-300"
+          @click.prevent="router.push('/login')"
+        >
+          {{ $t('page.activityDetail.loginToSignUp') }}
         </el-button>
       </div>
     </div>

@@ -198,6 +198,7 @@
       "signingUp": "Signing Up...",
       "signUpNow": "Sign Up Now",
       "signUpSuccess": "Sign up successful",
+      "loginToSignUp": "Please log in to sign up",
       "signUpFailed": "Sign up failed",
       "copySuccess": "Copy successful",
       "copyFailed": "Copy failed",
