@@ -87,11 +87,13 @@
         <!-- Location Information -->
         <div class="bg-gray-50 rounded-lg p-6 mb-6">
           <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('page.activityDetail.activityAddress') }}</h2>
-          <div class="flex items-center justify-between mb-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
             <p class="text-gray-700 break-words">{{ tempActivity.address }}</p>
-            <el-button type="primary" size="small" @click="copyText(tempActivity.address)">
-              {{ $t('page.activityDetail.copyAddress') }}
-            </el-button>
+            <div class="mt-2 sm:mt-0 flex justify-start sm:justify-end">
+              <el-button type="primary" size="small" class="w-auto" @click="copyText(tempActivity.address)">
+                {{ $t('page.activityDetail.copyAddress') }}
+              </el-button>
+            </div>
           </div>
           <div class="mt-4">
             <el-button type="primary" size="small" @click="toggleMap">
@@ -120,22 +122,24 @@
         <div class="bg-gray-50 rounded-lg p-6 mb-6">
           <h2 class="text-lg font-semibold text-gray-900 mb-4">{{ $t('page.activityDetail.organizerInfo') }}</h2>
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-start">
               <div class="flex items-center">
                 <Icon icon="mdi:account" class="w-5 h-5 text-gray-400 mr-3" />
                 <span class="text-sm text-gray-500 w-20">{{ $t('page.activityDetail.organizer') }}：</span>
                 <span class="text-sm text-gray-900">{{ tempActivity?.dept?.leader }}</span>
               </div>
             </div>
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div class="flex items-center">
                 <Icon icon="mdi:email" class="w-5 h-5 text-gray-400 mr-3" />
                 <span class="text-sm text-gray-500 w-20">{{ $t('page.activityDetail.email') }}：</span>
                 <span class="text-sm text-blue-600">{{ tempActivity?.dept?.email }}</span>
               </div>
-              <el-button type="primary" size="small" @click="copyText(tempActivity?.dept?.email)">
-                {{ $t('page.activityDetail.copyEmail') }}
-              </el-button>
+              <div class="mt-2 sm:mt-0 flex justify-start sm:justify-end">
+                <el-button type="primary" size="small" class="w-auto" @click="copyText(tempActivity?.dept?.email)">
+                  {{ $t('page.activityDetail.copyEmail') }}
+                </el-button>
+              </div>
             </div>
           </div>
         </div>
@@ -148,11 +152,11 @@
           </div>
         </div>
 
-        <!-- Submit Button hover:scale-[1.02] -->
+        <!-- Submit Button -->
         <el-button
           :loading="loading"
           type="primary"
-          class="w-full py-5 px-4 text-base font-medium transition-all duration-300"
+          class="w-full py-5 px-4 text-base font-medium transition-all duration-300 hover:scale-[1.02]"
           @click.prevent="handleSubmit"
         >
           {{ loading ? $t('page.activityDetail.signingUp') : $t('page.activityDetail.signUpNow') }}
@@ -226,6 +230,7 @@ const gradientClass = computed(() => {
   return getGradientColor(tempActivity.value);
 });
 
+
 // Google Map URL
 // [Note] If you see this code
 // Don't try this API Key, it's won't work in your environment, you need to use your own API Key, and it's free
@@ -233,7 +238,7 @@ const gradientClass = computed(() => {
 // [Google Web Console] https://console.cloud.google.com/google/maps-apis/
 const mapUrl = computed(() => {
   if (tempActivity.value.address) {
-    return `https://www.google.com/maps/embed/v1/place?key=AIzaSyCZ8Eopy3VZwfjMzw1q15NQh99CqbDjV8Q&q=${encodeURIComponent(tempActivity.value.address)}`;
+    return `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(tempActivity.value.address)}`;
   }
   return null;
 });
