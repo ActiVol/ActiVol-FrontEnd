@@ -54,7 +54,7 @@
         <div class="p-6">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ $t('page.userRecordInquiry.search.title') }}</h3>
           <el-form ref="searchFormRef" :model="searchQuery" :rules="rules" @submit.prevent="searchActivities">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <el-form-item :label="$t('page.userRecordInquiry.search.firstName')" prop="firstName" label-position="top">
                 <el-input
                   v-model="searchQuery.firstName"
@@ -87,7 +87,7 @@
                   </template>
                 </el-input>
               </el-form-item>
-            </div>
+            </div> -->
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <el-form-item :label="$t('page.userRecordInquiry.search.username')" prop="username" label-position="top">
@@ -101,10 +101,10 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item :label="$t('page.userRecordInquiry.search.internalEmail')" prop="internalEmail" label-position="top">
+              <el-form-item :label="$t('page.userRecordInquiry.search.email')" prop="email" label-position="top">
                 <el-input
-                  v-model="searchQuery.internalEmail"
-                  :placeholder="$t('page.userRecordInquiry.search.internalEmailPlaceholder')"
+                  v-model="searchQuery.email"
+                  :placeholder="$t('page.userRecordInquiry.search.emailPlaceholder')"
                 >
                   <template #prefix>
                     <Icon icon="lucide:mail" class="w-4 h-4 text-gray-400" />
@@ -210,9 +210,9 @@ const baseURL = config.baseURL;
 const isLoggedIn = getToken();
 const loading = ref(false);
 const searchQuery = ref({
-  firstName: '',
-  middleName: '',
-  lastName: '',
+  // firstName: '',
+  // middleName: '',
+  // lastName: '',
   username: '',
   email: '', // Internal & External Email 任选一项均可进行查询
 });
@@ -255,9 +255,9 @@ const rules = {
     { required: true, message: t('page.userRecordInquiry.validation.usernameRequired'), trigger: 'blur' },
     { min: 2, message: t('page.userRecordInquiry.validation.usernameLength'), trigger: 'blur' },
   ],
-  internalEmail: [
-    { required: true, message: t('page.userRecordInquiry.validation.internalEmailRequired'), trigger: 'blur' },
-    { type: 'email', message: t('page.userRecordInquiry.validation.internalEmailFormat'), trigger: 'blur' },
+  email: [
+    { required: true, message: t('page.userRecordInquiry.validation.emailRequired'), trigger: 'blur' },
+    { type: 'email', message: t('page.userRecordInquiry.validation.emailFormat'), trigger: 'blur' },
   ],
 };
 

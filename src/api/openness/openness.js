@@ -51,8 +51,8 @@ export function signUpActivity(activityId) {
 export function getParticipatedActivities(data) {
   return request({
     url: 'openness/activity/getParticipatedActivities',
-    method: 'get',
-    params: data
+    method: 'post',
+    data: data
   });
 }
 

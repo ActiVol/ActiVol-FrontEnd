@@ -34,8 +34,8 @@ const appStore = useAppStore();
 const { locale, t } = useI18n();
 
 const languages = [
-  { code: 'zh_CN', name: '中文', flag: 'twemoji:flag-china' },
   { code: 'en_US', name: 'English', flag: 'twemoji:flag-us-outlying-islands' },
+  { code: 'zh_CN', name: '中文', flag: 'twemoji:flag-china' },
 ];
 
 const currentLanguage = ref(appStore.$state.language);
