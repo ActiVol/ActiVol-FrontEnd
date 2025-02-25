@@ -28,7 +28,7 @@
         "verificationCodeFailed": "验证码发送失败"
     },
     "login": {
-        "usernameOrStudentIDOrEmail": "用户名/学号/邮箱",
+        "usernameOrStudentIDOrEmail": "用户名/邮箱",
         "accountPlaceholder": "账号",
         "password": "密码",
         "passwordPlaceholder": "密码",

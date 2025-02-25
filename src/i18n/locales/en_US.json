@@ -28,7 +28,7 @@
     "verificationCodeFailed": "Verification code sending failed"
   },
   "login": {
-    "usernameOrStudentIDOrEmail": "Username/Student ID/Email",
+    "usernameOrStudentIDOrEmail": "Username/Email",
     "accountPlaceholder": "Account",
     "password": "Password",
     "passwordPlaceholder": "Password",
