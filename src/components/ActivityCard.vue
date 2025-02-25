@@ -9,7 +9,7 @@
              @error="handleImageError" />
       </div>
       <div v-else :class="['h-48 flex items-center justify-center', gradientClass]">
-        <span class="text-4xl text-white">{{ truncateDescription(activity.activityName, 10) }}</span>
+        <span class="text-4xl text-white">{{ truncateDescription(activity.activityName, 15) }}</span>
       </div>
       <!-- <div class="absolute top-0 right-0 m-2 px-2 py-1 rounded-full text-xs font-bold"
             :class="getStatusClass(activity.status)">
@@ -17,7 +17,7 @@
       </div> -->
     </div>
     <div class="p-4">
-      <h3 class="text-xl font-bold text-gray-800 mb-2">{{ truncateDescription(activity.activityName, 10) }}</h3>
+      <h3 class="text-xl font-bold text-gray-800 mb-2">{{ truncateDescription(activity.activityName, 20) }}</h3>
       <p class="text-sm text-gray-600 mb-2">{{ truncateDescription(activity.details, 50) }}</p>
       <div class="flex items-center mb-2">
         <dict-tag class="mr-2" :options="serviceFields" :value="activity.serviceField" />
@@ -32,7 +32,7 @@
         <div class="flex items-center text-sm text-gray-500">
           <Icon icon="mdi:clock-outline" class="w-4 h-4 mr-1" />
           <span class="mr-1"> {{ activity.duration }}</span>
-          <span class="mr-1">小时</span>
+          <span class="mr-1">{{ $t('page.activity.activities.hours') }}</span>
         </div>
       </div>
       <div class="flex items-center justify-between mb-2">
@@ -45,7 +45,7 @@
         <div class="flex items-center text-sm text-gray-500">
           <Icon icon="mdi:account-group" class="w-4 h-4 mr-1" />
           <span class="mr-1">
-            招募人数
+            {{ $t('page.activity.activities.recruitNumber') }}:
           </span>
           <span class="mr-1">
             {{ activity.recruitNumber }}

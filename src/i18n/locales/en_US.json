@@ -243,6 +243,8 @@
         "title": "Activity List",
         "name": "Activity Name",
         "date": "Date",
+        "hours": "Hour(s)",
+        "recruitNumber": "Needs",
         "organizer": "Organizer",
         "duration": "Duration"
       }

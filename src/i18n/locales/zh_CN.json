@@ -242,6 +242,8 @@
                 "title": "活动",
                 "name": "活动名称",
                 "date": "活动日期",
+                "hours": "活动时长",
+                "recruitNumber": "招募人数",
                 "organizer": "组织者",
                 "duration": "活动时长"
             }
