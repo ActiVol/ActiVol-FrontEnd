@@ -1,7 +1,8 @@
 <template>
   <div class="w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-    <el-form ref="tempActivityRef" :model="form" :rules="rules" class="space-y-6">
-      <el-row :gutter="20">
+    <el-form ref="tempActivityRef" :model="form" :rules="rules" class="space-y-6" :validate-on-rule-change="false">
+      <!-- User Real Name -->
+      <!-- <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item :label="$t('page.logTime.firstName')" prop="firstName" label-position="top">
             <el-input v-model="form.firstName" :placeholder="$t('page.logTime.enterFirstName')" />
@@ -17,7 +18,12 @@
             <el-input v-model="form.lastName" :placeholder="$t('page.logTime.enterLastName')" />
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
+
+      <el-form-item :label="$t('page.logTime.username')" prop="username" label-position="top">
+        <el-input v-model="form.username" :placeholder="$t('page.logTime.enterUsername')" />
+        <span class="mt-1 text-gray-500 text-sm">{{ $t('page.logTime.usernameTip') }}</span>
+      </el-form-item>
 
       <el-form-item v-hasLogin :label="$t('page.logTime.graduationYear')" prop="graduationYear" label-position="top">
         <el-date-picker v-model="form.graduationYear"
@@ -149,13 +155,13 @@ const { service_field, service_object, service_location } = proxy.useDict('servi
 const loading = ref(false);
 const uploadImgUrl = config.baseURL + '/openness/upload/image';
 const imageUrl = ref('');
-import { useRouter } from 'vue-router';
-const router = useRouter();
+
 const isLoggedIn = getToken();
 const form = ref({
-  firstName: '',
-  middleName: '',
-  lastName: '',
+  // firstName: '',
+  // middleName: '',
+  // lastName: '',
+  username: '',
   graduationYear: null,
   internalEmail: null,
   externalEmail: '',
@@ -183,7 +189,25 @@ const endTimeValidator = (rule, value, callback) => {
   }
 };
 
-const rules = ref({});
+const rules = ref({
+  // firstName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.firstNameRequired') }],
+  // lastName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.lastNameRequired') }],
+  username: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.usernameRequired') }],
+  graduationYear: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.graduationYearRequired') }],
+  internalEmail: [{ type: 'email', required: true, message: proxy.$t('page.logTime.internalEmailInvalid'), trigger: ['blur', 'change'] }],
+  externalEmail: [{ type: 'email', required: false, message: proxy.$t('page.logTime.externalEmailInvalid'), trigger: ['blur', 'change'] }],
+  activityName: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityNameRequired') }],
+  address: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityLocationRequired') }],
+  startTime: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.startTimeRequired') }],
+  endTime: [{ validator: endTimeValidator, trigger: 'change' }],
+  duration: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.durationRequired') }],
+  serviceField: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceFieldRequired') }],
+  serviceObject: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceObjectRequired') }],
+  serviceLocation: [{ required: true, trigger: 'change', message: proxy.$t('page.logTime.serviceLocationRequired') }],
+  organizer: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.organizerNameRequired') }],
+  organizerEmail: [{ type: 'email', required: true, message: proxy.$t('page.logTime.organizerEmailInvalid'), trigger: ['blur', 'change'] }],
+  details: [{ required: true, trigger: 'blur', message: proxy.$t('page.logTime.activityDescriptionRequired') }],
+});
 
 const handleAvatarSuccess = (response, uploadFile) => {
   form.value.activityPictures = response.url;
@@ -202,6 +226,7 @@ const handleSubmit = () => {
     if (valid) {
       loading.value = true;
       const submitFunction = isLoggedIn ? addTempAcitivityByToken : addTempAcitivity;
+
       submitFunction(form.value)
         .then(response => {
           if (response.code === 200) {
@@ -209,13 +234,12 @@ const handleSubmit = () => {
               message: proxy.$t('page.logTime.submitSuccess'),
               type: 'success'
             });
-            return router.push('/home');
+          } else {
+            ElMessage({
+              message: proxy.$t('page.logTime.submitFail') + response.msg,
+              type: 'error'
+            });
           }
-          ElMessage({
-            message: proxy.$t('page.logTime.submitFail') + response.msg,
-            type: 'error'
-          });
-
         })
         .catch(error => {
           ElMessage({
@@ -229,40 +253,6 @@ const handleSubmit = () => {
     }
   });
 };
-onMounted(() => {
-  if(isLoggedIn) {
-    rules.value = {
-      activityName: [{ required: true, trigger: 'blur', message: '请输入参加活动的名称' }],
-      address: [{ required: true, trigger: 'blur', message: '请输入参加活动的地点' }],
-      startTime: [{ required: true, trigger: 'change', message: '请选择参加活动的日期' }],
-      endTime: [{ validator: endTimeValidator(), trigger: 'change' }],
-      duration: [{ required: true, trigger: 'blur', message: '请输入参加活动的总时长（小时）' }],
-      serviceField: [{ required: true, trigger: 'change', message: '请选择服务领域' }],
-      serviceObject: [{ required: true, trigger: 'change', message: '请选择服务对象' }],
-      serviceLocation: [{ required: true, trigger: 'change', message: '请选择服务场所' }],
-      details: [{ required: true, trigger: 'blur', message: '请输入参加活动的简介' }],
-    };
-  }else{
-    rules.value = {
-      userName: [{ required: true, trigger: 'blur', message: '请输入姓名' }],
-      studentId: [{ required: true, trigger: 'blur', message: '请输入学号' }],
-      graduationYear: [{ required: true, trigger: 'change', message: '请选择毕业年份' }],
-      internalEmail: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-      email: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-      activityName: [{ required: true, trigger: 'blur', message: '请输入参加活动的名称' }],
-      address: [{ required: true, trigger: 'blur', message: '请输入参加活动的地点' }],
-      startTime: [{ required: true, trigger: 'change', message: '请选择参加活动的日期' }],
-      endTime: [{ validator: endTimeValidator(), trigger: 'change' }],
-      duration: [{ required: true, trigger: 'blur', message: '请输入参加活动的总时长（小时）' }],
-      serviceField: [{ required: true, trigger: 'change', message: '请选择服务领域' }],
-      serviceObject: [{ required: true, trigger: 'change', message: '请选择服务对象' }],
-      serviceLocation: [{ required: true, trigger: 'change', message: '请选择服务场所' }],
-      leader: [{ required: true, trigger: 'blur', message: '请输入活动举办者的名字' }],
-      leaderEmail: [{type: 'email',required: true,message: '请输入正确校内邮箱地址',trigger: ['blur','change']}],
-      details: [{ required: true, trigger: 'blur', message: '请输入参加活动的简介' }],
-    };
-  }
-});
 </script>
 
 <style scoped>
