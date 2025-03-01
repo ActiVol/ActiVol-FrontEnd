@@ -17,7 +17,7 @@ function resolve(dir) {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base:'/volunteer/',
+  // base:'/volunteer',
   css: {
     preprocessorOptions: {
       less: {

@@ -4,13 +4,31 @@
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{{$t('home.welcome')}}</h1>
       <p class="text-sm sm:text-base text-gray-600 mb-8">{{$t('home.easyVolunteer')}}</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ListBox v-for="(item, index) in listBoxItems"
+        <!-- <ListBox v-for="(item, index) in listBoxItems"
                  :key="index"
                  :icon="item.icon"
                  :title="item.title"
                  :content="item.content"
                  :path="item.path"
-                 :color="item.color" />
+                 :color="item.color" /> -->
+        <ListBox
+          icon="lucide:clipboard-list"
+          :title="$t('menu.TimeLog')"
+          :content="$t('menu.ActivityLogger')"
+          path="/log-time"
+          color="blue" />
+        <ListBox
+          icon="lucide:bar-chart-2"
+          :title="$t('menu.StatsView')"
+          :content="$t('menu.VolunteerImpact')"
+          path="/self-inquiry"
+          color="green" />
+        <ListBox
+          icon="lucide:calendar"
+          :title="$t('menu.Activity')"
+          :content="$t('menu.ActivityViewer')"
+          path="/activity"
+          color="red" />
       </div>
     </div>
   </Layout>
