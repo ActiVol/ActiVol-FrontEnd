@@ -465,6 +465,10 @@
 <script>
 import { defineComponent, ref, onMounted, watch, computed } from 'vue';
 import { Icon } from '@iconify/vue';
+// PageSpy SDK
+import PageSpy from '@huolala-tech/page-spy-browser';
+import DataHarborPlugin from '@huolala-tech/page-spy-plugin-data-harbor';
+import RRWebPlugin from '@huolala-tech/page-spy-plugin-rrweb';
 import pkg from '../../package.json';
 
 export default defineComponent({
@@ -586,6 +590,7 @@ export default defineComponent({
       }
     };
 
+    // Register plugins and initialize PageSpy
     const initializePageSpy = () => {
       if (!window.$harbor) {
         window.$harbor = new DataHarborPlugin();
@@ -598,6 +603,7 @@ export default defineComponent({
       }
 
       window.$pageSpy = new PageSpy({
+        lang: 'zh' | 'en',
         api: 'report.makesome.cool',
         clientOrigin: 'https://report.makesome.cool',
         autoRender: false,
